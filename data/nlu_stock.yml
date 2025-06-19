@@ -1,0 +1,1095 @@
+version: "3.1"
+
+nlu:
+
+- intent: stock_trading
+  examples: |
+    - Tôi muốn [mua](action) cổ phiếu [VCB](stock_symbol)
+
+# - intent: stock_trading
+#   examples: |
+#     - Tôi muốn [mua](action) cổ phiếu [VCB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol)
+#     - Tôi cần [mua](action) mã [FPT](stock_symbol)
+#     - [Bán](action) [HPG](stock_symbol)
+#     - Muốn [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - Tôi muốn [bán](action) mã [TCB](stock_symbol)
+#     - [Mua](action) [MSN](stock_symbol)
+#     - [Bán](action) cổ phiếu [VNM](stock_symbol)
+#     - Tôi cần [mua](action) [GAS](stock_symbol)
+#     - [Bán](action) mã [PLX](stock_symbol)
+#     - Muốn [mua](action) cổ phiếu [BID](stock_symbol)
+#     - Tôi muốn [bán](action) [CTG](stock_symbol)
+#     - [Mua](action) mã [MWG](stock_symbol)
+#     - [Bán](action) cổ phiếu [POW](stock_symbol)
+#     - Tôi cần [mua](action) [SAB](stock_symbol)
+#     - [Bán](action) mã [VRE](stock_symbol)
+#     - Muốn [mua](action) cổ phiếu [SSI](stock_symbol)
+#     - Tôi muốn [bán](action) [VPB](stock_symbol)
+#     - [Mua](action) mã [HDB](stock_symbol)
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol)
+#     - [Đặt mua](action) [ACB](stock_symbol)
+#     - [Đặt bán](action) cổ phiếu [STB](stock_symbol)
+#     - Tôi muốn [lệnh mua](action) mã [MBB](stock_symbol)
+#     - [Lệnh bán](action) [EIB](stock_symbol)
+#     - [Mua vào](action) cổ phiếu [SHB](stock_symbol)
+#     - [Bán ra](action) mã [OCB](stock_symbol)
+#     - Tôi cần [mua](action) [LPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VIB](stock_symbol)
+#     - Muốn [mua](action) [NAB](stock_symbol)
+#     - Tôi muốn [bán](action) mã [KDH](stock_symbol)
+#     - [Mua](action) cổ phiếu [NVL](stock_symbol)
+#     - [Bán](action) [DXG](stock_symbol)
+#     - Tôi cần [mua](action) mã [PDR](stock_symbol)
+#     - [Bán](action) cổ phiếu [DIG](stock_symbol)
+#     - Muốn [mua](action) [IJC](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CII](stock_symbol)
+#     - [Mua](action) cổ phiếu [BCM](stock_symbol)
+#     - [Bán](action) [VHC](stock_symbol)
+#     - Tôi cần [mua](action) mã [HDG](stock_symbol)
+#     - [Bán](action) cổ phiếu [TDC](stock_symbol)
+#     - Muốn [mua](action) [SCS](stock_symbol)
+#     - Tôi muốn [bán](action) mã [IDC](stock_symbol)
+#     - [Mua](action) cổ phiếu [NTL](stock_symbol)
+#     - [Bán](action) [FCN](stock_symbol)
+#     - Tôi cần [mua](action) mã [HQC](stock_symbol)
+#     - [Bán](action) cổ phiếu [ASM](stock_symbol)
+#     - Muốn [mua](action) [VPI](stock_symbol)
+#     - Tôi muốn [bán](action) mã [TCH](stock_symbol)
+#     - [Mua](action) cổ phiếu [CEO](stock_symbol)
+#     - [Bán](action) [GMD](stock_symbol)
+#     - Tôi cần [mua](action) mã [PNJ](stock_symbol)
+#     - [Bán](action) cổ phiếu [HSG](stock_symbol)
+#     - Muốn [mua](action) [HPX](stock_symbol)
+#     - Tôi muốn [bán](action) mã [SMC](stock_symbol)
+#     - [Mua](action) cổ phiếu [VGC](stock_symbol)
+#     - [Bán](action) [DPM](stock_symbol)
+#     - Tôi cần [mua](action) mã [POM](stock_symbol)
+#     - [Bán](action) cổ phiếu [DHG](stock_symbol)
+#     - Muốn [mua](action) [IMP](stock_symbol)
+#     - Tôi muốn [bán](action) mã [TNA](stock_symbol)
+#     - [Mua](action) cổ phiếu [DBD](stock_symbol)
+#     - [Bán](action) [BMP](stock_symbol)
+#     - Tôi cần [mua](action) mã [HAG](stock_symbol)
+#     - [Bán](action) cổ phiếu [KBC](stock_symbol)
+#     - Muốn [mua](action) [PPC](stock_symbol)
+#     - Tôi muốn [bán](action) mã [NT2](stock_symbol)
+#     - [Mua](action) cổ phiếu [REE](stock_symbol)
+#     - [Bán](action) [VSH](stock_symbol)
+#     - Tôi cần [mua](action) mã [PC1](stock_symbol)
+#     - [Bán](action) cổ phiếu [DPG](stock_symbol)
+#     - Muốn [mua](action) [VCS](stock_symbol)
+#     - Tôi muốn [bán](action) mã [VOS](stock_symbol)
+#     - [Mua](action) cổ phiếu [VSC](stock_symbol)
+#     - [Bán](action) [MVN](stock_symbol)
+#     - Tôi cần [mua](action) mã [HCM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PVD](stock_symbol)
+#     - Muốn [mua](action) [PVS](stock_symbol)
+#     - Tôi muốn [bán](action) mã [PVT](stock_symbol)
+#     - [Mua](action) cổ phiếu [BSI](stock_symbol)
+#     - [Bán](action) [OGC](stock_symbol)
+#     - Tôi cần [mua](action) mã [CNG](stock_symbol)
+#     - [Bán](action) cổ phiếu [PVG](stock_symbol)
+#     - Muốn [mua](action) [EVF](stock_symbol)
+#     - Tôi muốn [bán](action) mã [VJC](stock_symbol)
+#     - [Mua](action) cổ phiếu [HVN](stock_symbol)
+#     - [Bán](action) [VCG](stock_symbol)
+#     - Tôi cần [mua](action) mã [ACV](stock_symbol)
+#     - [Bán](action) cổ phiếu [SBT](stock_symbol)
+#     - Muốn [mua](action) [FLC](stock_symbol)
+#     - Tôi muốn [bán](action) mã [ROS](stock_symbol)
+#     - [Mua](action) cổ phiếu [HAH](stock_symbol)
+#     - [Bán](action) [SZC](stock_symbol)
+#     - Tôi cần [mua](action) mã [LCG](stock_symbol)
+#     - [Bán](action) cổ phiếu [HDC](stock_symbol)
+#     - Muốn [mua](action) [SC5](stock_symbol)
+#     - Tôi muốn [bán](action) mã [VGI](stock_symbol)
+#     - [Mua](action) cổ phiếu [NLG](stock_symbol)
+#     - [Bán](action) [BCG](stock_symbol)
+#     - Tôi cần [mua](action) mã [KDC](stock_symbol)
+#     - [Bán](action) cổ phiếu [MSH](stock_symbol)
+#     - Muốn [mua](action) [VIS](stock_symbol)
+#     - Tôi muốn [bán](action) mã [ASG](stock_symbol)
+#     - [Mua](action) cổ phiếu [LGL](stock_symbol)
+#     - [Bán](action) [HNG](stock_symbol)
+#     - Tôi cần [mua](action) mã [CVT](stock_symbol)
+#     - [Bán](action) cổ phiếu [DCM](stock_symbol)
+#     - Muốn [mua](action) [DRC](stock_symbol)
+#     - Tôi muốn [bán](action) mã [HSL](stock_symbol)
+#     - [Mua](action) cổ phiếu [VCF](stock_symbol)
+#     - [Bán](action) [AGR](stock_symbol)
+#     - Tôi cần [mua](action) mã [SJS](stock_symbol)
+#     - [Bán](action) cổ phiếu [VTO](stock_symbol)
+#     - Muốn [mua](action) [PAN](stock_symbol)
+#     - Tôi muốn [bán](action) mã [QCG](stock_symbol)
+#     - [Mua](action) cổ phiếu [CMG](stock_symbol)
+#     - [Bán](action) [TCR](stock_symbol)
+#     - Tôi cần [mua](action) mã [PHR](stock_symbol)
+#     - [Bán](action) cổ phiếu [VIX](stock_symbol)
+#     - Muốn [mua](action) [HT1](stock_symbol)
+#     - Tôi muốn [bán](action) mã [L10](stock_symbol)
+#     - [Mua](action) cổ phiếu [L12](stock_symbol)
+#     - [Bán](action) [L14](stock_symbol)
+#     - Tôi cần [mua](action) mã [L18](stock_symbol)
+#     - [Bán](action) cổ phiếu [L35](stock_symbol)
+#     - Muốn [mua](action) [L43](stock_symbol)
+#     - Tôi muốn [bán](action) mã [L61](stock_symbol)
+#     - [Mua](action) cổ phiếu [L62](stock_symbol)
+#     - [Bán](action) [AAA](stock_symbol)
+#     - Tôi cần [mua](action) mã [AAM](stock_symbol)
+#     - [Bán](action) cổ phiếu [AAS](stock_symbol)
+#     - Muốn [mua](action) [AAT](stock_symbol)
+#     - Tôi muốn [bán](action) mã [AAV](stock_symbol)
+#     - [Mua](action) cổ phiếu [ABB](stock_symbol)
+#     - [Bán](action) [ABC](stock_symbol)
+#     - Tôi cần [mua](action) mã [ABR](stock_symbol)
+#     - [Bán](action) cổ phiếu [ABS](stock_symbol)
+#     - Muốn [mua](action) [ABT](stock_symbol)
+#     - Tôi muốn [bán](action) mã [ACC](stock_symbol)
+#     - [Mua](action) cổ phiếu [ACE](stock_symbol)
+#     - [Bán](action) [ACG](stock_symbol)
+#     - Tôi cần [mua](action) mã [ACL](stock_symbol)
+#     - [Bán](action) cổ phiếu [ACS](stock_symbol)
+#     - Muốn [mua](action) [ADC](stock_symbol)
+#     - Tôi muốn [bán](action) mã [ADG](stock_symbol)
+#     - [Mua](action) cổ phiếu [ADS](stock_symbol)
+#     - [Bán](action) [AEC](stock_symbol)
+#     - Tôi cần [mua](action) mã [AFC](stock_symbol)
+#     - [Bán](action) cổ phiếu [AGF](stock_symbol)
+#     - Muốn [mua](action) [AGG](stock_symbol)
+#     - Tôi muốn [bán](action) mã [AGM](stock_symbol)
+#     - [Mua](action) cổ phiếu [AIC](stock_symbol)
+#     - [Bán](action) [ALT](stock_symbol)
+#     - Tôi cần [mua](action) mã [AMD](stock_symbol)
+#     - [Bán](action) cổ phiếu [AME](stock_symbol)
+#     - Muốn [mua](action) [AMP](stock_symbol)
+#     - Tôi muốn [bán](action) mã [AMV](stock_symbol)
+#     - [Mua](action) cổ phiếu [ANV](stock_symbol)
+#     - [Bán](action) [APC](stock_symbol)
+#     - Tôi cần [mua](action) mã [APG](stock_symbol)
+#     - [Bán](action) cổ phiếu [APH](stock_symbol)
+#     - Muốn [mua](action) [APS](stock_symbol)
+#     - Tôi muốn [bán](action) mã [ART](stock_symbol)
+#     - [Mua](action) cổ phiếu [ASP](stock_symbol)
+#     - [Bán](action) [AST](stock_symbol)
+#     - Tôi cần [mua](action) mã [ATG](stock_symbol)
+#     - [Bán](action) cổ phiếu [ATS](stock_symbol)
+#     - Muốn [mua](action) [AVF](stock_symbol)
+#     - Tôi muốn [bán](action) mã [B82](stock_symbol)
+#     - [Mua](action) cổ phiếu [BAB](stock_symbol)
+#     - [Bán](action) [BAF](stock_symbol)
+#     - Tôi cần [mua](action) mã [BAX](stock_symbol)
+#     - [Bán](action) cổ phiếu [BBC](stock_symbol)
+#     - Muốn [mua](action) [BCE](stock_symbol)
+#     - Tôi muốn [bán](action) mã [BCI](stock_symbol)
+#     - [Mua](action) cổ phiếu [BED](stock_symbol)
+#     - [Bán](action) [BFC](stock_symbol)
+#     - Tôi cần [mua](action) mã [BGM](stock_symbol)
+#     - [Bán](action) cổ phiếu [BHN](stock_symbol)
+#     - Muốn [mua](action) [BHS](stock_symbol)
+#     - Tôi muốn [bán](action) mã [BIC](stock_symbol)
+#     - [Mua](action) cổ phiếu [BII](stock_symbol)
+#     - [Bán](action) [BKC](stock_symbol)
+#     - Tôi cần [mua](action) mã [BKG](stock_symbol)
+#     - [Bán](action) cổ phiếu [BLF](stock_symbol)
+#     - Muốn [mua](action) [BLN](stock_symbol)
+#     - Tôi muốn [bán](action) mã [BLW](stock_symbol)
+#     - [Mua](action) cổ phiếu [BMC](stock_symbol)
+#     - [Bán](action) [BMF](stock_symbol)
+#     - Tôi cần [mua](action) mã [BMI](stock_symbol)
+#     - [Bán](action) cổ phiếu [BMP](stock_symbol)
+#     - Muốn [mua](action) [BRC](stock_symbol)
+#     - Tôi muốn [bán](action) mã [BRS](stock_symbol)
+#     - [Mua](action) cổ phiếu [BSC](stock_symbol)
+#     - [Bán](action) [BSD](stock_symbol)
+#     - Tôi cần [mua](action) mã [BSG](stock_symbol)
+#     - [Bán](action) cổ phiếu [BST](stock_symbol)
+#     - Muốn [mua](action) [BTA](stock_symbol)
+#     - Tôi muốn [bán](action) mã [BTB](stock_symbol)
+#     - [Mua](action) cổ phiếu [BTC](stock_symbol)
+#     - [Bán](action) [BTD](stock_symbol)
+#     - Tôi cần [mua](action) mã [BTG](stock_symbol)
+#     - [Bán](action) cổ phiếu [BTS](stock_symbol)
+#     - Muốn [mua](action) [BTT](stock_symbol)
+#     - Tôi muốn [bán](action) mã [BTW](stock_symbol)
+#     - [Mua](action) cổ phiếu [BTV](stock_symbol)
+#     - [Bán](action) [BVH](stock_symbol)
+#     - Tôi cần [mua](action) mã [BVS](stock_symbol)
+#     - [Bán](action) cổ phiếu [BWE](stock_symbol)
+#     - Muốn [mua](action) [BWS](stock_symbol)
+#     - Tôi muốn [bán](action) mã [C12](stock_symbol)
+#     - [Mua](action) cổ phiếu [C21](stock_symbol)
+#     - [Bán](action) [C22](stock_symbol)
+#     - Tôi cần [mua](action) mã [C32](stock_symbol)
+#     - [Bán](action) cổ phiếu [C36](stock_symbol)
+#     - Muốn [mua](action) [C47](stock_symbol)
+#     - Tôi muốn [bán](action) mã [C69](stock_symbol)
+#     - [Mua](action) cổ phiếu [CAB](stock_symbol)
+#     - [Bán](action) [CAD](stock_symbol)
+#     - Tôi cần [mua](action) mã [CAG](stock_symbol)
+#     - [Bán](action) cổ phiếu [CAN](stock_symbol)
+#     - Muốn [mua](action) [CAP](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CAR](stock_symbol)
+#     - [Mua](action) cổ phiếu [CAV](stock_symbol)
+#     - [Bán](action) [CBC](stock_symbol)
+#     - Tôi cần [mua](action) mã [CCH](stock_symbol)
+#     - [Bán](action) cổ phiếu [CCI](stock_symbol)
+#     - Muốn [mua](action) [CCL](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CCM](stock_symbol)
+#     - [Mua](action) cổ phiếu [CCP](stock_symbol)
+#     - [Bán](action) [CCR](stock_symbol)
+#     - Tôi cần [mua](action) mã [CCS](stock_symbol)
+#     - [Bán](action) cổ phiếu [CCV](stock_symbol)
+#     - Muốn [mua](action) [CDC](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CDG](stock_symbol)
+#     - [Mua](action) cổ phiếu [CDH](stock_symbol)
+#     - [Bán](action) [CDN](stock_symbol)
+#     - Tôi cần [mua](action) mã [CDO](stock_symbol)
+#     - [Bán](action) cổ phiếu [CDP](stock_symbol)
+#     - Muốn [mua](action) [CDR](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CDS](stock_symbol)
+#     - [Mua](action) cổ phiếu [CE1](stock_symbol)
+#     - [Bán](action) [CEC](stock_symbol)
+#     - Tôi cần [mua](action) mã [CEN](stock_symbol)
+#     - [Bán](action) cổ phiếu [CET](stock_symbol)
+#     - Muốn [mua](action) [CFC](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CFM](stock_symbol)
+#     - [Mua](action) cổ phiếu [CFV](stock_symbol)
+#     - [Bán](action) [CGL](stock_symbol)
+#     - Tôi cần [mua](action) mã [CGP](stock_symbol)
+#     - [Bán](action) cổ phiếu [CGV](stock_symbol)
+#     - Muốn [mua](action) [CHA](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CHC](stock_symbol)
+#     - [Mua](action) cổ phiếu [CHP](stock_symbol)
+#     - [Bán](action) [CHS](stock_symbol)
+#     - Tôi cần [mua](action) mã [CI5](stock_symbol)
+#     - [Bán](action) cổ phiếu [CIC](stock_symbol)
+#     - Muốn [mua](action) [CID](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CIG](stock_symbol)
+#     - [Mua](action) cổ phiếu [CIP](stock_symbol)
+#     - [Bán](action) [CIS](stock_symbol)
+#     - Tôi cần [mua](action) mã [CJC](stock_symbol)
+#     - [Bán](action) cổ phiếu [CKD](stock_symbol)
+#     - Muốn [mua](action) [CKG](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CKV](stock_symbol)
+#     - [Mua](action) cổ phiếu [CLC](stock_symbol)
+#     - [Bán](action) [CLD](stock_symbol)
+#     - Tôi cần [mua](action) mã [CLG](stock_symbol)
+#     - [Bán](action) cổ phiếu [CLH](stock_symbol)
+#     - Muốn [mua](action) [CLL](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CLW](stock_symbol)
+#     - [Mua](action) cổ phiếu [CM8](stock_symbol)
+#     - [Bán](action) [CMA](stock_symbol)
+#     - Tôi cần [mua](action) mã [CMC](stock_symbol)
+#     - [Bán](action) cổ phiếu [CMD](stock_symbol)
+#     - Muốn [mua](action) [CMF](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CMI](stock_symbol)
+#     - [Mua](action) cổ phiếu [CMK](stock_symbol)
+#     - [Bán](action) [CMP](stock_symbol)
+#     - Tôi cần [mua](action) mã [CMT](stock_symbol)
+#     - [Bán](action) cổ phiếu [CMV](stock_symbol)
+#     - Muốn [mua](action) [CMW](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CMX](stock_symbol)
+#     - [Mua](action) cổ phiếu [CNC](stock_symbol)
+#     - [Bán](action) [CNT](stock_symbol)
+#     - Tôi cần [mua](action) mã [COB](stock_symbol)
+#     - [Bán](action) cổ phiếu [COM](stock_symbol)
+#     - Muốn [mua](action) [CPC](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CPH](stock_symbol)
+#     - [Mua](action) cổ phiếu [CPI](stock_symbol)
+#     - [Bán](action) [CPN](stock_symbol)
+#     - Tôi cần [mua](action) mã [CPT](stock_symbol)
+#     - [Bán](action) cổ phiếu [CQN](stock_symbol)
+#     - Muốn [mua](action) [CQT](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CRC](stock_symbol)
+#     - [Mua](action) cổ phiếu [CRE](stock_symbol)
+#     - [Bán](action) [CRT](stock_symbol)
+#     - Tôi cần [mua](action) mã [CSC](stock_symbol)
+#     - [Bán](action) cổ phiếu [CSG](stock_symbol)
+#     - Muốn [mua](action) [CSM](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CSV](stock_symbol)
+#     - [Mua](action) cổ phiếu [CTA](stock_symbol)
+#     - [Bán](action) [CTB](stock_symbol)
+#     - Tôi cần [mua](action) mã [CTC](stock_symbol)
+#     - [Bán](action) cổ phiếu [CTD](stock_symbol)
+#     - Muốn [mua](action) [CTE](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CTF](stock_symbol)
+#     - [Mua](action) cổ phiếu [CTI](stock_symbol)
+#     - [Bán](action) [CTN](stock_symbol)
+#     - Tôi cần [mua](action) mã [CTP](stock_symbol)
+#     - [Bán](action) cổ phiếu [CTR](stock_symbol)
+#     - Muốn [mua](action) [CTS](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CTT](stock_symbol)
+#     - [Mua](action) cổ phiếu [CTV](stock_symbol)
+#     - [Bán](action) [CTW](stock_symbol)
+#     - Tôi cần [mua](action) mã [CTX](stock_symbol)
+#     - [Bán](action) cổ phiếu [CUG](stock_symbol)
+#     - Muốn [mua](action) [CVN](stock_symbol)
+#     - Tôi muốn [bán](action) mã [CX8](stock_symbol)
+#     - [Mua](action) cổ phiếu [CYC](stock_symbol)
+#     - [Bán](action) [D11](stock_symbol)
+#     - Tôi cần [mua](action) mã [D2D](stock_symbol)
+#     - [Bán](action) cổ phiếu [DAC](stock_symbol)
+#     - Muốn [mua](action) [DAD](stock_symbol)
+#     - Tôi muốn [bán](action) mã [DAE](stock_symbol)
+#     - [Mua](action) cổ phiếu [DAG](stock_symbol)
+#     - [Bán](action) [DAH](stock_symbol)
+#     - Tôi cần [mua](action) mã [DAN](stock_symbol)
+#     - [Bán](action) cổ phiếu [DAP](stock_symbol)
+#     - Muốn [mua](action) [DAS](stock_symbol)
+#     - Tôi muốn [bán](action) mã [DAT](stock_symbol)
+#     - [Mua](action) cổ phiếu [DBB](stock_symbol)
+#     - [Bán](action) [DBC](stock_symbol)
+#     - Tôi cần [mua](action) mã [DBM](stock_symbol)
+#     - [Bán](action) cổ phiếu [DBT](stock_symbol)
+#     - Muốn [mua](action) [DC1](stock_symbol)
+#     - Tôi muốn [bán](action) mã [DC2](stock_symbol)
+#     - [Mua](action) cổ phiếu [DC4](stock_symbol)
+#     - [Bán](action) [DCF](stock_symbol)
+#     - Tôi cần [mua](action) mã [DCG](stock_symbol)
+#     - [Bán](action) cổ phiếu [DCH](stock_symbol)
+#     - Muốn [mua](action) [DCL](stock_symbol)
+#     - Tôi muốn [bán](action) mã [DCS](stock_symbol)
+#     - [Mua](action) cổ phiếu [DCT](stock_symbol)
+#     - [Bán](action) [DDG](stock_symbol)
+#     - Tôi cần [mua](action) mã [DDH](stock_symbol)
+#     - [Bán](action) cổ phiếu [DDN](stock_symbol)
+#     - Muốn [mua](action) [DDV](stock_symbol)
+#     - Tôi muốn [bán](action) mã [DFC](stock_symbol)
+#     - [Mua](action) cổ phiếu [DFF](stock_symbol)
+#     - [Bán](action) [DFT](stock_symbol)
+#     - Tôi cần [mua](action) mã [DGC](stock_symbol)
+#     - [Bán](action) cổ phiếu [DGT](stock_symbol)
+#     - Muốn [mua](action) [DGW](stock_symbol)
+#     - Tôi muốn [bán](action) mã [DHA](stock_symbol)
+#     - [Mua](action) cổ phiếu [DHB](stock_symbol)
+#     - [Bán](action) [DHC](stock_symbol)
+#     - Tôi cần [mua](action) mã [DHD](stock_symbol)
+#     - [Bán](action) cổ phiếu [DHI](stock_symbol)
+#     - Muốn [mua](action) [DHM](stock_symbol)
+#     - Tôi muốn [bán](action) mã [DHN](stock_symbol)
+#     - [Mua](action) cổ phiếu [DHP](stock_symbol)
+#     - [Bán](action) [DHS](stock_symbol)
+#     - Tôi cần [mua](action) mã [DHT](stock_symbol)
+#     - [Bán](action) cổ phiếu [DIC](stock_symbol)
+#     - Muốn [mua](action) [DID](stock_symbol)
+#     - Tôi muốn [bán](action) mã [DIH](stock_symbol)
+#     - [Mua](action) cổ phiếu [DIN](stock_symbol)
+#     - [Bán](action) [DIR](stock_symbol)
+#     - Tôi cần [mua](action) mã [DKC](stock_symbol)
+#     - [Bán](action) cổ phiếu [DKH](stock_symbol)
+#     - Muốn [mua](action) [DKP](stock_symbol)
+#     - Tôi muốn [bán](action) mã [DLB](stock_symbol)
+#     - [Mua](action) cổ phiếu [DLC](stock_symbol)
+#     - [Bán](action) [DLD](stock_symbol)
+#     - Tôi cần [mua](action) mã [DLG](stock_symbol)
+#     - [Bán](action) cổ phiếu [DLM](stock_symbol)
+#     - Muốn [mua](action) [DLR](stock_symbol)
+#     - Tôi muốn [bán](action) mã [DLS](stock_symbol)
+#     - [mua](action) cổ phiếu [fpt](stock_symbol)
+#     - [bán](action) cổ phiếu [FPT](stock_symbol)
+#     - [bán](action) cổ phiếu [Fpt](stock_symbol)
+#     - [bán](action) cổ phiếu [vcb](stock_symbol)
+#     - [bán](action) cổ phiếu [VCB](stock_symbol)
+#     - [bán](action) cổ phiếu [Vcb](stock_symbol)
+#     - [bán](action) cổ phiếu [hpg](stock_symbol)
+#     - [bán](action) cổ phiếu [HPG](stock_symbol)
+#     - [bán](action) cổ phiếu [Hpg](stock_symbol)
+#     - [bán](action) cổ phiếu [vnm](stock_symbol)
+#     - [bán](action) cổ phiếu [VNM](stock_symbol)
+#     - [bán](action) cổ phiếu [Vnm](stock_symbol)
+#     - [bán](action) cổ phiếu [gas](stock_symbol)
+#     - [bán](action) cổ phiếu [GAS](stock_symbol)
+#     - [bán](action) cổ phiếu [Gas](stock_symbol)
+#     - [bán](action) cổ phiếu [msn](stock_symbol)
+#     - [bán](action) cổ phiếu [MSN](stock_symbol)
+#     - [bán](action) cổ phiếu [Msn](stock_symbol)
+#     - [bán](action) cổ phiếu [bid](stock_symbol)
+#     - [bán](action) cổ phiếu [BID](stock_symbol)
+#     - [bán](action) cổ phiếu [Bid](stock_symbol)
+#     - [bán](action) cổ phiếu [ctg](stock_symbol)
+#     - [bán](action) cổ phiếu [CTG](stock_symbol)
+#     - [bán](action) cổ phiếu [Ctg](stock_symbol)
+#     - [bán](action) cổ phiếu [tcb](stock_symbol)
+#     - [bán](action) cổ phiếu [TCB](stock_symbol)
+#     - [bán](action) cổ phiếu [Tcb](stock_symbol)
+#     - [bán](action) cổ phiếu [stb](stock_symbol)
+#     - [bán](action) cổ phiếu [STB](stock_symbol)
+#     - [bán](action) cổ phiếu [Stb](stock_symbol)
+#     - [bán](action) cổ phiếu [ssi](stock_symbol)
+#     - [bán](action) cổ phiếu [SSI](stock_symbol)
+#     - [bán](action) cổ phiếu [Ssi](stock_symbol)
+#     - [bán](action) cổ phiếu [mwg](stock_symbol)
+#     - [bán](action) cổ phiếu [MWG](stock_symbol)
+#     - [bán](action) cổ phiếu [Mwg](stock_symbol)
+#     - [bán](action) cổ phiếu [plx](stock_symbol)
+#     - [bán](action) cổ phiếu [PLX](stock_symbol)
+#     - [bán](action) cổ phiếu [Plx](stock_symbol)
+#     - [bán](action) cổ phiếu [vre](stock_symbol)
+#     - [bán](action) cổ phiếu [VRE](stock_symbol)
+#     - [bán](action) cổ phiếu [Vre](stock_symbol)
+#     - [bán](action) cổ phiếu [vhm](stock_symbol)
+#     - [bán](action) cổ phiếu [VHM](stock_symbol)
+#     - [bán](action) cổ phiếu [Vhm](stock_symbol)
+#     - [bán](action) cổ phiếu [vjc](stock_symbol)
+#     - [bán](action) cổ phiếu [VJC](stock_symbol)
+#     - [bán](action) cổ phiếu [Vjc](stock_symbol)
+#     - [bán](action) cổ phiếu [hdb](stock_symbol)
+#     - [bán](action) cổ phiếu [HDB](stock_symbol)
+#     - [bán](action) cổ phiếu [Hdb](stock_symbol)
+#     - [bán](action) cổ phiếu [acb](stock_symbol)
+#     - [mua](action) cổ phiếu [ACB](stock_symbol)
+#     - [mua](action) cổ phiếu [Acb](stock_symbol)
+#     - [mua](action) cổ phiếu [tpb](stock_symbol)
+#     - [mua](action) cổ phiếu [TPB](stock_symbol)
+#     - [mua](action) cổ phiếu [Tpb](stock_symbol)
+#     - [mua](action) cổ phiếu [kdh](stock_symbol)
+#     - [mua](action) cổ phiếu [KDH](stock_symbol)
+#     - [mua](action) cổ phiếu [Kdh](stock_symbol)
+#     - [mua](action) cổ phiếu [vib](stock_symbol)
+#     - [mua](action) cổ phiếu [VIB](stock_symbol)
+#     - [mua](action) cổ phiếu [Vib](stock_symbol)
+#     - [mua](action) cổ phiếu [shb](stock_symbol)
+#     - [mua](action) cổ phiếu [SHB](stock_symbol)
+#     - [mua](action) cổ phiếu [Shb](stock_symbol)
+#     - [mua](action) cổ phiếu [ocb](stock_symbol)
+#     - [mua](action) cổ phiếu [OCB](stock_symbol)
+#     - [mua](action) cổ phiếu [Ocb](stock_symbol)
+#     - [mua](action) cổ phiếu [lpb](stock_symbol)
+#     - [mua](action) cổ phiếu [LPB](stock_symbol)
+#     - [mua](action) cổ phiếu [Lpb](stock_symbol)
+#     - [mua](action) cổ phiếu [hsg](stock_symbol)
+#     - [mua](action) cổ phiếu [HSG](stock_symbol)
+#     - [mua](action) cổ phiếu [Hsg](stock_symbol)
+#     - [mua](action) cổ phiếu [pdr](stock_symbol)
+#     - [mua](action) cổ phiếu [PDR](stock_symbol)
+#     - [mua](action) cổ phiếu [Pdr](stock_symbol)
+#     - [mua](action) cổ phiếu [sab](stock_symbol)
+#     - [mua](action) cổ phiếu [SAB](stock_symbol)
+#     - [mua](action) cổ phiếu [Sab](stock_symbol)
+#     - [mua](action) cổ phiếu [vci](stock_symbol)
+#     - [mua](action) cổ phiếu [VCI](stock_symbol)
+#     - [mua](action) cổ phiếu [Vci](stock_symbol)
+#     - [mua](action) cổ phiếu [nvl](stock_symbol)
+#     - [mua](action) cổ phiếu [NVL](stock_symbol)
+#     - [mua](action) cổ phiếu [Nvl](stock_symbol)
+#     - [mua](action) cổ phiếu [dxg](stock_symbol)
+#     - [mua](action) cổ phiếu [DXG](stock_symbol)
+#     - [mua](action) cổ phiếu [Dxg](stock_symbol)
+#     - [mua](action) cổ phiếu [vnd](stock_symbol)
+#     - [mua](action) cổ phiếu [VND](stock_symbol)
+#     - [mua](action) cổ phiếu [Vnd](stock_symbol)
+#     - [mua](action) cổ phiếu [idh](stock_symbol)
+#     - [mua](action) cổ phiếu [IDH](stock_symbol)
+#     - [mua](action) cổ phiếu [Idh](stock_symbol)
+#     - Cần [mua](action) [EPC](stock_symbol) giúp tôi với
+#     - Cho tôi [bán](action) [EPH](stock_symbol) ngay nhé
+#     - Mình muốn [mua](action) [EPS](stock_symbol) nè
+#     - Tôi đang định [bán](action) mã [ERC](stock_symbol)
+#     - Giúp tôi [mua](action) cổ phiếu [ESC](stock_symbol)
+#     - Thực hiện lệnh [bán](action) [ETI](stock_symbol)
+#     - Tôi cần hỗ trợ [mua](action) mã [EVE](stock_symbol)
+#     - Bạn hãy [bán](action) cổ phiếu [EVG](stock_symbol)
+#     - Tôi có nhu cầu [mua](action) [EVN](stock_symbol)
+#     - Thực hiện [bán](action) giúp mã [EVS](stock_symbol)
+#     - Giao dịch [mua](action) cổ phiếu [EWS](stock_symbol) nhé
+#     - Tôi muốn đặt lệnh [bán](action) [F17](stock_symbol)
+#     - Xin hỗ trợ [mua](action) mã [FAI](stock_symbol)
+#     - Nhờ bạn [bán](action) cổ phiếu [FAS](stock_symbol)
+#     - Tôi cần [mua](action) [FBI](stock_symbol)
+#     - Giúp tôi xử lý [bán](action) mã [FCC](stock_symbol)
+#     - Cần mua cổ phiếu [FCM](stock_symbol) liền
+#     - Tôi muốn [bán](action) [FCS](stock_symbol)
+#     - Hỗ trợ [mua](action) mã cổ phiếu [FDC](stock_symbol) nhé
+#     - Cho tôi lệnh [bán](action) cổ phiếu [FDG](stock_symbol)
+#     - Tôi cần đặt lệnh [mua](action) [FGL](stock_symbol)
+#     - Tôi muốn thực hiện lệnh [bán](action) mã [FHN](stock_symbol)
+#     - Hãy [mua](action) cổ phiếu [FHS](stock_symbol) ngay
+#     - Tôi muốn [bán](action) [FIC](stock_symbol)
+#     - Giao dịch [mua](action) mã [FID](stock_symbol) giúp tôi
+#     - Tiến hành [bán](action) cổ phiếu [FIF](stock_symbol)
+#     - Nhờ bạn [mua](action) [FIR](stock_symbol)
+#     - Tôi cần bán mã [FIT](stock_symbol)
+#     - Tôi đang cần mua cổ phiếu [FLC](stock_symbol)
+#     - Xin hãy [bán](action) [FMC](stock_symbol)
+#     - Tôi cần lệnh [mua](action) mã [FOC](stock_symbol)
+#     - Cho tôi [bán](action) cổ phiếu [FOX](stock_symbol)
+#     - Tôi muốn mua [FRC](stock_symbol)
+#     - Giao dịch bán mã [FRT](stock_symbol) giúp tôi
+#     - Mua giúp tôi cổ phiếu [FSO](stock_symbol)
+#     - Bán mã [FTI](stock_symbol) liền nhé
+#     - Mình cần mua mã [FTM](stock_symbol)
+#     - Tôi muốn bán cổ phiếu [FTS](stock_symbol)
+#     - Nhập lệnh mua [FTV](stock_symbol) cho tôi
+#     - Đặt lệnh bán mã [G20](stock_symbol) ngay
+#     - Giúp tôi mua cổ phiếu [G36](stock_symbol)
+#     - Cần bán cổ phiếu [GAB](stock_symbol)
+#     - Tôi cần mua [GAH](stock_symbol)
+#     - Hãy thực hiện lệnh bán [GAS](stock_symbol)
+#     - Tôi cần mua gấp [GBS](stock_symbol)
+#     - Hỗ trợ bán mã [GCF](stock_symbol) giúp tôi
+#     - Tôi cần [mua](action) [GCS](stock_symbol)
+#     - Bán cổ phiếu [GDT](stock_symbol) đi nhé
+#     - Nhập lệnh mua mã [GDW](stock_symbol)
+#     - Tôi cần bán cổ phiếu [GEG](stock_symbol)
+#     - Mua giúp tôi cổ phiếu [GEX](stock_symbol)
+#     - Thực hiện bán mã [GFC](stock_symbol)
+#     - Tôi cần mua [GGG](stock_symbol)
+#     - Lệnh bán cổ phiếu [GHC](stock_symbol) giúp tôi
+#     - Tôi muốn mua mã [GIC](stock_symbol)
+#     - Xin hãy bán [GIL](stock_symbol)
+#     - Mình đang muốn mua [GKM](stock_symbol)
+#     - Hãy giúp tôi bán mã [GLC](stock_symbol)
+#     - Tôi muốn mua cổ phiếu [GLT](stock_symbol)
+#     - Nhập lệnh bán [GMC](stock_symbol)
+#     - Mua mã [GND](stock_symbol) giùm tôi
+#     - Cho tôi bán [GPC](stock_symbol)
+#     - Tôi muốn mua cổ phiếu [GPD](stock_symbol)
+#     - Hỗ trợ bán giúp mã [GSM](stock_symbol)
+#     - Giúp tôi mua [GSP](stock_symbol)
+#     - Đặt lệnh bán cổ phiếu [GTA](stock_symbol)
+#     - Tôi muốn mua mã [GTD](stock_symbol)
+#     - Thực hiện bán cổ phiếu [GTH](stock_symbol)
+#     - Mình muốn mua [GTN](stock_symbol)
+#     - Bán mã cổ phiếu [GTS](stock_symbol) cho tôi
+#     - Tôi muốn mua cổ phiếu [GTV](stock_symbol)
+#     - Đặt bán [GVT](stock_symbol)
+#     - Cần hỗ trợ mua mã [GVR](stock_symbol)
+#     - Tôi muốn bán cổ phiếu [H11](stock_symbol)
+#     - Cần mua [HAC](stock_symbol) giúp tôi
+#     - Tôi định bán mã [HAD](stock_symbol)
+#     - Mình cần mua cổ phiếu [HAI](stock_symbol)
+#     - Bán [HAN](stock_symbol) giúp mình nhé
+#     - Mua mã [HAP](stock_symbol) giúp với
+#     - Tôi muốn bán cổ phiếu [HAR](stock_symbol)
+#     - Tôi cần [mua](action) [HAS](stock_symbol)
+#     - Bán mã [HAT](stock_symbol) liền tay
+#     - Tôi đang muốn mua cổ phiếu [HAX](stock_symbol)
+#     - Thực hiện lệnh bán [HBC](stock_symbol)
+#     - Tôi muốn mua mã [HBD](stock_symbol)
+#     - Bán cổ phiếu [HBE](stock_symbol)
+#     - Tôi đang cần mua [HBH](stock_symbol)
+#     - Thực hiện lệnh bán mã [HBS](stock_symbol)
+#     - Mua cổ phiếu [HCC](stock_symbol) liền giúp tôi
+#     - Tôi cần bán cổ phiếu [HCD](stock_symbol)
+#     - Hỗ trợ mua mã [HCT](stock_symbol)
+#     - Nhập lệnh bán cổ phiếu [HDC](stock_symbol)
+#     - Mua mã [HDD](stock_symbol) giúp mình nha
+#     - Tôi muốn [mua](action) cổ phiếu [VIC](stock_symbol)
+#     - [Bán](action) cổ phiếu [VCB](stock_symbol) giúp tôi
+#     - Làm sao để [mua](action) cổ phiếu [FPT](stock_symbol)?
+#     - Tôi cần [bán](action) cổ phiếu [VNM](stock_symbol)
+#     - [Mua](action) cổ phiếu [HPG](stock_symbol) được không?
+#     - Giúp tôi [mua](action) cổ phiếu [MSN](stock_symbol)
+#     - [Bán](action) cổ phiếu [GAS](stock_symbol) ngay
+#     - Tôi định [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [Bán](action) hết cổ phiếu [BID](stock_symbol)
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol)
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) thôi
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) không?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) cho tôi
+#     - Tôi sẽ [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) đi
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) ngay
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) giúp em
+#     - Tôi cần [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) được không?
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol)?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) ngay lập tức
+#     - Tôi muốn [mua](action) cổ phiếu [ACB](stock_symbol) ngay
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) thôi
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol)?
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol) giúp tôi
+#     - Muốn [mua](action) cổ phiếu [VCB](stock_symbol) gấp
+#     - [Bán](action) cổ phiếu [FPT](stock_symbol) đi
+#     - Tôi định [mua](action) cổ phiếu [VNM](stock_symbol)
+#     - [Bán](action) cổ phiếu [HPG](stock_symbol) cho em
+#     - Làm sao để [mua](action) cổ phiếu [MSN](stock_symbol)?
+#     - [Bán](action) cổ phiếu [GAS](stock_symbol) ngay
+#     - Tôi sẽ [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [Bán](action) cổ phiếu [BID](stock_symbol) thôi
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) giúp tôi
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) ngay?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) đi
+#     - Tôi cần [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) cho em
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) gấp
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) ngay lập tức
+#     - Tôi định [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) thôi
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) được?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) giúp tôi
+#     - Tôi muốn [mua](action) cổ phiếu [ACB](stock_symbol) ngay
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) đi
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol) không?
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol) cho em
+#     - Muốn [mua](action) cổ phiếu [VCB](stock_symbol) thôi
+#     - [Bán](action) cổ phiếu [FPT](stock_symbol) ngay
+#     - Tôi sẽ [mua](action) cổ phiếu [VNM](stock_symbol)
+#     - [Bán](action) cổ phiếu [HPG](stock_symbol) gấp
+#     - Làm sao để [mua](action) cổ phiếu [MSN](stock_symbol) ngay?
+#     - [Bán](action) cổ phiếu [GAS](stock_symbol) thôi
+#     - Tôi cần [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [Bán](action) cổ phiếu [BID](stock_symbol) cho tôi
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) giúp em
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) ngay lập tức?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) đi
+#     - Tôi định [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) thôi
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) gấp
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) ngay
+#     - Tôi sẽ [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) cho em
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) giúp tôi
+#     - Tôi muốn [mua](action) cổ phiếu [ACB](stock_symbol) thôi
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) ngay lập tức
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol) đi?
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol) gấp
+#     - Muốn [mua](action) cổ phiếu [VCB](stock_symbol) ngay
+#     - [Bán](action) cổ phiếu [FPT](stock_symbol) cho tôi
+#     - Tôi cần [mua](action) cổ phiếu [VNM](stock_symbol)
+#     - [Bán](action) cổ phiếu [HPG](stock_symbol) thôi
+#     - Làm sao để [mua](action) cổ phiếu [MSN](stock_symbol) được?
+#     - [Bán](action) cổ phiếu [GAS](stock_symbol) giúp em
+#     - Tôi định [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [Bán](action) cổ phiếu [BID](stock_symbol) ngay lập tức
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol) gấp
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) đi
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) không?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) cho em
+#     - Tôi sẽ [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) ngay
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) thôi
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) gấp
+#     - Tôi muốn [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) giúp tôi
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) đi
+#     - Tôi cần [mua](action) cổ phiếu [ACB](stock_symbol)
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) cho em
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol) ngay?
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol) thôi
+#     - Muốn [mua](action) cổ phiếu [VCB](stock_symbol) ngay lập tức
+#     - [Bán](action) cổ phiếu [FPT](stock_symbol) gấp
+#     - Tôi định [mua](action) cổ phiếu [VNM](stock_symbol)
+#     - [Bán](action) cổ phiếu [HPG](stock_symbol) cho tôi
+#     - Làm sao để [mua](action) cổ phiếu [MSN](stock_symbol) đi?
+#     - [Bán](action) cổ phiếu [GAS](stock_symbol) ngay
+#     - Tôi sẽ [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [Bán](action) cổ phiếu [BID](stock_symbol) thôi
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) giúp em
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) gấp?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) ngay lập tức
+#     - Tôi muốn [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) đi
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) cho tôi
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) thôi
+#     - Tôi cần [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) ngay
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) được?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) gấp
+#     - Tôi định [mua](action) cổ phiếu [ACB](stock_symbol)
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) cho em
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol) không?
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol) giúp tôi
+#     - Muốn [mua](action) cổ phiếu [VCB](stock_symbol) thôi
+#     - [Bán](action) cổ phiếu [FPT](stock_symbol) ngay lập tức
+#     - Tôi sẽ [mua](action) cổ phiếu [VNM](stock_symbol)
+#     - [Bán](action) cổ phiếu [HPG](stock_symbol) đi
+#     - Làm sao để [mua](action) cổ phiếu [MSN](stock_symbol) gấp?
+#     - [Bán](action) cổ phiếu [GAS](stock_symbol) cho tôi
+#     - Tôi muốn [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [Bán](action) cổ phiếu [BID](stock_symbol) ngay
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol) thôi
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) được không?
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) giúp em?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) gấp
+#     - Tôi cần [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) ngay lập tức
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) đi
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) cho em
+#     - Tôi định [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) thôi
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) ngay?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) được không?
+#     - Tôi sẽ [mua](action) cổ phiếu [ACB](stock_symbol)
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) giúp tôi
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol) gấp?
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol) đi
+#     - Muốn [mua](action) cổ phiếu [VCB](stock_symbol) ngay lập tức
+#     - [Bán](action) cổ phiếu [FPT](stock_symbol) cho em
+#     - Tôi muốn [mua](action) cổ phiếu [VNM](stock_symbol)
+#     - [Bán](action) cổ phiếu [HPG](stock_symbol) thôi
+#     - Làm sao để [mua](action) cổ phiếu [MSN](stock_symbol) ngay?
+#     - [Bán](action) cổ phiếu [GAS](stock_symbol) được không?
+#     - Tôi cần [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [Bán](action) cổ phiếu [BID](stock_symbol) gấp
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol) giúp tôi
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) đi
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) ngay lập tức?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) cho em
+#     - Tôi định [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) thôi
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) ngay
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) được không?
+#     - Tôi sẽ [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) gấp
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) giúp em?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) đi
+#     - Tôi muốn [mua](action) cổ phiếu [ACB](stock_symbol)
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) ngay lập tức
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol) cho tôi?
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol) thôi
+#     - Muốn [mua](action) cổ phiếu [VCB](stock_symbol) ngay
+#     - [Bán](action) cổ phiếu [FPT](stock_symbol) được không?
+#     - Tôi cần [mua](action) cổ phiếu [VNM](stock_symbol)
+#     - [Bán](action) cổ phiếu [HPG](stock_symbol) gấp
+#     - Làm sao để [mua](action) cổ phiếu [MSN](stock_symbol) giúp tôi?
+#     - [Bán](action) cổ phiếu [GAS](stock_symbol) đi
+#     - Tôi định [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [Bán](action) cổ phiếu [BID](stock_symbol) ngay lập tức
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol) cho em
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) thôi
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) ngay?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) được không?
+#     - Tôi sẽ [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) gấp
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) giúp em
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) đi
+#     - Tôi muốn [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) ngay lập tức
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) cho tôi?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) thôi
+#     - Tôi cần [mua](action) cổ phiếu [ACB](stock_symbol)
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) ngay
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol) gấp
+#     - Muốn [mua](action) cổ phiếu [VCB](stock_symbol) giúp tôi
+#     - [Bán](action) cổ phiếu [FPT](stock_symbol) đi
+#     - Tôi định [mua](action) cổ phiếu [VNM](stock_symbol)
+#     - [Bán](action) cổ phiếu [HPG](stock_symbol) ngay lập tức
+#     - Làm sao để [mua](action) cổ phiếu [MSN](stock_symbol) cho em?
+#     - [Bán](action) cổ phiếu [GAS](stock_symbol) thôi
+#     - Tôi sẽ [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [Bán](action) cổ phiếu [BID](stock_symbol) ngay
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) gấp
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) giúp em?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) đi
+#     - Tôi muốn [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) ngay lập tức
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) cho tôi
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) thôi
+#     - Tôi cần [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) ngay
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) gấp
+#     - Tôi định [mua](action) cổ phiếu [ACB](stock_symbol)
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) giúp tôi
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol) đi?
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol) ngay lập tức
+#     - Muốn [mua](action) cổ phiếu [VCB](stock_symbol) cho em
+#     - [Bán](action) cổ phiếu [FPT](stock_symbol) thôi
+#     - Tôi sẽ [mua](action) cổ phiếu [VNM](stock_symbol)
+#     - [Bán](action) cổ phiếu [HPG](stock_symbol) ngay
+#     - Làm sao để [mua](action) cổ phiếu [MSN](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [GAS](stock_symbol) gấp
+#     - Tôi muốn [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [Bán](action) cổ phiếu [BID](stock_symbol) giúp em
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol) đi
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) ngay lập tức
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) cho tôi?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) thôi
+#     - Tôi cần [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) ngay
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) gấp
+#     - Tôi định [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) giúp tôi
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) đi?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) ngay lập tức
+#     - Tôi sẽ [mua](action) cổ phiếu [ACB](stock_symbol)
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) cho em
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol) thôi?
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol) ngay
+#     - Muốn [mua](action) cổ phiếu [VCB](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [FPT](stock_symbol) gấp
+#     - Tôi muốn [mua](action) cổ phiếu [VNM](stock_symbol)
+#     - [Bán](action) cổ phiếu [HPG](stock_symbol) giúp em
+#     - Làm sao để [mua](action) cổ phiếu [MSN](stock_symbol) đi?
+#     - [Bán](action) cổ phiếu [GAS](stock_symbol) ngay lập tức
+#     - Tôi cần [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [Bán](action) cổ phiếu [BID](stock_symbol) cho tôi
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol) thôi
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) ngay
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) gấp
+#     - Tôi định [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) giúp tôi
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) đi
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) ngay lập tức
+#     - Tôi sẽ [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) cho em
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) thôi?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) ngay
+#     - Tôi muốn [mua](action) cổ phiếu [ACB](stock_symbol)
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) được không?
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol) gấp?
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol) giúp em
+#     - Muốn [mua](action) cổ phiếu [VCB](stock_symbol) đi
+#     - [Bán](action) cổ phiếu [FPT](stock_symbol) ngay lập tức
+#     - Tôi cần [mua](action) cổ phiếu [VNM](stock_symbol)
+#     - [Bán](action) cổ phiếu [HPG](stock_symbol) cho tôi
+#     - Làm sao để [mua](action) cổ phiếu [MSN](stock_symbol) thôi?
+#     - [Bán](action) cổ phiếu [GAS](stock_symbol) ngay
+#     - Tôi định [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [Bán](action) cổ phiếu [BID](stock_symbol) được không?
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol) gấp
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) giúp tôi
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) đi?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) ngay lập tức
+#     - Tôi sẽ [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) cho em
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) thôi
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) ngay
+#     - Tôi muốn [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) được không?
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) gấp?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) giúp em
+#     - Tôi cần [mua](action) cổ phiếu [ACB](stock_symbol)
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) đi
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol) ngay lập tức?
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol) cho tôi
+#     - Muốn [mua](action) cổ phiếu [VCB](stock_symbol) thôi
+#     - [Bán](action) cổ phiếu [FPT](stock_symbol) ngay
+#     - Tôi định [mua](action) cổ phiếu [VNM](stock_symbol)
+#     - [Bán](action) cổ phiếu [HPG](stock_symbol) được không?
+#     - Làm sao để [mua](action) cổ phiếu [MSN](stock_symbol) gấp?
+#     - [Bán](action) cổ phiếu [GAS](stock_symbol) giúp tôi
+#     - Tôi sẽ [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [Bán](action) cổ phiếu [BID](stock_symbol) đi
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol) ngay lập tức
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) cho em
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) thôi?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) ngay
+#     - Tôi muốn [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) được không?
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) gấp
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) giúp em
+#     - Tôi cần [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) đi
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) ngay lập tức?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) cho tôi
+#     - Tôi định [mua](action) cổ phiếu [ACB](stock_symbol)
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) thôi
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol) ngay?
+#     - tôi muon [buy](action) co phieu [VNM](stock_symbol)
+#     - [sell](action) cp [FPT](stock_symbol) giup minh
+#     - can you [mua](action) cổ phiếu [VCB](stock_symbol) for me?
+#     - plz [ban](action) [MSN](stock_symbol) asap
+#     - minh can [muaa](action) co phieu [HPG](stock_symbol)
+#     - lam on [ban](action) cổ phiếu [VIC](stock_symbol)
+#     - [muaa](action) cổ phiếu [STB](stock_symbol) cho tớ nhaa
+#     - [selll](action) cổ phiếu [SSI](stock_symbol) now
+#     - i want to [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [bann](action) cp [GAS](stock_symbol) help me
+#     - can u [mua](action) cổ phiếu [VPB](stock_symbol)?
+#     - [bannn](action) [PLX](stock_symbol) nhanh nhanh
+#     - toi muon [buyy](action) cổ phiếu [MWG](stock_symbol)
+#     - pls [bann](action) cổ phiếu [ACB](stock_symbol) gấp
+#     - [muon](action) cp [CTG](stock_symbol) ok?
+#     - [sall](action) co phieu [BID](stock_symbol) help
+#     - em muon [buy](action) [HDB](stock_symbol) dc ko?
+#     - [bánnn](action) cổ phiếu [VJC](stock_symbol)
+#     - [muaa](action) cổ phiếu [POW](stock_symbol) noww
+#     - i wanna [ban](action) cổ phiếu [FPT](stock_symbol)
+#     - giúp tôi [sell](action) cổ phiếu [VRE](stock_symbol)
+#     - can u [sell](action) cp [SAB](stock_symbol) right now?
+#     - [muua](action) [STB](stock_symbol) nhanh
+#     - mua [VPB](stock_symbol) giup toii
+#     - [ban](action) co phieu [VNM](stock_symbol) pls
+#     - hey [mua](action) cổ phiếu [HPG](stock_symbol) help
+#     - tôi muôn [sell](action) cổ phiếu [MSN](stock_symbol)
+#     - [bannn](action) cổ phiếu [GAS](stock_symbol) now
+#     - [muoon](action) cp [VCB](stock_symbol)
+#     - muaa co phieu [TCB](stock_symbol) ok k?
+#     - [sell](action) cổ phiếu [PLX](stock_symbol) đi bạn
+#     - [muaa](action) cổ phiếu [VHM](stock_symbol) noww
+#     - ban co phieu [MWG](stock_symbol) dc chứ?
+#     - please [sell](action) cp [CTG](stock_symbol)
+#     - mua giup em cp [ACB](stock_symbol) ok?
+#     - [muaaa](action) cổ phiếu [FPT](stock_symbol) luôn
+#     - tôi can [mua](action) cổ phiếu [VIC](stock_symbol)
+#     - [bann](action) cp [STB](stock_symbol)
+#     - muaa gấp cổ phiếu [SSI](stock_symbol) nhaaa
+#     - [sell](action) cổ phiếu [POW](stock_symbol) pls
+#     - [bánn](action) cp [VPB](stock_symbol) now
+#     - help [mua](action) cổ phiếu [SAB](stock_symbol)
+#     - [muua](action) cổ phiếu [TCB](stock_symbol) gấp
+#     - [muaa](action) cổ phiếu [VRE](stock_symbol)
+#     - [ban](action) cổ phiếu [VNM](stock_symbol) nhé
+#     - [bann](action) [FPT](stock_symbol) luôn đi
+#     - [muon](action) cp [HPG](stock_symbol) dc ko?
+#     - [muua](action) cổ phiếu [VHM](stock_symbol) plss
+#     - tôi cần [sell](action) cổ phiếu [BID](stock_symbol)
+#     - muaa cổ phiếu [MWG](stock_symbol) help me
+#     - please [selll](action) cp [GAS](stock_symbol)
+#     - [muaa](action) cổ phiếu [MSN](stock_symbol) asap
+#     - [muaa](action) cổ phiếu [TPB](stock_symbol) gấp
+#     - pls [bann](action) cổ phiếu [KDH](stock_symbol)
+#     - [buy](action) cổ phiếu [VIC](stock_symbol) nhanh
+#     - [sell](action) cổ phiếu [VNM](stock_symbol) now
+#     - mua giup minh cp [VCB](stock_symbol) plss
+#     - i want [muaa](action) cp [SSI](stock_symbol)
+#     - [bánnn](action) cổ phiếu [ACB](stock_symbol)
+#     - hey [muaa](action) cổ phiếu [FPT](stock_symbol)
+#     - ban gium co phieu [VPB](stock_symbol)
+#     - [muaa](action) cổ phiếu [STB](stock_symbol)
+#     - [sall](action) cổ phiếu [HPG](stock_symbol) help
+#     - mua cổ phiếu [TCB](stock_symbol) noww
+#     - [ban](action) cp [VRE](stock_symbol) giúp mình
+#     - please [muaa](action) cp [CTG](stock_symbol)
+#     - help me [sell](action) cổ phiếu [PLX](stock_symbol)
+#     - [bánn](action) cp [VJC](stock_symbol) nhanh
+#     - muaa cp [MWG](stock_symbol) giup em nha
+#     - tôi muốn [buy](action) cổ phiếu [BID](stock_symbol)
+#     - ban cổ phiếu [SAB](stock_symbol) now
+#     - [muon](action) cp [STB](stock_symbol) nhanh
+#     - pls [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [bann](action) cổ phiếu [POW](stock_symbol) ngay
+#     - muaa gấp cổ phiếu [SSI](stock_symbol) dc ko
+#     - [bann](action) cổ phiếu [VPB](stock_symbol) asap
+#     - [selll](action) cổ phiếu [FPT](stock_symbol) please
+#     - [mua](action) cổ phiếu [VIC](stock_symbol) giúp em
+#     - toi muon [sell](action) cổ phiếu [ACB](stock_symbol)
+#     - mua gấp cổ phiếu [GAS](stock_symbol)
+#     - [sell](action) cổ phiếu [PLX](stock_symbol)
+#     - please [mua](action) cổ phiếu [HPG](stock_symbol)
+#     - [muua](action) cổ phiếu [MWG](stock_symbol)
+#     - [ban](action) cổ phiếu [MSN](stock_symbol) giúp tôi
+#     - mua giup minh cổ phiếu [VJC](stock_symbol)
+#     - help me [buy](action) cổ phiếu [KDH](stock_symbol)
+#     - [ban](action) cổ phiếu [TCB](stock_symbol) pls
+#     - tôi muốn [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) gấp
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) giúp tôi?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) đi
+#     - Tôi muốn [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) ngay lập tức
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) cho em
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) thôi
+#     - Tôi cần [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) ngay
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) gấp
+#     - Tôi định [mua](action) cổ phiếu [ACB](stock_symbol)
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) giúp em
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol) đi?
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol) ngay lập tức
+#     - Muốn [mua](action) cổ phiếu [VCB](stock_symbol) cho tôi
+#     - [Bán](action) cổ phiếu [FPT](stock_symbol) thôi
+#     - Tôi sẽ [mua](action) cổ phiếu [VNM](stock_symbol)
+#     - [Bán](action) cổ phiếu [HPG](stock_symbol) ngay
+#     - Làm sao để [mua](action) cổ phiếu [MSN](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [GAS](stock_symbol) gấp
+#     - Tôi muốn [mua](action) cổ phiếu [TCB](stock_symbol)
+#     - [Bán](action) cổ phiếu [BID](stock_symbol) giúp tôi
+#     - Muốn [mua](action) cổ phiếu [CTG](stock_symbol) đi
+#     - [Bán](action) cổ phiếu [POW](stock_symbol) ngay lập tức
+#     - Có thể [mua](action) cổ phiếu [STB](stock_symbol) cho em?
+#     - [Bán](action) cổ phiếu [SSI](stock_symbol) thôi
+#     - Tôi cần [mua](action) cổ phiếu [VHM](stock_symbol)
+#     - [Bán](action) cổ phiếu [PLX](stock_symbol) ngay
+#     - Muốn [mua](action) cổ phiếu [VRE](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [MWG](stock_symbol) gấp
+#     - Tôi định [mua](action) cổ phiếu [VPB](stock_symbol)
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) giúp em
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) đi?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) ngay lập tức
+#     - Tôi sẽ [mua](action) cổ phiếu [ACB](stock_symbol)
+#     - [Bán](action) cổ phiếu [TPB](stock_symbol) cho tôi
+#     - Có thể [mua](action) cổ phiếu [KDH](stock_symbol) thôi?
+#     - [Bán](action) cổ phiếu [VIC](stock_symbol) ngay
+#     - Muốn [mua](action) cổ phiếu [VCB](stock_symbol) được không?
+#     - [Bán](action) cổ phiếu [HDB](stock_symbol) ngayy
+#     - Tôi sẽ [mua](action) cổ phiếu [VPB](stock_symbol) nhaa
+#     - [Bán](action) cổ phiếu [VJC](stock_symbol) cho toii
+#     - Làm sao [mua](action) cổ phiếu [SAB](stock_symbol) thoi?
+#     - Toi muon [mua](action) cổ phiếu [VNM](stock_symbol)
+#     - [Ban](action) cổ phiếu [FPT](stock_symbol) gappp
+#     - Mua cổ phiếu [VRE](stock_symbol) giup em duoc hong?
+#     - [ban](action) co phieu [HPG](stock_symbol) nha
+#     - toi se [muaa](action) co phieu [VHM](stock_symbol)
+#     - co the [bann](action) co phieu [SSI](stock_symbol) dc khong?
+
+- lookup: stock_symbol
+  examples: data/lookup_table/stock_symbol.txt
+- lookup: action
+  examples: |
+    - mua
+    - bán
+    - mua vào
+    - bán ra
+    - đặt mua
+    - đặt bán
+    - lệnh mua
+    - lệnh bán
+    - mua
+    - bán
+    - ban
+    - muaa
+    - bann
+    - muaaa
+    - bắn
+    - muon
+    - sell
+    - buy
+    - muaa
+    - bannn
+    - sll
+    - sall
+    - bánnn
+    - selll
+    - mua ngay
+    - bán luôn
+    - buy now
+    - sell now
+    - mua gấp
+    - bán gấp
+    - pls buy
+    - pls sell
+    - muốn mua
+    - cần bán
+    - mua giùm
+    - bán hộ
+    - mua giúp
+    - bán giúp
+    - can buy
+    - can sell
+- synonym: mua
+  examples: |
+    - muon
+    - muaa
+    - muaaa
+    - buy
+    - pls buy
+    - mua giúp
+    - mua giùm
+    - mua gấp
+
+- synonym: bán
+  examples: |
+    - ban
+    - bann
+    - bannn
+    - sell
+    - selll
+    - pls sell
+    - bán giúp
+    - bán hộ
+    - bán gấp

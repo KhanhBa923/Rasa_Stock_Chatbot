@@ -1,0 +1,26 @@
+version: "3.1"
+
+stories:
+
+- story: stock trading complete info
+  steps:
+  - intent: stock_trading
+  - action: stock_trading_form
+  - active_loop: stock_trading_form
+  - slot_was_set:
+    - requested_slot: action
+  - slot_was_set:
+    - user_name: mua
+  - slot_was_set:
+    - requested_slot: stock_symbol
+  - slot_was_set:
+    - password: VCB
+  - slot_was_set:
+    - requested_slot: quantity
+  - slot_was_set:
+    - password: 111
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_confirm_stock_order
+  - action: action_process_stock_order
