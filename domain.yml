@@ -35,20 +35,33 @@ slots:
   
   quantity:
     type: float
-    min_value: 1
-    max_value: 1000000
-    influence_conversation: true
     mappings:
-    - type: from_entity
-      entity: quantity
+      - type: from_entity
+        entity: quantity
+
+  confirm_inf: 
+    type: bool
+    mappings:
+    - type: from_intent
+      value: true
+      intent: affirm
+    - type: from_intent
+      value: false
+      intent: deny
+
 forms:
   stock_trading_form:
     required_slots:
+    - action
     - stock_symbol
     - quantity
+    - confirm_inf
 
 actions:
   - action_process_stock_order
+  - action_ask_confirm_inf
+  - validate_stock_trading_form
+  - action_ask_action
 responses:
   utter_greet:
   - text: "Hey! How are you?"
@@ -77,6 +90,8 @@ responses:
   
   utter_ask_stock_symbol:
     - text: "Bạn muốn {action} mã chứng khoán nào?"
+
+  
 
 session_config:
   session_expiration_time: 60

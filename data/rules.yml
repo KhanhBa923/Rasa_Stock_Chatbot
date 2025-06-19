@@ -26,5 +26,4 @@ rules:
     - active_loop: null
     - slot_was_set:
       - requested_slot: null 
-    - action: utter_confirm_stock_order
     - action: action_process_stock_order

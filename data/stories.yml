@@ -10,17 +10,20 @@ stories:
   - slot_was_set:
     - requested_slot: action
   - slot_was_set:
-    - user_name: mua
+    - action: mua
   - slot_was_set:
     - requested_slot: stock_symbol
   - slot_was_set:
-    - password: VCB
+    - stock_symbol: VCB
   - slot_was_set:
     - requested_slot: quantity
   - slot_was_set:
-    - password: 111
+    - quantity: 111
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
-  - action: utter_confirm_stock_order
+  - slot_was_set:
+    - requested_slot: confirm_inf
+  - slot_was_set:
+    - confirm_inf: /affirm
   - action: action_process_stock_order
