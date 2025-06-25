@@ -40,3 +40,12 @@ action_endpoint:
 #  username: username
 #  password: password
 #  queue: queue
+
+lock_store:
+  type: redis
+  url: localhost
+  port: 6379
+  db: 1
+  key_prefix: rasa-lock
+  # password: your_password  # nếu Redis có bảo mật
+
