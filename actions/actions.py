@@ -4,6 +4,8 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormValidationAction
 from rasa_sdk.types import DomainDict
 from rasa_sdk.events import EventType
+from rasa_sdk.events import SlotSet
+
 
 import os
 import pathlib 
@@ -208,9 +210,35 @@ class ValidateFBForm(FormValidationAction):
                 required.remove("service_location")
                 print("DEBUG: Removed service_location due to low service_rating")
         if product_feedback is not None:
-            if product_feedback !="good" and product_feedback !="excellent":
+            if product_feedback !="good" and product_feedback !="excellent": #hardcode các giá trị tốt, có thế thêm lại ở phần nlu
                 required.remove("product_location")
                 print("DEBUG: Removed product_location due to bad product_feedback")
         
         print(f"DEBUG: Final required slots = {required}")
         return required
+
+
+class ActionThanks(Action):
+    """Action để cảm ơn người dùng và reset tất cả slots về None"""
+
+    def name(self) -> Text:
+        return "action_thanks"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        dispatcher.utter_message(
+            text="Cảm ơn bạn đã phản hồi!"
+        )
+        
+        # Reset tất cả các slots về None
+        return [
+            SlotSet("survey_type", None),
+            SlotSet("service_target", None),
+            SlotSet("product_target", None),
+            SlotSet("service_rating", None),
+            SlotSet("product_feedback", None),
+            SlotSet("service_location", None),
+            SlotSet("product_location", None)
+        ]

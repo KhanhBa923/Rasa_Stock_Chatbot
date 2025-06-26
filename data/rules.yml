@@ -33,6 +33,7 @@ rules:
     - intent: choose_survey
     - action: feedback_form
     - active_loop: feedback_form
+
 - rule: Submit Feedback forms
   condition:
     - active_loop: feedback_form
@@ -41,4 +42,16 @@ rules:
     - active_loop: null
     - slot_was_set:
       - requested_slot: null
-    - action: utter_thanks
+    - action: action_thanks
+
+- rule: Stop Feedback forms
+  condition:
+    - active_loop: feedback_form
+  steps:
+    - action: feedback_form
+    - intent: stop_form
+    - action: action_deactivate_loop
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_thanks

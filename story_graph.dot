@@ -3,7 +3,7 @@ digraph  {
 "-1" [class=end, fillcolor=red, fontsize=12, label=END, style=filled];
 1 [class=active, fontsize=12, label=action_session_start];
 2 [class=active, fontsize=12, label=feedback_form];
-6 [class=active, fontsize=12, label=utter_thanks];
+6 [class=active, fontsize=12, label=action_thanks];
 7 [class="intent dashed active", label="  ?  ", shape=rect];
 8 [class="intent active", fillcolor=lightblue, label="/choose_survey", shape=rect, style=filled];
 9 [class="intent active", fillcolor=lightblue, label="/choose_survey", shape=rect, style=filled];

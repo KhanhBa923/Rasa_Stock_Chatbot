@@ -116,3 +116,11 @@ nlu:
     - Dịch vụ rất tốt
     - Tôi cho 4 điểm
     - Sản phẩm hơi đắt
+- intent: stop_form
+  examples: |
+    - dừng khảo sát
+    - không muốn trả lời nữa
+    - thôi không làm nữa
+    - không muốn trả lời khảo sát
+    - không muốn trả lời nữa
+    - stop
