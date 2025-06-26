@@ -212,6 +212,9 @@ actions:
 - action_thanks
 - validate_form_survey_typebot
 - action_form_paused
+- action_ask_question1
+- action_ask_question2
+- action_ask_ready
 
 ############################################################### Responses ###########################################################
 
@@ -258,37 +261,37 @@ responses:
   - text: 'Thâm niên của bạn:'
   utter_ask_budget:
   - text: Ngân sách của bạn dành cho hoạt động đầu tư chứng khoán của bạn khoảng bao nhiêu?
-  utter_ask_ready:
-  - text: |-
-      Để có thể tư vấn bạn tốt hơn, vui lòng trả lời 1 số câu hỏi sau đây. 
-      Sẵn sàng chưa nào?
-    buttons:
-    - title: Bắt đầu
-      payload: '/affirm{"ready": "true"}'
-    - title: Chưa sẵn sàng
-      payload: '/deny{"ready": "false"}'
-  utter_ask_question1:
-  - text: 'Tỷ lệ nợ trên tổng tài sản của anh/chị là bao nhiêu? (tổng tài sản bao gồm: tiền mặt và các loại hình đầu tư khác) '
-    buttons:
-    - title: a. Trên 50%
-      payload: '/choose_q1{"question1": "question1_1"}'
-    - title: b. 25-<50%
-      payload: '/choose_q1{"question1": "question1_2"}'
-    - title: c. 10–<25%
-      payload: '/choose_q1{"question1": "question1_3"}'
-    - title: d. 0–<10%
-      payload: '/choose_q1{"question1": "question1_4"}'
-  utter_ask_question2:
-  - text: Giá trị ròng tài khoản chứng khoán chiếm bao nhiêu % tổng tài sản?
-    buttons:
-    - title: a. Trên 50%
-      payload: '/choose_q2{"question2": "question2_1"}'
-    - title: b. 25-<50%
-      payload: '/choose_q2{"question2": "question2_2"}'
-    - title: c. 10–<25%
-      payload: '/choose_q2{"question2": "question2_3"}'
-    - title: d. 0 – <10%
-      payload: '/choose_q2{"question2": "question2_4"}'
+  # utter_ask_ready:
+  # - text: |-
+  #     Để có thể tư vấn bạn tốt hơn, vui lòng trả lời 1 số câu hỏi sau đây. 
+  #     Sẵn sàng chưa nào?
+  #   buttons:
+  #   - title: Bắt đầu
+  #     payload: '/affirm{"ready": "true"}'
+  #   - title: Chưa sẵn sàng
+  #     payload: '/deny{"ready": "false"}'
+  # utter_ask_question1:
+  # - text: 'Tỷ lệ nợ trên tổng tài sản của anh/chị là bao nhiêu? (tổng tài sản bao gồm: tiền mặt và các loại hình đầu tư khác) '
+  #   buttons:
+  #   - title: a. Trên 50%
+  #     payload: '/choose_q1{"question1": "question1_1"}'
+  #   - title: b. 25-<50%
+  #     payload: '/choose_q1{"question1": "question1_2"}'
+  #   - title: c. 10–<25%
+  #     payload: '/choose_q1{"question1": "question1_3"}'
+  #   - title: d. 0–<10%
+  #     payload: '/choose_q1{"question1": "question1_4"}'
+  # utter_ask_question2:
+  # - text: Giá trị ròng tài khoản chứng khoán chiếm bao nhiêu % tổng tài sản?
+  #   buttons:
+  #   - title: a. Trên 50%
+  #     payload: '/choose_q2{"question2": "question2_1"}'
+  #   - title: b. 25-<50%
+  #     payload: '/choose_q2{"question2": "question2_2"}'
+  #   - title: c. 10–<25%
+  #     payload: '/choose_q2{"question2": "question2_3"}'
+  #   - title: d. 0 – <10%
+  #     payload: '/choose_q2{"question2": "question2_4"}'
   utter_form_paused:
   - text: Không sao cả! Thông tin của bạn đã được lưu. Khi nào sẵn sàng, hãy nói 'I am ready' nhé!
   utter_form_resumed:

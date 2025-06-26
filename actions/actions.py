@@ -350,31 +350,31 @@ class ActionCustomFormSubmit(Action):
                 SlotSet("question2", None),
                 SlotSet("form_paused", False),
             ]
-class ActionHandleReadyToContinue(Action):
-    def name(self) -> Text:
-        return "action_handle_ready_to_continue"
-    
-    def run(
-        self, 
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any]
-    ) -> List[Dict[Text, Any]]:
-        """Xử lý khi người dùng sẵn sàng tiếp tục"""
+    class ActionHandleReadyToContinue(Action):
+        def name(self) -> Text:
+            return "action_handle_ready_to_continue"
         
-        # Kiểm tra xem có phải form đang tạm dừng không
-        form_paused = tracker.get_slot("form_paused")
-        
-        if form_paused:
-            dispatcher.utter_message(response="utter_form_resumed")
-            return [
-                SlotSet("ready", True),
-                SlotSet("form_paused", False),
-                FollowupAction("form_survey_typebot")
-            ]
-        else:
-            dispatcher.utter_message(text="Bạn chưa bắt đầu khảo sát nào cả!")
-            return []
+        def run(
+            self, 
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]
+        ) -> List[Dict[Text, Any]]:
+            """Xử lý khi người dùng sẵn sàng tiếp tục"""
+            
+            # Kiểm tra xem có phải form đang tạm dừng không
+            form_paused = tracker.get_slot("form_paused")
+            
+            if form_paused is True:
+                dispatcher.utter_message(response="utter_form_resumed")
+                return [
+                    SlotSet("ready", True),
+                    SlotSet("form_paused", False),
+                    FollowupAction("form_survey_typebot")
+                ]
+            else:
+                dispatcher.utter_message(text="Bạn chưa bắt đầu khảo sát nào cả!")
+                return []
 class ActionFormPaused(Action):
     def name(self) -> Text:
         return "action_form_paused"
@@ -386,3 +386,60 @@ class ActionFormPaused(Action):
     ) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(response="utter_form_paused")
         return []
+    
+class ActionAskQuestion1(Action):
+    def name(self) -> Text:
+        return "action_ask_question1"
+
+    def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[Dict[Text, Any]]:
+        buttons = [
+            {"title": "a. Trên 50%", "payload": '/choose_q1{"question1": "question1_1"}'},
+            {"title": "b. 25-<50%", "payload": '/choose_q1{"question1": "question1_2"}'},
+            {"title": "c. 10–<25%", "payload": '/choose_q1{"question1": "question1_3"}'},
+            {"title": "d. 0–<10%", "payload": '/choose_q1{"question1": "question1_4"}'},
+        ]
+        dispatcher.utter_message(
+            text="Tỷ lệ nợ trên tổng tài sản của anh/chị là bao nhiêu? (Tổng tài sản bao gồm: tiền mặt và các loại hình đầu tư khác)",
+            buttons=buttons,
+        )
+        return []
+class ActionAskQuestion2(Action):
+    def name(self) -> Text:
+        return "action_ask_question2"
+
+    def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[Dict[Text, Any]]:
+        buttons = [
+            {"title": "a. Trên 50%", "payload": '/choose_q2{"question2": "question2_1"}'},
+            {"title": "b. 25-<50%", "payload": '/choose_q2{"question2": "question2_2"}'},
+            {"title": "c. 10–<25%", "payload": '/choose_q2{"question2": "question2_3"}'},
+            {"title": "d. 0 – <10%", "payload": '/choose_q2{"question2": "question2_4"}'},
+        ]
+        dispatcher.utter_message(
+            text="Giá trị ròng tài khoản chứng khoán chiếm bao nhiêu % tổng tài sản?",
+            buttons=buttons,
+        )
+        return []
+class ActionAskReady(Action):
+    def name(self) -> Text:
+        return "action_ask_ready"
+
+    def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[Dict[Text, Any]]:
+        buttons = [
+            {"title": "Bắt đầu", "payload": '/affirm{"ready": "true"}'},
+            {"title": "Chưa sẵn sàng", "payload": '/deny{"ready": "false"}'},
+        ]
+        dispatcher.utter_message(
+            text=(
+                "Để có thể tư vấn bạn tốt hơn, vui lòng trả lời một số câu hỏi sau đây.\n"
+                "Sẵn sàng chưa nào?"
+            ),
+            buttons=buttons,
+        )
+        return []
+
