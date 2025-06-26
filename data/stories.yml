@@ -27,3 +27,55 @@ stories:
   - slot_was_set:
     - confirm_inf: /affirm
   - action: action_process_stock_order
+
+- story: Chọn khảo sát service
+  steps:
+    - intent: choose_survey
+    - action: feedback_form
+    - active_loop: feedback_form
+    - slot_was_set:
+        - requested_slot: survey_type
+    - slot_was_set:
+        - survey_type: service
+    - slot_was_set:
+        - requested_slot: service_target
+    - slot_was_set:
+        - service_target: customer support
+    - slot_was_set:
+        - requested_slot: service_rating
+    - slot_was_set:
+        - service_rating: 5
+    - slot_was_set:
+        - requested_slot: service_location
+    - slot_was_set:
+        - service_location: Ha Noi
+    - slot_was_set:
+        - requested_slot: null
+    - active_loop: null
+    - action: utter_thanks
+
+- story: Chọn khảo sát product
+  steps:
+    - intent: choose_survey
+    - action: feedback_form
+    - active_loop: feedback_form
+    - slot_was_set:
+        - requested_slot: survey_type
+    - slot_was_set:
+        - survey_type: product
+    - slot_was_set:
+        - requested_slot: product_target
+    - slot_was_set:
+        - product_target: new product
+    - slot_was_set:
+        - requested_slot: product_feedback
+    - slot_was_set:
+        - product_feedback: good
+    - slot_was_set:
+        - requested_slot: product_location
+    - slot_was_set:
+        - product_location: HCM
+    - slot_was_set:
+        - requested_slot: null
+    - active_loop: null
+    - action: utter_thanks

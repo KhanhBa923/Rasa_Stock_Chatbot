@@ -132,3 +132,85 @@ class AskConfirmAction(Action):
             ],
         )
         return []
+    
+class ActionAskSurveyType(Action):
+    def name(self) -> Text:
+        return "action_ask_survey_type"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        buttons = [
+            {"title": "Đánh giá dịch vụ", "payload": "service"},
+            {"title": "Phản hồi sản phẩm", "payload": "product"}
+        ]
+
+        dispatcher.utter_message(text="Bạn muốn làm khảo sát nào?", buttons=buttons)
+        return []
+    
+class ValidateFBForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_feedback_form"
+    def validate_survey_type(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict
+    ) -> Dict[Text, Any]:
+        valid_types = ["service", "product"]
+        if slot_value in valid_types:
+            return {"survey_type": slot_value}
+        else:
+            dispatcher.utter_message(text=f"⚠️ Bạn vừa nhập '{slot_value}' không hợp lệ. Vui lòng chọn lại.")
+            return {"survey_type": None}
+        
+    async def required_slots(
+        self,
+        domain_slots: List[Text],       # Danh sách slot mặc định trong domain.yml
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict
+    ) -> List[Text]:
+        survey_type = tracker.get_slot("survey_type")
+        service_rating = tracker.get_slot("service_rating")
+        product_feedback = tracker.get_slot("product_feedback")
+        
+        # Debug: In ra giá trị survey_type để kiểm tra
+        print(f"DEBUG: survey_type = '{survey_type}'")
+        print(f"DEBUG: domain_slots = {domain_slots}")
+        
+        required = domain_slots.copy()
+        
+        if survey_type == "product":
+            # Bỏ các slot không liên quan đến product
+            slots_to_remove = ["service_target", "service_rating","service_location"]
+            for s in slots_to_remove:
+                if s in required:
+                    required.remove(s)
+                    print(f"DEBUG: Removed {s} for product survey")
+        
+        elif survey_type == "service":
+            # Bỏ các slot không liên quan đến service
+            slots_to_remove = ["product_target", "product_feedback", "product_location"]
+            for s in slots_to_remove:
+                if s in required:
+                    required.remove(s)
+                    print(f"DEBUG: Removed {s} for service survey")
+        
+        else:
+            print(f"DEBUG: survey_type is not 'product' or 'service', it's: '{survey_type}'")
+
+        if service_rating is not None:
+            rating_value = float(service_rating)
+            if rating_value < 3:
+                required.remove("service_location")
+                print("DEBUG: Removed service_location due to low service_rating")
+        if product_feedback is not None:
+            if product_feedback !="good" and product_feedback !="excellent":
+                required.remove("product_location")
+                print("DEBUG: Removed product_location due to bad product_feedback")
+        
+        print(f"DEBUG: Final required slots = {required}")
+        return required

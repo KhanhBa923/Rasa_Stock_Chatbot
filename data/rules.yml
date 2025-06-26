@@ -27,3 +27,18 @@ rules:
     - slot_was_set:
       - requested_slot: null 
     - action: action_process_stock_order
+
+- rule: Activate Feedback forms
+  steps:
+    - intent: choose_survey
+    - action: feedback_form
+    - active_loop: feedback_form
+- rule: Submit Feedback forms
+  condition:
+    - active_loop: feedback_form
+  steps:
+    - action: feedback_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: utter_thanks

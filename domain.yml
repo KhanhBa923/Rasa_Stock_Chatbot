@@ -9,11 +9,21 @@ intents:
   - mood_unhappy
   - bot_challenge
   - stock_trading
-
+  - choose_survey
+  - give_feedback
 entities:
   - stock_symbol
   - action
   - quantity
+
+
+  - survey_type
+  - service_target
+  - product_target
+  - service_rating
+  - product_feedback
+  - service_location
+  - product_location
 
 slots:
   stock_symbol:
@@ -49,6 +59,71 @@ slots:
       value: false
       intent: deny
 
+
+
+
+  survey_type:
+    type: categorical
+    values:
+      - service
+      - product
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: survey_type
+  service_target:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: service_target
+        condition:
+          - type: slot
+            name: survey_type
+            value: service
+  product_target:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: product_target
+        condition:
+          - type: slot
+            name: survey_type
+            value: product
+  service_rating:
+    type: float
+    mappings:
+      - type: from_entity
+        entity: service_rating
+        condition:
+          - type: slot
+            name: survey_type
+            value: service
+  product_feedback:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: product_feedback
+        condition:
+          - type: slot
+            name: survey_type
+            value: product
+  service_location:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: service_location
+  product_location:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: product_location
+        condition:
+          - type: slot
+            name: product_feedback
+            value: good
+
+
+
 forms:
   stock_trading_form:
     required_slots:
@@ -56,12 +131,23 @@ forms:
     - stock_symbol
     - quantity
     - confirm_inf
-
+  
+  feedback_form:
+    required_slots:
+    - survey_type
+    - service_target
+    - service_rating
+    - service_location
+    - product_target
+    - product_feedback
+    - product_location
 actions:
   - action_process_stock_order
   - action_ask_confirm_inf
   - validate_stock_trading_form
   - action_ask_action
+  - validate_feedback_form
+  - action_ask_survey_type
 responses:
   utter_greet:
   - text: "Hey! How are you?"
@@ -91,7 +177,25 @@ responses:
   utter_ask_stock_symbol:
     - text: "Bạn muốn {action} mã chứng khoán nào?"
 
-  
+  utter_ask_service_rating:
+    - text: "Bạn đánh giá dịch vụ của chúng tôi thế nào (1-5)?"
+
+  utter_ask_product_feedback:
+    - text: "Bạn có nhận xét gì về sản phẩm không?"
+
+  utter_thanks:
+    - text: "Cảm ơn bạn đã phản hồi!"
+
+  utter_ask_service_target:
+    - text: "Bạn muốn đánh giá dịch vụ nào?"
+
+  utter_ask_product_target:
+    - text: "Bạn muốn phản hồi về sản phẩm nào?"
+  utter_ask_service_location:
+    - text: "Bạn đã sử dụng dịch vụ ở đâu?"
+  utter_ask_product_location:
+    - text: "Bạn đã mua sản phẩm ở đâu?"
+
 
 session_config:
   session_expiration_time: 60
