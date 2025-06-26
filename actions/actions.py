@@ -379,7 +379,7 @@ class ActionFormPaused(Action):
     def name(self) -> Text:
         return "action_form_paused"
     
-    def run(        self, 
+    def run(self, 
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any]

@@ -16,6 +16,9 @@ intents:
 - start_survey
 - stock_trading
 - stop_form
+
+########################################################### Entities ###########################################################
+
 entities:
 - question2
 - seniority
@@ -33,6 +36,9 @@ entities:
 - product_feedback
 - service_location
 - product_location
+
+########################################################### Slot ###########################################################
+
 slots:
   stock_symbol:
     type: text
@@ -164,6 +170,9 @@ slots:
     initial_value: false
     mappings:
     - type: custom
+
+############################################################# Forms ###########################################################
+
 forms:
   stock_trading_form:
     required_slots:
@@ -188,6 +197,9 @@ forms:
     - ready
     - question1
     - question2
+
+############################################################## Actions ###########################################################
+
 actions:
 - action_handle_ready_to_continue
 - action_submit_form_survey_typebot
@@ -200,6 +212,9 @@ actions:
 - action_thanks
 - validate_form_survey_typebot
 - action_form_paused
+
+############################################################### Responses ###########################################################
+
 responses:
   utter_greet:
   - text: Hey! How are you?
