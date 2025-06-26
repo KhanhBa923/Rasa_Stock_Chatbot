@@ -1,31 +1,38 @@
-version: "3.1"
-
+version: '3.1'
 intents:
-  - greet
-  - goodbye
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
-  - stock_trading
-  - choose_survey
-  - give_feedback
-  - stop_form
+- affirm
+- bot_challenge
+- choose_q1
+- choose_q2
+- choose_survey
+- deny
+- give_feedback
+- goodbye
+- greet
+- inform
+- mood_great
+- mood_unhappy
+- ready_to_continue
+- start_survey
+- stock_trading
+- stop_form
 entities:
-  - stock_symbol
-  - action
-  - quantity
-
-
-  - survey_type
-  - service_target
-  - product_target
-  - service_rating
-  - product_feedback
-  - service_location
-  - product_location
-
+- question2
+- seniority
+- industry
+- ready
+- question1
+- budget
+- stock_symbol
+- action
+- quantity
+- survey_type
+- service_target
+- product_target
+- service_rating
+- product_feedback
+- service_location
+- product_location
 slots:
   stock_symbol:
     type: text
@@ -33,24 +40,21 @@ slots:
     mappings:
     - type: from_entity
       entity: stock_symbol
-
   action:
     type: categorical
     values:
-      - mua
-      - bán
+    - mua
+    - bán
     influence_conversation: true
     mappings:
     - type: from_entity
       entity: action
-  
   quantity:
     type: float
     mappings:
-      - type: from_entity
-        entity: quantity
-
-  confirm_inf: 
+    - type: from_entity
+      entity: quantity
+  confirm_inf:
     type: bool
     mappings:
     - type: from_intent
@@ -59,72 +63,107 @@ slots:
     - type: from_intent
       value: false
       intent: deny
-
-
-
-
   survey_type:
     type: categorical
     values:
-      - service
-      - product
+    - service
+    - product
     influence_conversation: true
     mappings:
-      - type: from_entity
-        entity: survey_type
+    - type: from_entity
+      entity: survey_type
   service_target:
     type: text
     mappings:
-      - type: from_entity
-        entity: service_target
-        condition:
-          - type: slot
-            name: survey_type
-            value: service
+    - type: from_entity
+      entity: service_target
+      condition:
+      - type: slot
+        name: survey_type
+        value: service
   product_target:
     type: text
     mappings:
-      - type: from_entity
-        entity: product_target
-        condition:
-          - type: slot
-            name: survey_type
-            value: product
+    - type: from_entity
+      entity: product_target
+      condition:
+      - type: slot
+        name: survey_type
+        value: product
   service_rating:
     type: float
     mappings:
-      - type: from_entity
-        entity: service_rating
-        condition:
-          - type: slot
-            name: survey_type
-            value: service
+    - type: from_entity
+      entity: service_rating
+      condition:
+      - type: slot
+        name: survey_type
+        value: service
   product_feedback:
     type: text
     mappings:
-      - type: from_entity
-        entity: product_feedback
-        condition:
-          - type: slot
-            name: survey_type
-            value: product
+    - type: from_entity
+      entity: product_feedback
+      condition:
+      - type: slot
+        name: survey_type
+        value: product
   service_location:
     type: text
     mappings:
-      - type: from_entity
-        entity: service_location
+    - type: from_entity
+      entity: service_location
   product_location:
     type: text
     mappings:
-      - type: from_entity
-        entity: product_location
-        condition:
-          - type: slot
-            name: product_feedback
-            value: good
-
-
-
+    - type: from_entity
+      entity: product_location
+      condition:
+      - type: slot
+        name: product_feedback
+        value: good
+  industry:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: industry
+  seniority:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: seniority
+  budget:
+    type: float
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: budget
+  ready:
+    type: bool
+    mappings:
+    - type: from_intent
+      intent: affirm
+      value: true
+    - type: from_intent
+      intent: deny
+      value: false
+  question1:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question1
+  question2:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question2
+  form_paused:
+    type: bool
+    initial_value: false
+    mappings:
+    - type: custom
 forms:
   stock_trading_form:
     required_slots:
@@ -132,7 +171,6 @@ forms:
     - stock_symbol
     - quantity
     - confirm_inf
-  
   feedback_form:
     required_slots:
     - survey_type
@@ -142,63 +180,120 @@ forms:
     - product_target
     - product_feedback
     - product_location
+  form_survey_typebot:
+    required_slots:
+    - industry
+    - seniority
+    - budget
+    - ready
+    - question1
+    - question2
 actions:
-  - action_process_stock_order
-  - action_ask_confirm_inf
-  - validate_stock_trading_form
-  - action_ask_action
-  - validate_feedback_form
-  - action_ask_survey_type
-  - action_thanks
+- action_handle_ready_to_continue
+- action_submit_form_survey_typebot
+- action_process_stock_order
+- action_ask_confirm_inf
+- validate_stock_trading_form
+- action_ask_action
+- validate_feedback_form
+- action_ask_survey_type
+- action_thanks
+- validate_form_survey_typebot
+- action_form_paused
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
-
+  - text: Hey! How are you?
   utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
+  - text: 'Here is something to cheer you up:'
+    image: https://i.imgur.com/nGF1K8f.jpg
   utter_did_that_help:
-  - text: "Did that help you?"
-
+  - text: Did that help you?
   utter_happy:
-  - text: "Great, carry on!"
-
+  - text: Great, carry on!
   utter_goodbye:
-  - text: "Bye"
-
+  - text: Bye
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
-
+  - text: I am a bot, powered by Rasa.
   utter_confirm_stock_order:
-    - text: "Xác nhận lệnh: {action} {quantity} cổ phiếu {stock_symbol}. Bạn có muốn thực hiện không?"
-  
+  - text: 'Xác nhận lệnh: {action} {quantity} cổ phiếu {stock_symbol}. Bạn có muốn thực hiện không?'
   utter_ask_quantity:
-    - text: "Bạn muốn {action} bao nhiêu cổ phiếu {stock_symbol}?"
-  
+  - text: Bạn muốn {action} bao nhiêu cổ phiếu {stock_symbol}?
   utter_ask_stock_symbol:
-    - text: "Bạn muốn {action} mã chứng khoán nào?"
-
+  - text: Bạn muốn {action} mã chứng khoán nào?
   utter_ask_service_rating:
-    - text: "Bạn đánh giá dịch vụ của chúng tôi thế nào (1-5)?"
-
+  - text: Bạn đánh giá dịch vụ của chúng tôi thế nào (1-5)?
   utter_ask_product_feedback:
-    - text: "Bạn có nhận xét gì về sản phẩm không?"
-
+  - text: Bạn có nhận xét gì về sản phẩm không?
   utter_thanks:
-    - text: "Cảm ơn bạn đã phản hồi!"
-
+  - text: Cảm ơn bạn đã phản hồi!
   utter_ask_service_target:
-    - text: "Bạn muốn đánh giá dịch vụ nào?"
-
+  - text: Bạn muốn đánh giá dịch vụ nào?
   utter_ask_product_target:
-    - text: "Bạn muốn phản hồi về sản phẩm nào?"
+  - text: Bạn muốn phản hồi về sản phẩm nào?
   utter_ask_service_location:
-    - text: "Bạn đã sử dụng dịch vụ ở đâu?"
+  - text: Bạn đã sử dụng dịch vụ ở đâu?
   utter_ask_product_location:
-    - text: "Bạn đã mua sản phẩm ở đâu?"
-
-
+  - text: Bạn đã mua sản phẩm ở đâu?
+  utter_ask_industry:
+  - text: |-
+      Xin chào đến với sản phẩm TVĐT của FPTS. 
+      Vui lòng cung cấp 1 số thông tin sau. 
+      Lĩnh vực, ngành nghề công tác ... của bạn là gì?
+  utter_ask_seniority:
+  - text: 'Thâm niên của bạn:'
+  utter_ask_budget:
+  - text: Ngân sách của bạn dành cho hoạt động đầu tư chứng khoán của bạn khoảng bao nhiêu?
+  utter_ask_ready:
+  - text: |-
+      Để có thể tư vấn bạn tốt hơn, vui lòng trả lời 1 số câu hỏi sau đây. 
+      Sẵn sàng chưa nào?
+    buttons:
+    - title: Bắt đầu
+      payload: '/affirm{"ready": "true"}'
+    - title: Chưa sẵn sàng
+      payload: '/deny{"ready": "false"}'
+  utter_ask_question1:
+  - text: 'Tỷ lệ nợ trên tổng tài sản của anh/chị là bao nhiêu? (tổng tài sản bao gồm: tiền mặt và các loại hình đầu tư khác) '
+    buttons:
+    - title: a. Trên 50%
+      payload: '/choose_q1{"question1": "question1_1"}'
+    - title: b. 25-<50%
+      payload: '/choose_q1{"question1": "question1_2"}'
+    - title: c. 10–<25%
+      payload: '/choose_q1{"question1": "question1_3"}'
+    - title: d. 0–<10%
+      payload: '/choose_q1{"question1": "question1_4"}'
+  utter_ask_question2:
+  - text: Giá trị ròng tài khoản chứng khoán chiếm bao nhiêu % tổng tài sản?
+    buttons:
+    - title: a. Trên 50%
+      payload: '/choose_q2{"question2": "question2_1"}'
+    - title: b. 25-<50%
+      payload: '/choose_q2{"question2": "question2_2"}'
+    - title: c. 10–<25%
+      payload: '/choose_q2{"question2": "question2_3"}'
+    - title: d. 0 – <10%
+      payload: '/choose_q2{"question2": "question2_4"}'
+  utter_form_paused:
+  - text: Không sao cả! Thông tin của bạn đã được lưu. Khi nào sẵn sàng, hãy nói 'I am ready' nhé!
+  utter_form_resumed:
+  - text: Tuyệt vời! Chúng ta tiếp tục với các câu hỏi còn lại nhé.
+  utter_confirm_q1_1:
+  - text: 'Bạn đã chọn: a. Trên 50%'  # thay bằng câu trả lời của mình
+  utter_confirm_q1_2:
+  - text: 'Bạn đã chọn: b. 25-<50%'
+  utter_confirm_q1_3:
+  - text: 'Bạn đã chọn: c. 10–<25%'
+  utter_confirm_q1_4:
+  - text: 'Bạn đã chọn: d. 0–<10%'
+  utter_confirm_q2_1:
+  - text: 'Bạn đã chọn: a. Trên 50%'
+  utter_confirm_q2_2:
+  - text: 'Bạn đã chọn: b. 25-<50%'
+  utter_confirm_q2_3:
+  - text: 'Bạn đã chọn: c. 10–<25%'
+  utter_confirm_q2_4:
+  - text: 'Bạn đã chọn: d. 0–<10%'
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

@@ -55,3 +55,49 @@ rules:
     - slot_was_set:
       - requested_slot: null
     - action: action_thanks
+
+
+- rule: activate survey form
+  steps:
+  - intent: start_survey
+  - action: form_survey_typebot
+  - active_loop: form_survey_typebot
+
+- rule: submit form
+  condition:
+  - active_loop: form_survey_typebot
+  steps:
+  - action: form_survey_typebot
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_submit_form_survey_typebot
+
+- rule: handle ready to continue
+  steps:
+  - intent: ready_to_continue
+  - action: action_handle_ready_to_continue
+  - action: form_survey_typebot
+  - active_loop: form_survey_typebot
+
+# - rule: stop form
+#   condition:
+#   - active_loop: form_survey_typebot
+#   steps:
+#   - action: form_survey_typebot
+#   - intent: stop_form
+#   - action: action_deactivate_loop
+#   - active_loop: null
+#   - slot_was_set:
+#     - requested_slot: null
+#   - action: utter_form_paused
+
+- rule: handle form interruption
+  condition:
+  - active_loop: form_survey_typebot
+  - slot_was_set:
+    - ready: false
+  steps:
+  - action: form_survey_typebot
+  - active_loop: null
+  - action: action_form_paused

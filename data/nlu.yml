@@ -1,5 +1,4 @@
 version: "3.1"
-
 nlu:
 - intent: greet
   examples: |
@@ -16,7 +15,6 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
-
 - intent: goodbye
   examples: |
     - cu
@@ -29,7 +27,6 @@ nlu:
     - see you around
     - bye bye
     - see you later
-
 - intent: affirm
   examples: |
     - yes
@@ -38,7 +35,6 @@ nlu:
     - of course
     - that sounds good
     - correct
-
 - intent: deny
   examples: |
     - no
@@ -48,7 +44,6 @@ nlu:
     - don't like that
     - no way
     - not really
-
 - intent: mood_great
   examples: |
     - perfect
@@ -65,7 +60,6 @@ nlu:
     - so so perfect
     - so good
     - so perfect
-
 - intent: mood_unhappy
   examples: |
     - my day was horrible
@@ -82,14 +76,12 @@ nlu:
     - extremly sad
     - so saad
     - so sad
-
 - intent: bot_challenge
   examples: |
     - are you a bot?
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
-
 - intent: choose_survey
   examples: |
     - Tôi muốn đánh giá dịch vụ
@@ -110,7 +102,6 @@ nlu:
     - [HCM](product_location)
     - [HCM](service_location)
     - [Ha Noi](product_location)
-
 - intent: give_feedback
   examples: |
     - Dịch vụ rất tốt
@@ -122,5 +113,40 @@ nlu:
     - không muốn trả lời nữa
     - thôi không làm nữa
     - không muốn trả lời khảo sát
-    - không muốn trả lời nữa
     - stop
+- intent: start_survey
+  examples: |
+    - bắt đầu khảo sát
+    - khảo sát
+    - survey
+    - start survey
+- intent: ready_to_continue
+  examples: |
+    - I am ready
+    - tôi sẵn sàng
+    - ready now
+    - sẵn sàng rồi
+    - tiếp tục
+    - continue
+- intent: inform
+  examples: |
+    - [technology](industry)
+    - [healthcare](industry)
+    - [senior](seniority)
+    - [junior](seniority)
+    - Ngân sách tôi có là [10000](budget)
+    - Tôi chỉ có khoảng [5000](budget)
+    - [techonology](industry)
+    - [senior](seniority)
+    - Ngân sách tôi là [10000](budget)
+    - Ngân sách là [55000](budget)
+- intent: choose_q1
+  examples: |
+    - Tôi chọn câu số [question1_1](question1)
+    - Tôi muốn chọn phương án [question1_2](question1)
+    - Chọn đáp án [question1_3](question1)
+- intent: choose_q2
+  examples: |
+    - Tôi chọn câu trả lời là [question2_1](question2)
+    - Đáp án của tôi là [question2_2](question2)
+    - Chọn số [question2_3](question2)

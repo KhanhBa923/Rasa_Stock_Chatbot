@@ -4,7 +4,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormValidationAction
 from rasa_sdk.types import DomainDict
 from rasa_sdk.events import EventType
-from rasa_sdk.events import SlotSet
+from rasa_sdk.events import SlotSet,FollowupAction
 
 
 import os
@@ -242,3 +242,147 @@ class ActionThanks(Action):
             SlotSet("service_location", None),
             SlotSet("product_location", None)
         ]
+class ValidateFormSurveyTypebot(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_form_survey_typebot"
+    
+    def validate_ready(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Xử lý khi người dùng từ chối tiếp tục"""
+        if slot_value is False:
+            # Tạm dừng form và lưu trạng thái
+            dispatcher.utter_message(response="utter_form_paused")
+            return {
+                "ready": None,  # Reset slot ready
+                "form_paused": True,  # Đánh dấu form đã tạm dừng
+                "requested_slot": None  # Dừng form
+            }
+        return {"ready": slot_value}
+    def validate_question1(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Hiển thị lại câu trả lời question1"""
+        if slot_value and slot_value.startswith("question1_"):
+            option_number = slot_value.replace("question1_", "")
+            response_key = f"utter_confirm_q1_{option_number}"
+
+            if response_key in domain.get("responses", {}):
+                dispatcher.utter_message(response=response_key)
+            else:
+                dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
+
+            return {"question1": slot_value}
+
+        # Trường hợp slot_value không đúng định dạng
+        dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
+        return {"question1": None}
+    
+    def validate_question2(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Hiển thị lại câu trả lời question2"""
+        if slot_value and slot_value.startswith("question2_"):
+            option_number = slot_value.replace("question2_", "")
+            response_key = f"utter_confirm_q2_{option_number}"
+
+            if response_key in domain.get("responses", {}):
+                dispatcher.utter_message(response=response_key)
+            else:
+                dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
+
+            return {"question2": slot_value}
+
+        # Trường hợp slot_value không đúng định dạng
+        dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
+        return {"question2": None}
+    
+class ActionCustomFormSubmit(Action):
+    def name(self) -> Text:
+        return "action_submit_form_survey_typebot"
+    
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+        """Xử lý khi form hoàn thành"""
+        
+        # Lấy tất cả thông tin đã thu thập
+        industry = tracker.get_slot("industry")
+        seniority = tracker.get_slot("seniority")
+        budget = tracker.get_slot("budget")
+        question1 = tracker.get_slot("question1")
+        question2 = tracker.get_slot("question2")
+        ready= tracker.get_slot("ready")
+
+        if(ready is None or ready is False):
+            return []
+        else:
+            dispatcher.utter_message(
+            text=f"Cảm ơn bạn đã hoàn thành khảo sát!\n"
+                f"Lĩnh vực: {industry}\n"
+                f"Vị trí: {seniority}\n"
+                f"Ngân sách: {budget}\n"
+                f"Câu trả lời 1: {question1}\n"
+                f"Câu trả lời 2: {question2}"
+            )
+            
+            return [
+                SlotSet("industry", None),
+                SlotSet("seniority", None),
+                SlotSet("budget", None),
+                SlotSet("ready", None),
+                SlotSet("question1", None),
+                SlotSet("question2", None),
+                SlotSet("form_paused", False),
+            ]
+class ActionHandleReadyToContinue(Action):
+    def name(self) -> Text:
+        return "action_handle_ready_to_continue"
+    
+    def run(
+        self, 
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+        """Xử lý khi người dùng sẵn sàng tiếp tục"""
+        
+        # Kiểm tra xem có phải form đang tạm dừng không
+        form_paused = tracker.get_slot("form_paused")
+        
+        if form_paused:
+            dispatcher.utter_message(response="utter_form_resumed")
+            return [
+                SlotSet("ready", True),
+                SlotSet("form_paused", False),
+                FollowupAction("form_survey_typebot")
+            ]
+        else:
+            dispatcher.utter_message(text="Bạn chưa bắt đầu khảo sát nào cả!")
+            return []
+class ActionFormPaused(Action):
+    def name(self) -> Text:
+        return "action_form_paused"
+    
+    def run(        self, 
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+        dispatcher.utter_message(response="utter_form_paused")
+        return []
