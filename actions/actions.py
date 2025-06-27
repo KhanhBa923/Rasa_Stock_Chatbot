@@ -394,14 +394,17 @@ class ActionAskQuestion1(Action):
     def run(
         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
     ) -> List[Dict[Text, Any]]:
+        response_data = domain["responses"]["utter_res_question1"][0]  # [0] vì responses là list
+        domain_buttons = response_data["buttons"]
         buttons = [
-            {"title": "a. Trên 50%", "payload": '/choose_q1{"question1": "question1_1"}'},
-            {"title": "b. 25-<50%", "payload": '/choose_q1{"question1": "question1_2"}'},
-            {"title": "c. 10–<25%", "payload": '/choose_q1{"question1": "question1_3"}'},
-            {"title": "d. 0–<10%", "payload": '/choose_q1{"question1": "question1_4"}'},
+            {"title": domain_buttons[0]["title"], "payload": '/choose_q1{"question1": "question1_1"}'},
+            {"title": domain_buttons[1]["title"], "payload": '/choose_q1{"question1": "question1_2"}'},
+            {"title": domain_buttons[2]["title"], "payload": '/choose_q1{"question1": "question1_3"}'},
+            {"title": domain_buttons[3]["title"], "payload": '/choose_q1{"question1": "question1_4"}'},
         ]
+        
         dispatcher.utter_message(
-            text="Tỷ lệ nợ trên tổng tài sản của anh/chị là bao nhiêu? (Tổng tài sản bao gồm: tiền mặt và các loại hình đầu tư khác)",
+            response="utter_ask_question1",
             buttons=buttons,
         )
         return []

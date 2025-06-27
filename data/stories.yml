@@ -80,72 +80,30 @@ stories:
     - active_loop: null
     - action: action_thanks
 
-- story: complete survey flow
-  steps:
-  - intent: start_survey
-  - action: form_survey_typebot
-  - active_loop: form_survey_typebot
-  - slot_was_set:
-    - requested_slot: industry
-  - slot_was_set:
-    - industry: technology
-  - slot_was_set:
-    - requested_slot: seniority
-  - slot_was_set:
-    - seniority: senior
-  - slot_was_set:
-    - requested_slot: budget
-  - slot_was_set:
-    - budget: 10000
-  - slot_was_set:
-    - requested_slot: ready
-  - slot_was_set:
-    - ready: true
-  - slot_was_set:
-    - requested_slot: question1
-  - slot_was_set:
-    - question1: question1_1
-  - slot_was_set:
-    - requested_slot: question2
-  - slot_was_set:
-    - question2: question2_1
-  - slot_was_set:
-    - requested_slot: null
-  - active_loop: null
-  - action: action_submit_form_survey_typebot
 
-- story: user declines to continue
-  steps:
-  - intent: start_survey
-  - action: form_survey_typebot
-  - active_loop: form_survey_typebot
-  - slot_was_set:
-    - requested_slot: industry
-  - slot_was_set:
-    - industry: technology
-  - slot_was_set:
-    - requested_slot: seniority
-  - slot_was_set:
-    - seniority: senior
-  - slot_was_set:
-    - requested_slot: budget
-  - slot_was_set:
-    - budget: 10000
-  - slot_was_set:
-    - requested_slot: ready
-  - slot_was_set:
-    - ready: false
-    - form_paused: true
-    - requested_slot: null 
-  - active_loop: null
-  - action: action_form_paused
 
-# - story: user ready to continue later
+
+# - story: complete survey flow
 #   steps:
-#   - intent: ready_to_continue
-#   - action: action_handle_ready_to_continue
+#   - intent: start_survey
 #   - action: form_survey_typebot
 #   - active_loop: form_survey_typebot
+#   - slot_was_set:
+#     - requested_slot: industry
+#   - slot_was_set:
+#     - industry: technology
+#   - slot_was_set:
+#     - requested_slot: seniority
+#   - slot_was_set:
+#     - seniority: senior
+#   - slot_was_set:
+#     - requested_slot: budget
+#   - slot_was_set:
+#     - budget: 10000
+#   - slot_was_set:
+#     - requested_slot: ready
+#   - slot_was_set:
+#     - ready: true
 #   - slot_was_set:
 #     - requested_slot: question1
 #   - slot_was_set:
@@ -159,197 +117,28 @@ stories:
 #   - active_loop: null
 #   - action: action_submit_form_survey_typebot
 
-# - story: interactive_story_1
+# - story: user declines to continue
 #   steps:
 #   - intent: start_survey
 #   - action: form_survey_typebot
 #   - active_loop: form_survey_typebot
 #   - slot_was_set:
 #     - requested_slot: industry
-#   - intent: inform
-#     entities:
-#     - industry: techonology
 #   - slot_was_set:
-#     - industry: techonology
-#   - action: form_survey_typebot
-#   - slot_was_set:
-#     - industry: techonology
+#     - industry: technology
 #   - slot_was_set:
 #     - requested_slot: seniority
-#   - intent: inform
-#     entities:
-#     - seniority: senior
-#   - slot_was_set:
-#     - seniority: senior
-#   - action: form_survey_typebot
 #   - slot_was_set:
 #     - seniority: senior
 #   - slot_was_set:
 #     - requested_slot: budget
-#   - intent: inform
-#     entities:
-#     - budget: '10000'
 #   - slot_was_set:
-#     - budget: '10000'
-#   - action: form_survey_typebot
-#   - slot_was_set:
-#     - budget: '10000'
+#     - budget: 10000
 #   - slot_was_set:
 #     - requested_slot: ready
-#   - intent: affirm
-#     entities:
-#     - ready: 'true'
-#   - slot_was_set:
-#     - confirm_inf: true
-#   - slot_was_set:
-#     - ready: true
-#   - action: form_survey_typebot
-#   - slot_was_set:
-#     - ready: true
-#   - slot_was_set:
-#     - requested_slot: question1
-#   - intent: choose_q1
-#     entities:
-#     - question1: question1_1
-#   - slot_was_set:
-#     - question1: question1_1
-#   - action: form_survey_typebot
-#   - slot_was_set:
-#     - question1: question1_1
-#   - slot_was_set:
-#     - requested_slot: question2
-#   - intent: choose_q2
-#     entities:
-#     - question2: question2_2
-#   - slot_was_set:
-#     - question2: question2_2
-#   - action: form_survey_typebot
-#   - slot_was_set:
-#     - question2: question2_2
-#   - slot_was_set:
-#     - requested_slot: null
-#   - active_loop: null
-#   - action: action_submit_form_survey_typebot
-#   - slot_was_set:
-#     - industry: null
-#   - slot_was_set:
-#     - seniority: null
-#   - slot_was_set:
-#     - budget: null
-#   - slot_was_set:
-#     - ready: null
-#   - slot_was_set:
-#     - question1: null
-#   - slot_was_set:
-#     - question2: null
-#   - slot_was_set:
-#     - form_paused: false
-
-# - story: interactive_story_2
-#   steps:
-#   - intent: start_survey
-#   - action: form_survey_typebot
-#   - active_loop: form_survey_typebot
-#   - slot_was_set:
-#     - requested_slot: industry
-#   - intent: inform
-#     entities:
-#     - industry: techonology
-#   - slot_was_set:
-#     - industry: techonology
-#   - action: form_survey_typebot
-#   - slot_was_set:
-#     - industry: techonology
-#   - slot_was_set:
-#     - requested_slot: seniority
-#   - intent: inform
-#     entities:
-#     - seniority: senior
-#   - slot_was_set:
-#     - seniority: senior
-#   - action: form_survey_typebot
-#   - slot_was_set:
-#     - seniority: senior
-#   - slot_was_set:
-#     - requested_slot: budget
-#   - intent: inform
-#     entities:
-#     - budget: '55000'
-#   - slot_was_set:
-#     - budget: '55000'
-#   - action: form_survey_typebot
-#   - slot_was_set:
-#     - budget: '55000'
-#   - slot_was_set:
-#     - requested_slot: ready
-#   - intent: deny
-#     entities:
-#     - ready: 'false'
-#   - slot_was_set:
-#     - confirm_inf: false
 #   - slot_was_set:
 #     - ready: false
-#   - action: form_survey_typebot
-#   - slot_was_set:
-#     - ready: null
-#   - slot_was_set:
 #     - form_paused: true
-#   - slot_was_set:
-#     - requested_slot: null
-#   - slot_was_set:
-#     - requested_slot: null
+#     - requested_slot: null 
 #   - active_loop: null
-#   - intent: ready_to_continue
-#   - action: action_handle_ready_to_continue
-#   - slot_was_set:
-#     - ready: true
-#   - slot_was_set:
-#     - form_paused: false
-#   - action: form_survey_typebot
-#   - active_loop: form_survey_typebot
-#   - slot_was_set:
-#     - industry: techonology
-#   - slot_was_set:
-#     - seniority: senior
-#   - slot_was_set:
-#     - budget: '55000'
-#   - slot_was_set:
-#     - ready: true
-#   - slot_was_set:
-#     - requested_slot: question1
-#   - intent: choose_q1
-#     entities:
-#     - question1: question1_2
-#   - slot_was_set:
-#     - question1: question1_2
-#   - action: form_survey_typebot
-#   - slot_was_set:
-#     - question1: question1_2
-#   - slot_was_set:
-#     - requested_slot: question2
-#   - intent: choose_q2
-#     entities:
-#     - question2: question2_1
-#   - slot_was_set:
-#     - question2: question2_1
-#   - action: form_survey_typebot
-#   - slot_was_set:
-#     - question2: question2_1
-#   - slot_was_set:
-#     - requested_slot: null
-#   - active_loop: null
-#   - action: action_submit_form_survey_typebot
-#   - slot_was_set:
-#     - industry: null
-#   - slot_was_set:
-#     - seniority: null
-#   - slot_was_set:
-#     - budget: null
-#   - slot_was_set:
-#     - ready: null
-#   - slot_was_set:
-#     - question1: null
-#   - slot_was_set:
-#     - question2: null
-#   - slot_was_set:
-#     - form_paused: false
+#   - action: action_form_paused

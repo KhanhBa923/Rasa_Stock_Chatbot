@@ -128,6 +128,8 @@ slots:
       - type: slot
         name: product_feedback
         value: good
+
+
   industry:
     type: text
     influence_conversation: true
@@ -261,41 +263,20 @@ responses:
   - text: 'Thâm niên của bạn:'
   utter_ask_budget:
   - text: Ngân sách của bạn dành cho hoạt động đầu tư chứng khoán của bạn khoảng bao nhiêu?
-  # utter_ask_ready:
-  # - text: |-
-  #     Để có thể tư vấn bạn tốt hơn, vui lòng trả lời 1 số câu hỏi sau đây. 
-  #     Sẵn sàng chưa nào?
-  #   buttons:
-  #   - title: Bắt đầu
-  #     payload: '/affirm{"ready": "true"}'
-  #   - title: Chưa sẵn sàng
-  #     payload: '/deny{"ready": "false"}'
-  # utter_ask_question1:
-  # - text: 'Tỷ lệ nợ trên tổng tài sản của anh/chị là bao nhiêu? (tổng tài sản bao gồm: tiền mặt và các loại hình đầu tư khác) '
-  #   buttons:
-  #   - title: a. Trên 50%
-  #     payload: '/choose_q1{"question1": "question1_1"}'
-  #   - title: b. 25-<50%
-  #     payload: '/choose_q1{"question1": "question1_2"}'
-  #   - title: c. 10–<25%
-  #     payload: '/choose_q1{"question1": "question1_3"}'
-  #   - title: d. 0–<10%
-  #     payload: '/choose_q1{"question1": "question1_4"}'
-  # utter_ask_question2:
-  # - text: Giá trị ròng tài khoản chứng khoán chiếm bao nhiêu % tổng tài sản?
-  #   buttons:
-  #   - title: a. Trên 50%
-  #     payload: '/choose_q2{"question2": "question2_1"}'
-  #   - title: b. 25-<50%
-  #     payload: '/choose_q2{"question2": "question2_2"}'
-  #   - title: c. 10–<25%
-  #     payload: '/choose_q2{"question2": "question2_3"}'
-  #   - title: d. 0 – <10%
-  #     payload: '/choose_q2{"question2": "question2_4"}'
   utter_form_paused:
   - text: Không sao cả! Thông tin của bạn đã được lưu. Khi nào sẵn sàng, hãy nói 'I am ready' nhé!
   utter_form_resumed:
   - text: Tuyệt vời! Chúng ta tiếp tục với các câu hỏi còn lại nhé.
+
+  utter_ask_question1:
+    - text: "Tỷ lệ nợ trên tổng tài sản của anh/chị là bao nhiêu? (Tổng tài sản bao gồm: tiền mặt và các loại hình đầu tư khác)"
+  utter_res_question1:
+    - text: ""
+      buttons:
+        - title: "a. Trên 50%"
+        - title: "b. 25-<50%"
+        - title: "c. 10–<25%"
+        - title: "d. 0–<10%"
   utter_confirm_q1_1:
   - text: 'Bạn đã chọn: a. Trên 50%'  # thay bằng câu trả lời của mình
   utter_confirm_q1_2:
@@ -304,14 +285,344 @@ responses:
   - text: 'Bạn đã chọn: c. 10–<25%'
   utter_confirm_q1_4:
   - text: 'Bạn đã chọn: d. 0–<10%'
-  utter_confirm_q2_1:
+  utter_ask_question3:
+  - text: "Giá trị ròng tài khoản chứng khoán chiếm bao nhiêu % tổng tài sản?"
+  utter_res_question3:
+  - text: ""
+    buttons:
+      - title: "a. Trên 50%"
+      - title: "b. 25-<50%"
+      - title: "c. 10–<25%"
+      - title: "d. 0–<10%"
+  utter_confirm_q3_1:
   - text: 'Bạn đã chọn: a. Trên 50%'
-  utter_confirm_q2_2:
+  utter_confirm_q3_2:
   - text: 'Bạn đã chọn: b. 25-<50%'
-  utter_confirm_q2_3:
+  utter_confirm_q3_3:
   - text: 'Bạn đã chọn: c. 10–<25%'
-  utter_confirm_q2_4:
+  utter_confirm_q3_4:
   - text: 'Bạn đã chọn: d. 0–<10%'
+  utter_ask_question4:
+  - text: "Ngân sách cho hoạt động đầu tư chứng khoán của anh/chị có ổn định không?"
+  utter_res_question4:
+  - text: ""
+    buttons:
+      - title: "a. Ổn định"
+      - title: "b. Không ổn định"
+      - title: "c. Tôi chưa rõ câu hỏi"
+  utter_confirm_q4_0:
+  - text: 'Nếu có những nhu cầu tài chính cần phải rút tiền từ tài khoản chứng khoán có nghĩa rằng ngân sách cho hoạt động đầu tư của anh/chị là không ổn định.'
+  utter_confirm_q4_1:
+  - text: 'Với tỷ lệ nợ/tổng tài sản trên 50%, khả năng để đảm bảo tính ổn định của nguồn vốn đầu tư chứng khoán có thể sẽ khó khăn và thiếu tính thực tế. Anh/chị có thể xem xét lại thời hạn trả lãi và gốc của các khoản nợ để xem xét tính ổn định của tài khoản chứng khoán.'
+  utter_confirm_q4_2:
+  - text: 'Anh/chị có thể theo đuổi các chiến lược đầu tư dài hạn và chấp nhận một mức rủi ro cao hơn so với trung bình.'
+  utter_confirm_q4_3:
+  - text: 'Ngân sách cho hoạt động đầu tư chứng khoán không ổn định có thể khiến anh/chị khó tuân thủ các chiến lược đầu tư hơn. Với tỷ trọng nợ vay lớn và giá trị tài sản ròng chứng khoán lớn, anh/chị có thể sẽ chỉ theo đuổi được các chiến lược trong ngắn hạn.'
+  utter_confirm_q4_4:
+  - text: 'Anh/chị có thể theo đuổi các chiến lược đầu tư có tính rủi ro cao hơn mức trung bình. Tuy nhiên vì tính ổn định cho ngân sách đầu tư chứng khoán không cao, anh/chị có thể cân nhắc việc phân bổ danh mục đầu tư một phần vào các chiến lược ngắn hạn.'
+  utter_ask_question5:
+  - text: "Anh/chị có biết rằng phần lớn nhà đầu tư cá nhân thua lỗ trong đầu tư chứng khoán?"
+  utter_res_question5:
+  - text: ""
+    buttons:
+      - title: "a. Có"
+      - title: "b. Không"
+  utter_confirm_q5_1:
+  - text: 'Khi đọc câu hỏi thì anh/chị đã biết điều này rồi. Anh/chị cho rằng không cần thiết phải cung cấp đủ thông tin để có dịch vụ tư vấn phù hợp?'
+  utter_ask_question6:
+  - text: "Theo anh/chị, làm thế nào để tránh được việc bị thua lỗ?"
+  utter_res_question6:
+  - text: ""
+    buttons:
+      - title: "a. Tham gia vào các nhóm tư vấn (zalo, telegram,...)"
+      - title: "b. Tham gia các khóa học để nâng cao kiến thức khi đầu tư"
+      - title: "c. Tìm kiếm dịch vụ tư vấn chuyên sâu tại công ty chứng khoán"
+      - title: "d. d. Tiếp tục đầu tư, rút kinh nghiệm từ những vấn đề thua lỗ trước đây"
+  utter_ask_question7:
+  - text: "Nếu gặp phải trường hợp khoản đầu tư sụt giảm hơn 20% giá trị trong tương lai, anh/chị sẽ làm gì?"
+  
+  utter_res_question7:
+  - text: ""
+    buttons:
+      - title: "a. Bán toàn bộ cổ phiếu"
+      - title: "b. Bán một phần cổ phiếu"
+      - title: "c. Chờ giá cổ phiếu lên"
+      - title: "d. Mua thêm cổ phiếu"
+      - title: "e. Cắt lỗ trước khi danh mục sụt giảm đến 20%"
+  utter_ask_question8:
+  - text: "Anh chị thích các loại tài sản đầu tư nào? (Cho phép chọn nhiều phương án)"
+  utter_res_question8:
+  - text: ""  
+    buttons:
+      - title: "a. Cổ phiếu"
+      - title: "b. Hợp đồng tương lai trên chỉ số cổ phiếu"
+      - title: "c. Chứng quyền có bảo đảm cổ phiếu"
+      - title: "d. Trái phiếu"
+      - title: "e. Bất động sản"
+      - title: "f. Vàng, ngoại tệ"
+      - title: "g. Tiền số"
+  utter_confirm_q8_1:
+  - text: 'Đặc điểm các lớp tài sản khác nhau và yêu cầu tính chuyên môn cao để quản lý. Vì vậy, nếu anh/chị ưa thích quá nhiều lớp tài sản, điều này cũng có thể khiến hiệu quả đầu tư không cao'
+  utter_confirm_q8_2:
+  - text: 'Anh/chị có thể đạt được mục tiêu đa dạng hóa danh mục khi lựa chọn các lớp tài sản này. Tuy nhiên, ngoại tệ và tiền số đều không phải là tài sản chính thống trong hoạt động đầu tư, anh/chị nên cân nhắc'
+  utter_confirm_q8_3:
+  - text: 'Anh/chị có thể đạt được mục tiêu đa dạng hóa danh mục khi lựa chọn các lớp tài sản này. Tuy nhiên, tiền số không phải là tài sản chính thống trong hoạt động đầu tư, anh/chị nên cân nhắc'
+  utter_confirm_q8_4:
+  - text: 'Anh/chị có thể đạt được mục tiêu đa dạng hóa danh mục khi lựa chọn các lớp tài sản này. Cần lưu ý nhu cầu thanh khoản để cân nhắc danh mục đầu tư cổ phiếu khi bất động sản có tính thanh khoản tương đối thấp.'
+  utter_confirm_q8_5:
+  - text: 'Do có sự ổn định về dòng tiền trái phiếu doanh nghiệp (trong trường hợp anh/chị đầu tư vào trái phiếu có tính an toàn cao), anh/chị có thể cân nhắc đầu tư vào các danh mục cổ phiếu có mức độ rủi ro cao hơn.'
+  utter_confirm_q8_6:
+  - text: 'Nếu anh/chị đầu tư vào hợp đồng tương lai và chứng quyền có bảo đảm tại thị trường chứng khoán Việt Nam thì cần cân nhắc thêm tính phòng thủ của các sản phẩm này.'
+  utter_ask_question9:
+  - text: "Anh/chị đã tham gia đầu tư trên thị trường cổ phiếu bao nhiêu năm?"
+  utter_res_question9:
+  - text: ""
+    buttons:
+      - title: "a. Dưới 1 năm"
+      - title: "b. 1-<3 năm"
+      - title: "c. 3-<5 năm"
+  utter_ask_question10:
+  - text: 'Mỗi ngày anh/chị sử dụng bao nhiêu giờ dành cho việc giao dịch cổ phiếu, bao gồm quan sát bảng giá, đồ thị, vào lệnh, đọc tin tức, báo cáo hay nghiên cứu về thị trường, cổ phiếu, doanh nghiệp?'
+  utter_res_question10:
+  - text: ""
+    buttons:
+      - title: "a. Dưới 1 giờ"
+      - title: "b. 1-<2 giờ"
+      - title: "c. 2-<3 giờ"
+      - title: "d. Trên 3 giờ"
+  utter_ask_question11:
+  - text: 'Anh/chị có sử dụng dịch vụ ký quỹ trong quá trình đầu tư cổ phiếu không?'
+  utter_res_question11:
+  - text: ""
+    buttons:
+      - title: "a. Không bao giờ"
+      - title: "b. Thỉnh thoảng"
+      - title: "c. Thường xuyên"
+  utter_confirm_q11_1:
+  - text: 'Có thể hướng tới đầu tư dài hạn, khả năng chịu qua các giai đoạn lỗ cao hơn, có thể nâng mức cắt lỗ lên cao hơn so với mức trung bình'
+  utter_confirm_q11_2:
+  - text: 'Anh/chị có thể cân nhắc hạn chế dùng ký quỹ khi nền tảng tài chính cá nhân có nhiều rủi ro hơn so với mức trung bình. Thời gian đầu tư bị ảnh hưởng bởi các yếu tố trên và khá ngắn. Trong trường hợp không thuận lợi, tài khoản bị call margin, anh/chị khó có thể nộp thêm tiền vào và bắt buộc phải bán cổ phiếu.'
+  utter_confirm_q11_3:
+  - text: 'Ngân sách dành cho đầu tư chứng khoán không ổn định kết hợp với việc sử dụng ký quỹ thường xuyên có thể dẫn đến những thời điểm cần phải bán chứng khoán, khả năng tuân thủ theo chiến lược ban đầu thấp. Vì vậy, anh/chị cần phân bổ danh mục vào các khoản đầu tư ngắn hạn và có thể giảm tần suất sử dụng ký quỹ xuống.'
+  utter_ask_question12:
+  - text: 'Anh/chị có xây dựng danh mục đầu tư không?'
+  utter_res_question12:
+    - text: ""
+      buttons:
+        - title: "a. Có"
+        - title: "b. Không"
+  utter_ask_question12_1:
+  - text: 'Anh/chị xây dựng danh mục đầu tư dựa vào đâu?'
+  utter_res_question12_1:
+  - text: ""
+    buttons:
+      - title: "a. Tự phân bổ đều trên một số lượng cổ phiếu xác định"
+      - title: "b. Dựa vào các phương pháp phân bổ theo rủi ro"
+      - title: "c. Theo tư vấn từ chuyên viên tư vấn đầu tư, báo cáo danh mục đầu tư"
+      - title: "d. Khác"
+  utter_ask_question13:
+  - text: 'Anh/chị kỳ vọng đạt lợi nhuận từ danh mục đầu tư cổ phiếu hàng năm bao nhiêu phần trăm?'
+  utter_res_question13:
+  - text: ""
+    buttons:
+      - title: "a. Dưới 10%"
+      - title: "b. 10 - <15%"
+      - title: "c. 15 - <20%"
+      - title: "d. 20 - <25%"
+      - title: "e. Trên 25%"
+      - title: "f. Tôi muốn tham khảo thêm mức lợi nhuận trung bình năm của VNIndex"
+  utter_confirm_q13_1:
+  - text: 'Mức lợi nhuận trung bình năm 2023 của VNIndex là xx%'
+  utter_ask_question14:
+  - text: "Đi cùng với lợi nhuận kỳ vọng như vậy, anh/chị chấp nhận mức thua lỗ hàng năm bao nhiêu phần trăm?"
+  utter_res_question14:
+  - text: ""
+    buttons:
+      - title: "a. Dưới 10%"
+      - title: "b. 10 - <15%"
+      - title: "c. 15 - <20%"
+      - title: "d. 20 - <25%"
+      - title: "e. Trên 25%"
+  utter_confirm_q14_1:
+  - text: 'Anh/chị đang có mức kỳ vọng lợi nhuận và rủi ro thấp hơn so với mức trung bình trên thị trường. Anh/chị có thể ưu tiên trường phái đầu tư giá trị hoặc các chiến lược thu thập cổ tức.'
+  utter_confirm_q14_2:
+  - text: 'Lợi nhuận luôn đi kèm với rủi ro. Khả năng để thỏa mãn yêu cầu về rủi ro/lợi nhuận của anh/chị tương đối khó khăn trên thị trường chứng khoán. Anh/chị có thể cân nhắc lại việc hạ thấp kỳ vọng lợi nhuận hoặc nâng mức kỳ vọng rủi ro lên.'
+  utter_confirm_q14_3:
+  - text: 'Lợi nhuận luôn đi kèm với rủi ro. Anh/chị kỳ vọng lợi nhuận cao nhưng chỉ chấp nhận mức rủi ro thấp là một điều khó có tính thực tế trên thị trường chứng khoán.'
+  utter_confirm_q14_4:
+  - text: 'Anh/chị thuộc nhóm khách hàng ưa thích rủi ro với mức độ chấp nhận rủi ro trên một đơn vị lợi nhuận cao, ưa thích các cổ phiếu có tính rủi ro cao trên thị trường. Tuy nhiên, anh/chị có thể điều chỉnh để tối đa hóa lợi nhuận trên một đơn vị rủi ro.'
+  utter_confirm_q14_5:
+  - text: 'Anh/chị đang có mức kỳ vọng lợi nhuận và rủi ro ở mức tương đương với VNIndex. Anh/chị có thể ưu tiên những danh mục bám sát thị trường (beta - chỉ số đo lường rủi ro phi hệ thống tương đương 1)'
+  utter_confirm_q14_6:
+  - text: 'Lợi nhuận luôn đi kèm với rủi ro. Khả năng để thỏa mãn yêu cầu về rủi ro/lợi nhuận của anh/chị tương đối khó khăn trên thị trường chứng khoán. Anh/chị có thể cân nhắc lại việc hạ thấp kỳ vọng lợi nhuận hoặc nâng mức kỳ vọng rủi ro lên.'
+  uter_confirm_q14_7:
+  - text: 'Lợi nhuận đi kèm với rủi ro. Mức rủi ro ở đây được hiểu là độ biến động của cổ phiếu/danh mục đầu tư.  Anh/chị có thể xem xét lại kỳ vọng của bản thân để phù hợp hơn.'
+  utter_confirm_q14_8:
+  - text: 'Anh/chị thuộc nhóm khách hàng ưa thích rủi ro với mức độ chấp nhận rủi ro trên một đơn vị lợi nhuận cao, ưa thích các cổ phiếu có tính rủi ro cao trên thị trường. Tuy nhiên, anh/chị có thể điều chỉnh để tối đa hóa lợi nhuận trên một đơn vị rủi ro.'
+  uter_confirm_q14_9:
+  - text: 'Anh/chị đang có mức chấp nhận rủi ro hợp lý trên một đơn vị lợi nhuận. Tuy nhiên mức kỳ vọng về lợi nhuận và rủi ro đều cao hơn mức trung bình của thị trường, anh/chị phù hợp với danh mục đầu tư có tính rủi ro, đầu cơ cao.'
+  uter_confirm_q14_10:
+  - text: 'Lợi nhuận luôn đi kèm với rủi ro. Khả năng để thỏa mãn yêu cầu về rủi ro/lợi nhuận của anh/chị tương đối khó khăn trên thị trường chứng khoán. Anh/chị có thể cân nhắc lại việc hạ thấp kỳ vọng lợi nhuận hoặc nâng mức kỳ vọng rủi ro lên.'
+  uter_confirm_q14_11:
+  - text: 'Lợi nhuận đi kèm với rủi ro. Mức rủi ro ở đây được hiểu là độ biến động của cổ phiếu/danh mục đầu tư.  Anh/chị có thể xem xét lại kỳ vọng của bản thân để phù hợp hơn.'
+  utter_confirm_q14_12:
+  - text: 'Anh/chị thuộc nhóm khách hàng ưa thích rủi ro với mức độ chấp nhận rủi ro trên một đơn vị lợi nhuận cao, ưa thích các cổ phiếu có tính rủi ro cao trên thị trường. Tuy nhiên, anh/chị có thể điều chỉnh để tối đa hóa lợi nhuận trên một đơn vị rủi ro.'
+  utter_confirm_q14_13:
+  - text: 'Anh/chị đang có mức chấp nhận rủi ro hợp lý trên một đơn vị lợi nhuận. Tuy nhiên mức kỳ vọng về lợi nhuận và rủi ro đều cao hơn mức trung bình của thị trường, anh/chị phù hợp với danh mục đầu tư có tính rủi ro, đầu cơ cao.'
+  utter_confirm_q14_14:
+  - text: 'Lợi nhuận luôn đi kèm với rủi ro. Khả năng để thỏa mãn yêu cầu về rủi ro/lợi nhuận của anh/chị tương đối khó khăn trên thị trường chứng khoán. Anh/chị có thể cân nhắc lại việc hạ thấp kỳ vọng lợi nhuận hoặc nâng mức kỳ vọng rủi ro lên.'
+  uter_confirm_q14_15:
+  - text: 'Lợi nhuận đi kèm với rủi ro. Mức rủi ro ở đây được hiểu là độ biến động của cổ phiếu/danh mục đầu tư.  Anh/chị có thể xem xét lại kỳ vọng của bản thân để phù hợp hơn.'
+  utter_confirm_q14_16:
+  - text: 'Anh/chị thuộc nhóm khách hàng ưa thích rủi ro với mức độ chấp nhận rủi ro trên một đơn vị lợi nhuận cao, ưa thích các cổ phiếu có tính rủi ro cao trên thị trường. Tuy nhiên, anh/chị có thể điều chỉnh để tối đa hóa lợi nhuận trên một đơn vị rủi ro.'
+  utter_confirm_q14_17:
+  - text: 'Anh/chị đang có mức chấp nhận rủi ro hợp lý trên một đơn vị lợi nhuận. Tuy nhiên mức kỳ vọng về lợi nhuận và rủi ro đều cao hơn mức trung bình của thị trường, anh/chị phù hợp với danh mục đầu tư có tính rủi ro, đầu cơ cao.'
+  utter_ask_question15:
+  - text: 'Anh/chị quan tâm đến trường phái đầu tư nào trong các trường phái dưới đây? (ranking với nhiều phương án)'
+  utter_res_question15:
+  - text: ""
+    buttons:
+      - title: "a. Đầu tư giá trị"
+      - title: "b. Đầu tư tăng trưởng"
+      - title: "c. Đầu tư theo đà tăng trưởng"
+      - title: "d. Đầu tư theo phân tích kỹ thuật"
+      - title: "e. Kết hợp phân tích cơ bản và phân tích kỹ thuật"
+      - title: "f. Khác"
+  utter_ask_question15_1:
+  - text: 'Anh/chị quan tâm đến yếu tố nào khi lựa chọn cổ phiếu đầu tư? (cho phép chọn nhiều phương án)'
+  utter_res_question15_1:
+  - text: ""
+    buttons:
+      - title: "a. Kinh tế vĩ mô"
+      - title: "b. Triển vọng ngành"
+      - title: "c. Xu hướng lợi nhuận sau thuế trong vài năm gần đây"
+      - title: "d. Kết quả kinh doanh trong năm gần nhất"
+      - title: "e. Mức định giá của cổ phiếu"
+      - title: "f. Mức độ chi trả cổ tức"
+      - title: "g. Triển vọng ngắn hạn"
+  utter_confirm_q15_1_1:
+  - text: 'Việc lựa chọn cổ phiếu và thời điểm mua/bán, thời gian nắm giữ có thể thiếu căn cứ xác đáng và thay đổi liên tục khi có sự thay đổi về các yếu tố trong nền kinh tế.'
+  utter_confirm_q15_1_2:
+  - text: 'Chỉ quan tâm đến triển vọng ngành là chưa đầy đủ để lựa chọn cổ phiếu nên đầu tư trong ngành'
+  utter_confirm_q15_1_3:
+  - text: 'Lợi nhuận sau thuế là chỉ tiêu được quan tâm của nhà đầu tư. Có thể kết hợp thêm các tiêu chí khác trong việc lựa chọn cổ phiếu hợp lý.'
+  utter_confirm_q15_1_4:
+  - text: 'Anh/chị có thể bị rơi vào bẫy tăng trưởng (growth trap) hoặc ưa thích các doanh nghiệp có lợi nhuận đột biến (không phải đến từ hoạt động kinh doanh cốt lõi). Điều này ảnh hưởng đến việc lựa chọn cổ phiếu phù hợp.'
+  utter_confirm_q15_1_5:
+  - text: 'Anh/chị có thể bị rơi vào bẫy giá trị (value trap) nếu chỉ quan tâm đến mức định giá của cổ phiếu mà bỏ qua các yếu tố đánh giá doanh nghiệp.'
+  utter_confirm_q15_1_6:
+  - text: 'Nếu KH có mức kỳ vọng lợi nhuận và rủi ro trên 15% thì sẽ hỏi lại để KH cân nhắc lựa chọn.Nếu KH có khẩu vị rủi ro cao hơn mức trung bình thì sẽ hỏi lại để KH cân nhắc lựa chọn.'
+  utter_confirm_q15_1_7:
+  - text: 'Triển vọng trong ngắn hạn có thể thay đổi nhanh. Việc chỉ quan tâm đến triển vọng ngắn hạn có thể khiến cho tần suất mua/bán cổ phiếu của anh/chị lớn hơn.'
+  utter_ask_question15_2:
+  - text: 'Anh/chị quan tâm đến yếu tố nào khi lựa chọn cổ phiếu đầu tư? (cho phép chọn nhiều phương án) (nếu KH ưu tiên trường phái đầu tư theo phân tích kỹ thuật, kết hợp)'
+  utter_res_question15_2:
+  - text: ""
+    buttons:
+      - title: "a. Xu hướng giá"
+      - title: "b. Mẫu hình giá, hành động giá"
+      - title: "c. Chỉ báo kỹ thuật"
+      - title: "d. Tâm lý thị trường chung"
+      - title: "e. Yếu tố kỳ vọng ảnh hưởng (dòng tiền khối ngoại, luân chuyển ngành)"
+  utter_ask_question16:
+  - text: 'Quyết định mua cổ phiếu của anh/chị dựa vào đâu? (cho phép chọn nhiều phương án)'
+  utter_res_question16:
+  - text: ""
+    buttons:
+      - title: "a. Cổ phiếu có mức định giá hấp dẫn"
+      - title: "b. Kết quả kinh doanh khả quan"
+      - title: "c. Thị trường chung tốt lên"
+      - title: "d. Tín hiệu mua theo PTKT"
+      - title: "e. Tin tức thuận lợi (vĩ mô, ngành)"
+      - title: "f. Cổ phiếu có nền tảng cơ bản, chọn điểm mua theo PTKT"
+      - title: "g. Lời khuyên của người thân quen"
+  utter_ask_question17:
+  - text: 'Quyết định bán cổ phiếu của anh/chị dựa vào đâu? (cho phép chọn nhiều phương án)'
+  utter_res_question17:
+  - text: ""
+    buttons:
+      - title: "a. Cổ phiếu có mức định giá không còn hấp dẫn"
+      - title: "b. Kết quả kinh doanh tiêu cực"
+      - title: "c. Thị trường chứng khoán chung giảm mạnh"
+      - title: "d. Tín hiệu bán theo PTKT"
+      - title: "e. Đến mức cắt lỗ"
+      - title: "f. Để mua cổ phiếu khác hấp dẫn hơn"
+      - title: "g. Lời khuyên của những người xung quanh"
+  utter_ask_question18:
+  - text: 'Anh/chị có tuân thủ theo khuyến nghị của chuyên viên tư vấn/báo cáo không?'
+  utter_res_question18:
+  - text: ""
+    buttons:
+      - title: "a. Chỉ tham khảo"
+      - title: "b. Tuân thủ một cách tương đối"
+      - title: "c. Luôn luôn tuân thủ"
+  utter_ask_question19:
+  - text: 'Khi tự giao dịch, anh/chị có đặt ra và tuân thủ theo giá chốt lời không?'
+  utter_res_question19:
+  - text: ""
+    buttons:
+      - title: "a. Tuân thủ tuyệt đối"
+      - title: "b. Có điều chỉnh giá chốt lời"
+      - title: "c. Không đặt mức giá chốt lời"  
+  utter_ask_question19_b:
+  - text: 'Anh/chị điều chỉnh giá chốt lời dựa vào tiêu chí nào?'
+  utter_ask_question20:
+  - text: 'Khi tự giao dịch, anh/chị có đặt ra và tuân thủ theo giá cắt lỗ không?'
+  utter_res_question20:
+  - text: ""
+    buttons:
+      - title: "a. Tuân thủ tuyệt đối"
+      - title: "b. Có điều chỉnh giá cắt lỗ"
+      - title: "c. Không đặt mức giá cắt lỗ"
+  utter_confirm_q20_1:
+  - text: 'Giá cắt lỗ là một yếu tố không thể thiếu khi đầu tư theo trường phái PTKT. Anh/chị cần cân nhắc bổ sung thêm tiêu chí này trong việc đầu tư'
+  utter_ask_question21:
+  - text: 'Anh/chị có đánh giá hiệu quả đầu tư hàng năm và xác định nguyên nhân đầu tư lãi/lỗ không?'
+  utter_res_question21:
+  - text: ""
+    buttons:
+      - title: "a. Không"
+      - title: "b. Có"
+  utter_GTongKet_1:
+  - text: 'Anh/chị còn hạn chế trong việc tuân thủ kỷ luật trong đầu tư. Điều này có thể dẫn tới một số kết quả không đạt như mong đợi.'
+  utter_GTongKet_2:
+  - text: 'Anh/chị tuân thủ tốt kỷ luật đầu tư'
+  utter_GTongKet_3:
+  - text: 'Anh/chị tuân thủ tương đối tốt kỷ luật đầu tư'
+  utter_ask_question22:
+  - text: 'Anh/chị ưa thích đầu tư vào ngành nghề nào?'
+  utter_ask_question23:
+  - text: 'Anh/chị ưa thích đầu tư vào loại doanh nghiệp nào?'
+  utter_res_question22:
+  - text: ""
+    buttons:
+      - title: "a. Hoạt động ổn định, chi trả cổ tức đều đặn"
+      - title: "b. Tăng trưởng trong giai đoạn gần đây và có động lực tăng trưởng trong ngắn hạn"
+      - title: "c. Có lợi thế cạnh tranh và tiềm năng tăng trưởng dài hạn"
+      - title: "d. Doanh nghiệp có tính chu kỳ"
+      - title: "e. Doanh nghiệp có tính phòng thủ"
+      - title: "f. Doanh nghiệp đang ở giai đoạn/trạng thái đặc biệt (M&A, tái cấu trúc, hồi phục mạnh sau thời kỳ đặc biệt khó khăn,...)"
+  utter_ask_question24:
+  - text: 'Anh/chị ưa thích nhóm cổ phiếu nào?'
+  utter_res_question24:
+  - text: ""
+    buttons:
+      - title: "a. Nhóm cổ phiếu vốn hóa lớn (large cap)"
+      - title: "b. Nhóm cổ phiếu vốn hóa trung bình (mid cap)"
+      - title: "c. Nhóm cổ phiếu vốn hóa nhỏ (small cap)"
+  utter_ask_question25:
+  - text: 'Anh/chị vui lòng liệt kê các mã cổ phiếu ưa thích của bản thân.'
+  utter_ask_question26:
+  - text: 'Anh/chị vui lòng đưa ra những ngành nghề/loại cổ phiếu/cổ phiếu KHÔNG ưa thích:'
+  utter_TongKet:
+  - text: 'Cảm ơn anh/chị đã tham gia bài khảo sát.'
+  utter_restart_survey:
+  - text: 'Bạn có muốn bắt đầu lại cuộc khảo sát không?'
+    buttons:
+    - title: 'Có'
+      payload: '/affirm'
+    - title: 'Không'
+      payload: '/deny'
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
