@@ -5,9 +5,10 @@ from rasa_sdk.forms import FormValidationAction
 from rasa_sdk.types import DomainDict
 from rasa_sdk.events import EventType
 from rasa_sdk.events import SlotSet,FollowupAction
+from abc import ABC, abstractmethod
+from typing import Optional
 
-
-import os
+import re
 import pathlib 
 
 
@@ -263,52 +264,146 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                 "requested_slot": None  # Dừng form
             }
         return {"ready": slot_value}
+    async def required_slots(
+        self,
+        domain_slots: List[Text],       # Danh sách slot mặc định trong domain.yml
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict
+    ) -> List[Text]:
+        question5 = tracker.get_slot("question5")
+        #print(f"DEBUG: question5 = '{question5}'")
+        required = domain_slots.copy()
+        
+        if question5 == "question5_1":
+            required.remove("question5_1")
+            #print("DEBUG: Removed question5_1 because question5 is 1")
+
+        return required
     def validate_question1(
         self,
         slot_value: Any,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
-        domain: Dict[Text, Any],
+        domain: DomainDict,
     ) -> Dict[Text, Any]:
         """Hiển thị lại câu trả lời question1"""
-        if slot_value and slot_value.startswith("question1_"):
-            option_number = slot_value.replace("question1_", "")
+        match = re.match(r"question1_(\d+)", str(slot_value))
+        if match:
+            option_number = match.group(1)
             response_key = f"utter_confirm_q1_{option_number}"
 
             if response_key in domain.get("responses", {}):
                 dispatcher.utter_message(response=response_key)
+                return {"question1": slot_value}
             else:
                 dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
-
-            return {"question1": slot_value}
-
-        # Trường hợp slot_value không đúng định dạng
+                return {"question1": None}
+        
         dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
         return {"question1": None}
-    
-    def validate_question2(
+    def validate_question3(
         self,
         slot_value: Any,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        """Hiển thị lại câu trả lời question2"""
-        if slot_value and slot_value.startswith("question2_"):
-            option_number = slot_value.replace("question2_", "")
-            response_key = f"utter_confirm_q2_{option_number}"
-
-            if response_key in domain.get("responses", {}):
-                dispatcher.utter_message(response=response_key)
+        """Hiển thị lại câu trả lời question3"""
+        try:
+            if slot_value and slot_value.startswith("question3_"):
+                option_number = slot_value.replace("question3_", "") # Lấy số thứ tự từ slot_value
+                option_q1 = get_question_option_number_from_tracker(tracker, "question1")
+                if option_q1 is None:
+                    dispatcher.utter_message(text="Bạn chưa trả lời câu hỏi 1, vui lòng trả lời trước khi tiếp tục.")
+                    return {"question3": None}
+                if option_number == "1":
+                    if(option_q1 == "1"):
+                        dispatcher.utter_message(response="utter_confirm_q3_1")
+                    else:
+                        dispatcher.utter_message(response="utter_confirm_q3_2")
+                elif option_number == "2":
+                    if(option_q1 == "1"):
+                        dispatcher.utter_message(response="utter_confirm_q3_3")
+                    else:
+                        dispatcher.utter_message(response="utter_confirm_q3_4")
+                elif option_number == "3":
+                    dispatcher.utter_message(response="utter_confirm_q3_5")
+                elif option_number == "4":
+                    dispatcher.utter_message(response="utter_confirm_q3_6")
+                else:
+                    dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
+                    return {"question3": None}
+                return {"question3": slot_value}
             else:
-                dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
-
-            return {"question2": slot_value}
-
-        # Trường hợp slot_value không đúng định dạng
-        dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
-        return {"question2": None}
-    
+                dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
+                return {"question3": None}
+        except Exception as e:
+            dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
+            print(f"[ERROR] validate_question3: {e}")
+            return {"question3": None}
+    def validate_question4(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Hiển thị lại câu trả lời question4"""
+        try:
+            if slot_value and slot_value.startswith("question4_"):
+                option_number = slot_value.replace("question4_", "") # Lấy số thứ tự từ slot_value
+                option_q1 = get_question_option_number_from_tracker(tracker, "question1")
+                if option_q1 is None:
+                    dispatcher.utter_message(text="Bạn chưa trả lời câu hỏi 1, vui lòng trả lời trước khi tiếp tục.")
+                    return {"question4": None}
+                if option_number == "1":
+                    if(option_q1 == "1"):
+                        dispatcher.utter_message(response="utter_confirm_q4_1")
+                    else:
+                        dispatcher.utter_message(response="utter_confirm_q4_2")
+                elif option_number == "2":
+                    if(option_q1 == "1"):
+                        dispatcher.utter_message(response="utter_confirm_q4_3")
+                    else:
+                        dispatcher.utter_message(response="utter_confirm_q4_4")
+                elif option_number == "3":
+                    dispatcher.utter_message(response="utter_confirm_q4_0")
+                    return {"question4": None}
+                else:
+                    dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
+                    return {"question4": None}
+                return {"question4": slot_value}
+            else:
+                dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
+                return {"question4": None}
+        except Exception as e:
+            dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
+            print(f"[ERROR] validate_question4: {e}")
+            return {"question4": None}
+    def validate_question5(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Hiển thị lại câu trả lời question5"""
+        try:
+            if slot_value and slot_value.startswith("question5_"):
+                option_number = slot_value.replace("question5_", "") # Lấy số thứ tự từ slot_value
+                if option_number == "1" or option_number == "2":
+                    return {"question5": slot_value}
+                else:
+                    dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
+                    return {"question5": None}
+            else:
+                dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
+                return {"question4": None}
+        except Exception as e:
+            dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
+            print(f"[ERROR] validate_question5: {e}")
+            return {"question5": None}
 class ActionCustomFormSubmit(Action):
     def name(self) -> Text:
         return "action_submit_form_survey_typebot"
@@ -326,7 +421,7 @@ class ActionCustomFormSubmit(Action):
         seniority = tracker.get_slot("seniority")
         budget = tracker.get_slot("budget")
         question1 = tracker.get_slot("question1")
-        question2 = tracker.get_slot("question2")
+        question3 = tracker.get_slot("question3")
         ready= tracker.get_slot("ready")
 
         if(ready is None or ready is False):
@@ -338,7 +433,7 @@ class ActionCustomFormSubmit(Action):
                 f"Vị trí: {seniority}\n"
                 f"Ngân sách: {budget}\n"
                 f"Câu trả lời 1: {question1}\n"
-                f"Câu trả lời 2: {question2}"
+                f"Câu trả lời 2: {question3}"
             )
             
             return [
@@ -347,7 +442,7 @@ class ActionCustomFormSubmit(Action):
                 SlotSet("budget", None),
                 SlotSet("ready", None),
                 SlotSet("question1", None),
-                SlotSet("question2", None),
+                SlotSet("question3", None),
                 SlotSet("form_paused", False),
             ]
     class ActionHandleReadyToContinue(Action):
@@ -386,43 +481,39 @@ class ActionFormPaused(Action):
     ) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(response="utter_form_paused")
         return []
-    
-class ActionAskQuestion1(Action):
+
+def get_question_option_number_from_tracker(tracker: Tracker, slot_name: str) -> Optional[str]:
+    """
+    Trích số thứ tự từ giá trị của slot (ví dụ: slot 'question1' có giá trị 'question1_2' → trả về '2')
+    """
+    slot_value = tracker.get_slot(slot_name)
+    if not slot_value:
+        return None
+
+    match = re.match(fr"{slot_name}_(\d+)", slot_value)
+    if match:
+        return match.group(1)
+    return None
+class ActionAskquestion3(Action):
     def name(self) -> Text:
-        return "action_ask_question1"
+        return "action_ask_question3"
 
     def run(
         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
     ) -> List[Dict[Text, Any]]:
-        response_data = domain["responses"]["utter_res_question1"][0]  # [0] vì responses là list
-        domain_buttons = response_data["buttons"]
-        buttons = [
-            {"title": domain_buttons[0]["title"], "payload": '/choose_q1{"question1": "question1_1"}'},
-            {"title": domain_buttons[1]["title"], "payload": '/choose_q1{"question1": "question1_2"}'},
-            {"title": domain_buttons[2]["title"], "payload": '/choose_q1{"question1": "question1_3"}'},
-            {"title": domain_buttons[3]["title"], "payload": '/choose_q1{"question1": "question1_4"}'},
-        ]
+        response_data = domain["responses"]["utter_res_question3"][0]
+        domain_buttons = response_data.get("buttons", [])
         
-        dispatcher.utter_message(
-            response="utter_ask_question1",
-            buttons=buttons,
-        )
-        return []
-class ActionAskQuestion2(Action):
-    def name(self) -> Text:
-        return "action_ask_question2"
+        buttons = []
+        for idx, button in enumerate(domain_buttons):
+            question_value = f"question3_{idx + 1}"
+            buttons.append({
+                "title": button["title"],
+                "payload": f'/choose_q2{{"question3": "{question_value}"}}'
+            })
 
-    def run(
-        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
-    ) -> List[Dict[Text, Any]]:
-        buttons = [
-            {"title": "a. Trên 50%", "payload": '/choose_q2{"question2": "question2_1"}'},
-            {"title": "b. 25-<50%", "payload": '/choose_q2{"question2": "question2_2"}'},
-            {"title": "c. 10–<25%", "payload": '/choose_q2{"question2": "question2_3"}'},
-            {"title": "d. 0 – <10%", "payload": '/choose_q2{"question2": "question2_4"}'},
-        ]
         dispatcher.utter_message(
-            text="Giá trị ròng tài khoản chứng khoán chiếm bao nhiêu % tổng tài sản?",
+            response="utter_ask_question3",
             buttons=buttons,
         )
         return []
@@ -446,3 +537,73 @@ class ActionAskReady(Action):
         )
         return []
 
+class ActionAskQuestionBase(Action, ABC):
+    @abstractmethod
+    def name(self) -> Text:
+        """Abstract method that must be implemented by subclasses"""
+        pass
+     
+    def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[Dict[Text, Any]]:
+        action_name = self.name()  # Ví dụ: action_ask_question5_1
+        question_slot = action_name.replace("action_ask_", "")  # Ví dụ: question5_1
+        print(f"DEBUG: Running action {action_name} for slot {question_slot}")
+        # Lấy response chứa buttons: utter_res_questionX hoặc utter_res_questionX_Y
+        response_key = f"utter_res_{question_slot}"
+        response_data = domain.get("responses", {}).get(response_key, [])
+         
+        # Kiểm tra xem có buttons hay không
+        if not response_data or not response_data[0].get("buttons", []):
+            # Nếu không có buttons, chỉ hiển thị câu hỏi
+            dispatcher.utter_message(response=f"utter_ask_{question_slot}")
+            return []
+         
+        domain_buttons = response_data[0].get("buttons", [])
+        buttons = []
+         
+        # Xử lý intent name cho cả question1 và question5_1
+        if "_" in question_slot:
+            # Trường hợp question5_1 -> choose_q5_1
+            question_number = question_slot.replace("question", "")
+            intent_name = f"choose_q{question_number}"
+        else:
+            # Trường hợp question1 -> choose_q1
+            intent_name = f"choose_q{question_slot[8:]}"
+         
+        for idx, button in enumerate(domain_buttons):
+            question_value = f"{question_slot}_{idx + 1}"
+            buttons.append({
+                "title": button["title"],
+                "payload": f'/{intent_name}{{"{question_slot}": "{question_value}"}}'
+            })
+         
+        # utter_ask_questionX hoặc utter_ask_questionX_Y
+        dispatcher.utter_message(
+            response=f"utter_ask_{question_slot}",
+            buttons=buttons,
+        )
+        return []
+
+class ActionAskQuestion1(ActionAskQuestionBase):
+    def name(self) -> Text:
+        return "action_ask_question1"
+    
+class ActionAskQuestion4(ActionAskQuestionBase):
+    def name(self) -> Text:
+        return "action_ask_question4"
+    
+class ActionAskQuestion5(ActionAskQuestionBase):
+    def name(self) -> Text:
+        return "action_ask_question5"
+    
+class ActionAskQuestion5_1(ActionAskQuestionBase):
+    def name(self) -> Text:
+        return "action_ask_question5_1"
+    
+class ActionAskQuestion6(ActionAskQuestionBase):
+    def name(self) -> Text:
+        return "action_ask_question6"
+class ActionAskQuestion7(ActionAskQuestionBase):
+    def name(self) -> Text:
+        return "action_ask_question7"

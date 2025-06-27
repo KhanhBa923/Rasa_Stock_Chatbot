@@ -16,16 +16,74 @@ intents:
 - start_survey
 - stock_trading
 - stop_form
+- choose_q3
+- choose_q4
+- choose_q5
+- choose_q6
+- choose_q7
+- choose_q8
+- choose_q9
+- choose_q10
+- choose_q11
+- choose_q12
+- choose_q13
+- choose_q14
+- choose_q15
+- choose_q16
+- choose_q17
+- choose_q18
+- choose_q19
+- choose_q20
+- choose_q21
+- choose_q22
+- choose_q23
+- choose_q24
+- choose_q25
+- choose_q26
+- choose_q5_1
+- choose_q12_1
+- choose_q15_1
+- choose_q15_2
 
 ########################################################### Entities ###########################################################
 
 entities:
-- question2
+- question3
 - seniority
 - industry
 - ready
 - question1
 - budget
+- question4
+- question5
+- question6
+- question7
+- question8
+- question9
+- question10
+- question11
+- question12
+- question13
+- question14
+- question15
+- question16
+- question17
+- question18
+- question19
+- question20
+- question21
+- question22
+- question23
+- question24
+- question25
+- question26
+- question5_1
+- question12_1
+- question15_1
+- question15_2
+
+
+
 - stock_symbol
 - action
 - quantity
@@ -162,16 +220,178 @@ slots:
     mappings:
     - type: from_entity
       entity: question1
-  question2:
+  question3:
     type: text
     mappings:
     - type: from_entity
-      entity: question2
+      entity: question3
   form_paused:
     type: bool
     initial_value: false
     mappings:
     - type: custom
+
+  question4:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question4
+
+  question5:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question5
+
+  question6:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question6
+  question7:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question7
+
+  question8:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question8
+
+  question9:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question9
+
+  question10:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question10
+
+  question11:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question11
+
+  question12:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question12
+
+  question13:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question13
+
+  question14:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question14
+
+  question15:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question15
+
+  question16:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question16
+
+  question17:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question17
+
+  question18:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question18
+
+  question19:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question19
+
+  question20:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question20
+
+  question21:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question21
+
+  question22:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question22
+
+  question23:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question23
+
+  question24:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question24
+
+  question25:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question25
+
+  question26:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question26
+
+  question5_1:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question5_1
+
+  question12_1:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question12_1
+
+  question15_1:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question15_1
+
+  question15_2:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question15_2
+
 
 ############################################################# Forms ###########################################################
 
@@ -193,12 +413,40 @@ forms:
     - product_location
   form_survey_typebot:
     required_slots:
-    - industry
-    - seniority
-    - budget
-    - ready
+    # - industry
+    # - seniority
+    # - budget
+    # - ready
     - question1
-    - question2
+    - question3
+    - question4
+    - question5
+    - question5_1
+    - question6
+    - question7
+    - question8
+    - question9
+    - question10
+    - question11
+    - question12
+    - question12_1
+    - question13
+    - question14
+    - question15
+    - question15_1
+    - question15_2
+    - question16
+    - question17
+    - question18
+    - question19
+    - question20
+    - question21
+    - question22
+    - question23
+    - question24
+    - question25
+    - question26
+
 
 ############################################################## Actions ###########################################################
 
@@ -215,8 +463,12 @@ actions:
 - validate_form_survey_typebot
 - action_form_paused
 - action_ask_question1
-- action_ask_question2
+- action_ask_question3
 - action_ask_ready
+- action_ask_question4
+- action_ask_question5
+- action_ask_question5_1
+- action_ask_question6
 
 ############################################################### Responses ###########################################################
 
@@ -278,15 +530,15 @@ responses:
         - title: "c. 10–<25%"
         - title: "d. 0–<10%"
   utter_confirm_q1_1:
-  - text: 'Bạn đã chọn: a. Trên 50%'  # thay bằng câu trả lời của mình
+  - text: 'Tỷ lệ nợ trên tổng tài sản của anh/chị đang ở mức cao. Trong một số điều kiện không thuận lợi, anh/chị có thể bắt buộc phải bán chứng khoán để đảm bảo nghĩa vụ nợ. Vì vậy, ưu tiên các danh mục có tính rủi ro thấp và phân bổ danh mục vào một số khoản đầu tư ngắn hạn để đảm bảo tính thanh khoản.'
   utter_confirm_q1_2:
-  - text: 'Bạn đã chọn: b. 25-<50%'
+  - text: 'Tỷ lệ nợ trên tổng tài sản của anh/chị đang ở mức tương đối cao. Trong một số điều kiện không thuận lợi, anh/chị có thể bắt buộc phải bán chứng khoán để đảm bảo nghĩa vụ nợ. Vì vậy, ưu tiên các danh mục có tính rủi ro thấp và phân bổ danh mục vào một số khoản đầu tư ngắn hạn.'
   utter_confirm_q1_3:
-  - text: 'Bạn đã chọn: c. 10–<25%'
+  - text: 'Tỷ lệ nợ trên tổng tài sản của anh/chị đang ở mức tương đối thấp. Anh/chị có thể  phù hợp với các danh mục dài hạn và có thể phân bổ danh mục vào các mã cổ phiếu có mức độ rủi ro cao hơn trung bình.'
   utter_confirm_q1_4:
   - text: 'Bạn đã chọn: d. 0–<10%'
   utter_ask_question3:
-  - text: "Giá trị ròng tài khoản chứng khoán chiếm bao nhiêu % tổng tài sản?"
+  - text: "Tỷ lệ nợ trên tổng tài sản của anh/chị đang ở mức thấp. Anh/chị có thể phù hợp với các danh mục dài hạn và có thể phân bổ danh mục vào các mã cổ phiếu có mức độ rủi ro cao hơn trung bình."
   utter_res_question3:
   - text: ""
     buttons:
@@ -295,13 +547,17 @@ responses:
       - title: "c. 10–<25%"
       - title: "d. 0–<10%"
   utter_confirm_q3_1:
-  - text: 'Bạn đã chọn: a. Trên 50%'
+  - text: 'Đầu tư chứng khoán đóng vị thế quan trọng trong tổng tài sản của anh/chị kết hợp với tỷ lệ nợ/tổng tài sản cao. Cần phải cân nhắc kỹ hơn khi đầu tư vào các khoản đầu tư rủi ro cao và hạn chế việc sử dụng kỹ quỹ trong hoạt động đầu tư. Trong trường hợp thị trường không thuận lợi, có thể bắt buộc phải bán cổ phiếu để đảm bảo nghĩa vụ tài chính.'
   utter_confirm_q3_2:
-  - text: 'Bạn đã chọn: b. 25-<50%'
+  - text: 'Đầu tư chứng khoán đóng vị thế quan trọng trong tổng tài sản của anh/chị, vì vậy cần phải cân nhắc kỹ hơn khi đầu tư vào các khoản đầu tư rủi ro cao và hạn chế việc sử dụng kỹ quỹ trong hoạt động đầu tư, để giảm thiểu những trường hợp thị trường không thuận lợi, anh/chị bắt buộc phải bán giải chấp khi không đủ năng lực tài chính.'
   utter_confirm_q3_3:
-  - text: 'Bạn đã chọn: c. 10–<25%'
+  - text: 'Đầu tư chứng khoán đóng vị thế tương đối quan trọng trong tổng tài sản của anh/chị kết hợp với tỷ lệ nợ/tổng tài sản cao. Cần phải cân nhắc kỹ hơn khi đầu tư vào các khoản đầu tư rủi ro cao và hạn chế việc sử dụng kỹ quỹ trong hoạt động đầu tư. Trong trường hợp thị trường không thuận lợi, có thể bắt buộc phải bán cổ phiếu để đảm bảo nghĩa vụ tài chính.'
   utter_confirm_q3_4:
-  - text: 'Bạn đã chọn: d. 0–<10%'
+  - text: 'Đầu tư chứng khoán đóng vị thế tương đối quan trọng trong tổng tài sản của anh/chị, vì vậy cần phải cân nhắc kỹ hơn khi đầu tư vào các khoản đầu tư rủi ro cao và hạn chế việc sử dụng kỹ quỹ trong hoạt động đầu tư, để giảm thiểu những trường hợp thị trường không thuận lợi, anh/chị bắt buộc phải bán giải chấp khi không đủ năng lực tài chính.'
+  utter_confirm_q3_5:
+  - text: 'Đầu tư chứng khoán đóng vị thế tương đối thấp trong tổng tài sản của anh/chị. Khả năng chấp nhận rủi ro của anh/chị cho phép việc đầu tư vào danh mục có tính rủi ro cao, thời gian đầu tư có thể tùy vào mong muốn và sở thích của anh/chị.'
+  utter_confirm_q3_6:
+  - text: 'Đầu tư chứng khoán đóng vị thế thấp trong tổng tài sản của anh/chị. Khả năng chấp nhận rủi ro của anh/chị cho phép việc đầu tư vào danh mục có tính rủi ro cao, thời gian đầu tư có thể tùy vào mong muốn và sở thích của anh/chị.'
   utter_ask_question4:
   - text: "Ngân sách cho hoạt động đầu tư chứng khoán của anh/chị có ổn định không?"
   utter_res_question4:
@@ -327,8 +583,12 @@ responses:
     buttons:
       - title: "a. Có"
       - title: "b. Không"
-  utter_confirm_q5_1:
+  utter_ask_question5_1:
   - text: 'Khi đọc câu hỏi thì anh/chị đã biết điều này rồi. Anh/chị cho rằng không cần thiết phải cung cấp đủ thông tin để có dịch vụ tư vấn phù hợp?'
+  utter_res_question5_1:
+  - text: ""
+    buttons:
+      - title: "a. Có"
   utter_ask_question6:
   - text: "Theo anh/chị, làm thế nào để tránh được việc bị thua lỗ?"
   utter_res_question6:

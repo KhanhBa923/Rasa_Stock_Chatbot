@@ -1,0 +1,199 @@
+version: "3.1"
+nlu:
+- intent: start_survey
+  examples: |
+    - bắt đầu khảo sát
+    - khảo sát
+    - survey
+    - start survey
+- intent: ready_to_continue
+  examples: |
+    - I am ready
+    - tôi sẵn sàng
+    - ready now
+    - sẵn sàng rồi
+    - tiếp tục
+    - continue
+- intent: inform
+  examples: |
+    - [technology](industry)
+    - [healthcare](industry)
+    - [senior](seniority)
+    - [junior](seniority)
+    - Ngân sách tôi có là [10000](budget)
+    - Tôi chỉ có khoảng [5000](budget)
+    - [techonology](industry)
+    - [senior](seniority)
+    - Ngân sách tôi là [10000](budget)
+    - Ngân sách là [55000](budget)
+- intent: choose_q1
+  examples: |
+    - Tôi chọn câu số [question1_1](question1)
+    - Tôi muốn chọn phương án [question1_2](question1)
+    - Chọn đáp án [question1_3](question1)
+- intent: choose_q2
+  examples: |
+    - Tôi chọn câu trả lời là [question3_1](question3)
+    - Đáp án của tôi là [question3_2](question3)
+    - Chọn số [question3_3](question3)
+- intent: choose_q4
+  examples: |
+    - Tôi chọn câu số [question4_1](question4)
+    - Tôi muốn chọn phương án [question4_2](question4)
+    - Chọn đáp án [question4_3](question4)
+
+- intent: choose_q5
+  examples: |
+    - Tôi chọn câu số [question5_1](question5)
+    - Tôi muốn chọn phương án [question5_2](question5)
+    - Chọn đáp án [question5_3](question5)
+
+- intent: choose_q6
+  examples: |
+    - Tôi chọn câu số [question6_1](question6)
+    - Tôi muốn chọn phương án [question6_2](question6)
+    - Chọn đáp án [question6_3](question6)
+
+- intent: choose_q7
+  examples: |
+    - Tôi chọn câu số [question7_1](question7)
+    - Tôi muốn chọn phương án [question7_2](question7)
+    - Chọn đáp án [question7_3](question7)
+
+- intent: choose_q8
+  examples: |
+    - Tôi chọn câu số [question8_1](question8)
+    - Tôi muốn chọn phương án [question8_2](question8)
+    - Chọn đáp án [question8_3](question8)
+
+- intent: choose_q9
+  examples: |
+    - Tôi chọn câu số [question9_1](question9)
+    - Tôi muốn chọn phương án [question9_2](question9)
+    - Chọn đáp án [question9_3](question9)
+
+- intent: choose_q10
+  examples: |
+    - Tôi chọn câu số [question10_1](question10)
+    - Tôi muốn chọn phương án [question10_2](question10)
+    - Chọn đáp án [question10_3](question10)
+
+- intent: choose_q11
+  examples: |
+    - Tôi chọn câu số [question11_1](question11)
+    - Tôi muốn chọn phương án [question11_2](question11)
+    - Chọn đáp án [question11_3](question11)
+
+- intent: choose_q12
+  examples: |
+    - Tôi chọn câu số [question12_1](question12)
+    - Tôi muốn chọn phương án [question12_2](question12)
+    - Chọn đáp án [question12_3](question12)
+
+- intent: choose_q12_1
+  examples: |
+    - Tôi chọn câu số [question12_1_1](question12_1)
+    - Tôi muốn chọn phương án [question12_1_2](question12_1)
+    - Chọn đáp án [question12_1_3](question12_1)
+
+- intent: choose_q13
+  examples: |
+    - Tôi chọn câu số [question13_1](question13)
+    - Tôi muốn chọn phương án [question13_2](question13)
+    - Chọn đáp án [question13_3](question13)
+
+- intent: choose_q14
+  examples: |
+    - Tôi chọn câu số [question14_1](question14)
+    - Tôi muốn chọn phương án [question14_2](question14)
+    - Chọn đáp án [question14_3](question14)
+
+- intent: choose_q15
+  examples: |
+    - Tôi chọn câu số [question15_1](question15)
+    - Tôi muốn chọn phương án [question15_2](question15)
+    - Chọn đáp án [question15_3](question15)
+
+- intent: choose_q15_1
+  examples: |
+    - Tôi chọn câu số [question15_1_1](question15_1)
+    - Tôi muốn chọn phương án [question15_1_2](question15_1)
+    - Chọn đáp án [question15_1_3](question15_1)
+
+- intent: choose_q15_2
+  examples: |
+    - Tôi chọn câu số [question15_2_1](question15_2)
+    - Tôi muốn chọn phương án [question15_2_2](question15_2)
+    - Chọn đáp án [question15_2_3](question15_2)
+
+- intent: choose_q16
+  examples: |
+    - Tôi chọn câu số [question16_1](question16)
+    - Tôi muốn chọn phương án [question16_2](question16)
+    - Chọn đáp án [question16_3](question16)
+
+- intent: choose_q17
+  examples: |
+    - Tôi chọn câu số [question17_1](question17)
+    - Tôi muốn chọn phương án [question17_2](question17)
+    - Chọn đáp án [question17_3](question17)
+
+- intent: choose_q18
+  examples: |
+    - Tôi chọn câu số [question18_1](question18)
+    - Tôi muốn chọn phương án [question18_2](question18)
+    - Chọn đáp án [question18_3](question18)
+
+- intent: choose_q19
+  examples: |
+    - Tôi chọn câu số [question19_1](question19)
+    - Tôi muốn chọn phương án [question19_2](question19)
+    - Chọn đáp án [question19_3](question19)
+
+- intent: choose_q20
+  examples: |
+    - Tôi chọn câu số [question20_1](question20)
+    - Tôi muốn chọn phương án [question20_2](question20)
+    - Chọn đáp án [question20_3](question20)
+
+- intent: choose_q21
+  examples: |
+    - Tôi chọn câu số [question21_1](question21)
+    - Tôi muốn chọn phương án [question21_2](question21)
+    - Chọn đáp án [question21_3](question21)
+
+- intent: choose_q22
+  examples: |
+    - Tôi chọn câu số [question22_1](question22)
+    - Tôi muốn chọn phương án [question22_2](question22)
+    - Chọn đáp án [question22_3](question22)
+
+- intent: choose_q23
+  examples: |
+    - Tôi chọn câu số [question23_1](question23)
+    - Tôi muốn chọn phương án [question23_2](question23)
+    - Chọn đáp án [question23_3](question23)
+
+- intent: choose_q24
+  examples: |
+    - Tôi chọn câu số [question24_1](question24)
+    - Tôi muốn chọn phương án [question24_2](question24)
+    - Chọn đáp án [question24_3](question24)
+
+- intent: choose_q25
+  examples: |
+    - Tôi chọn câu số [question25_1](question25)
+    - Tôi muốn chọn phương án [question25_2](question25)
+    - Chọn đáp án [question25_3](question25)
+
+- intent: choose_q26
+  examples: |
+    - Tôi chọn câu số [question26_1](question26)
+    - Tôi muốn chọn phương án [question26_2](question26)
+    - Chọn đáp án [question26_3](question26)
+- intent: choose_q5_1
+  examples: |
+    - Tôi chọn câu số [question5_1_1](question5_1)
+    - Tôi muốn chọn phương án [question5_1_3](question5_1)
+    - Chọn đáp án [question5_1_2](question5_1)
+
