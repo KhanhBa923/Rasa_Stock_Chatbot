@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rasa Chat Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-container {
+            width: 90%;
+            max-width: 800px;
+            height: 90vh;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .chat-header h1 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 15px 20px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            animation: slideIn 0.3s ease;
+        }
+
+        .message.bot {
+            background: #f1f3f4;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.user {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 0.8em;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        /* Button Choices */
+        .button-choices {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+            max-width: 100%;
+        }
+
+        .choice-button {
+            background: white;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+
+        .choice-button:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateX(3px);
+        }
+
+        .choice-button:active {
+            transform: translateX(1px);
+        }
+
+        /* Multi Choice */
+        .multi-choice-container {
+            margin-top: 15px;
+        }
+
+        .multi-choice-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            background: white;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .multi-choice-item:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .multi-choice-item.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        }
+
+        .multi-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            margin-right: 12px;
+            position: relative;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .multi-choice-item.selected .multi-checkbox {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: #667eea;
+        }
+
+        .multi-checkbox::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+        }
+
+        .multi-choice-item.selected .multi-checkbox::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .multi-choice-text {
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.3;
+        }
+
+        .multi-choice-submit {
+            margin-top: 12px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .multi-choice-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .multi-choice-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Input Area */
+        .chat-input-container {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 0 0 20px 20px;
+            border-top: 1px solid #e1e8ed;
+        }
+
+        .chat-input-form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e1e8ed;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: #667eea;
+        }
+
+        .send-button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .send-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .send-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: #f1f3f4;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            max-width: 80px;
+            align-self: flex-start;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Status indicator */
+        .connection-status {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .connection-status.connected {
+            background: #27ae60;
+            color: white;
+        }
+
+        .connection-status.disconnected {
+            background: #e74c3c;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .chat-container {
+                width: 95%;
+                height: 95vh;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+            
+            .chat-input-form {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>🤖 Rasa AI Assistant</h1>
+            <p>Hỗ trợ tư vấn đầu tư chứng khoán</p>
+            <div class="connection-status" id="connectionStatus">Disconnected</div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be added here dynamically -->
+        </div>
+
+        <div class="chat-input-container">
+            <form class="chat-input-form" id="chatForm">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Nhập tin nhắn..." autocomplete="off">
+                <button type="submit" class="send-button" id="sendButton">Gửi</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        class RasaChatWidget {
+            constructor() {
+                this.rasaServerUrl = 'http://localhost:5005'; // Thay đổi URL này
+                this.sessionId = this.generateSessionId();
+                this.isConnected = false;
+                this.selectedMultiChoices = new Set();
+                
+                this.initializeElements();
+                this.setupEventListeners();
+                this.checkConnection();
+                this.sendInitialMessage();
+            }
+
+            generateSessionId() {
+                return 'session_' + Math.random().toString(36).substring(2, 15);
+            }
+
+            initializeElements() {
+                this.chatMessages = document.getElementById('chatMessages');
+                this.chatForm = document.getElementById('chatForm');
+                this.chatInput = document.getElementById('chatInput');
+                this.sendButton = document.getElementById('sendButton');
+                this.connectionStatus = document.getElementById('connectionStatus');
+            }
+
+            setupEventListeners() {
+                this.chatForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.sendMessage();
+                });
+
+                this.chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+            }
+
+            async checkConnection() {
+                try {
+                    const response = await fetch(`${this.rasaServerUrl}/status`);
+                    if (response.ok) {
+                        this.isConnected = true;
+                        this.updateConnectionStatus(true);
+                    }
+                } catch (error) {
+                    this.isConnected = false;
+                    this.updateConnectionStatus(false);
+                    console.error('Connection failed:', error);
+                }
+            }
+
+            updateConnectionStatus(connected) {
+                this.isConnected = connected;
+                this.connectionStatus.textContent = connected ? 'Connected' : 'Disconnected';
+                this.connectionStatus.className = `connection-status ${connected ? 'connected' : 'disconnected'}`;
+                this.sendButton.disabled = !connected;
+            }
+
+            sendInitialMessage() {
+                // Send initial message to start conversation only if needed
+                // Comment out or modify this based on your Rasa setup
+                setTimeout(() => {
+                    // Option 1: Don't send initial message - let user start
+                    // this.sendMessageToRasa('/start');
+                    
+                    // Option 2: Send a simple greeting intent
+                    this.sendMessageToRasa('/greet');
+                    
+                    // Option 3: Completely disable auto-start
+                    // this.addMessage('Xin chào! Tôi có thể giúp gì cho bạn?', 'bot');
+                }, 500);
+            }
+
+            async sendMessage() {
+                const message = this.chatInput.value.trim();
+                if (!message || !this.isConnected) return;
+
+                this.addMessage(message, 'user');
+                this.chatInput.value = '';
+                this.showTypingIndicator();
+
+                await this.sendMessageToRasa(message);
+            }
+
+            async sendMessageToRasa(message, payload = null) {
+                try {
+                    const requestBody = {
+                        sender: this.sessionId,
+                        message: message
+                    };
+
+                    if (payload) {
+                        requestBody.metadata = { payload };
+                    }
+
+                    const response = await fetch(`${this.rasaServerUrl}/webhooks/rest/webhook`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        this.hideTypingIndicator();
+                        this.handleRasaResponse(data);
+                    } else {
+                        throw new Error('Network response was not ok');
+                    }
+                } catch (error) {
+                    console.error('Error sending message to Rasa:', error);
+                    this.hideTypingIndicator();
+                    this.addMessage('Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau.', 'bot');
+                    this.updateConnectionStatus(false);
+                }
+            }
+
+            handleRasaResponse(responses) {
+                responses.forEach(response => {
+                    if (response.text) {
+                        this.addMessage(response.text, 'bot');
+                    }
+
+                    // Handle custom payload (buttons, multi-choice, etc.)
+                    if (response.custom) {
+                        this.handleCustomResponse(response.custom);
+                    }
+
+                    // Handle quick replies (buttons)
+                    if (response.buttons) {
+                        this.addButtonChoices(response.buttons);
+                    }
+                });
+            }
+
+            handleCustomResponse(custom) {
+                // Handle multi-choice
+                if (custom.multi_select && custom.choices) {
+                    this.addMultiChoice(custom.choices, custom.question_id);
+                }
+                
+                // Handle single choice buttons
+                if (custom.choices && !custom.multi_select) {
+                    this.addButtonChoices(custom.choices);
+                }
+
+                // Handle other custom responses
+                if (custom.type === 'image' && custom.src) {
+                    this.addImageMessage(custom.src, custom.alt || 'Image');
+                }
+            }
+
+            addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                
+                const messageText = document.createElement('div');
+                messageText.textContent = text;
+                messageDiv.appendChild(messageText);
+
+                const messageTime = document.createElement('div');
+                messageTime.className = 'message-time';
+                messageTime.textContent = new Date().toLocaleTimeString('vi-VN', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+                messageDiv.appendChild(messageTime);
+
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            addButtonChoices(choices) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message bot';
+
+                const buttonContainer = document.createElement('div');
+                buttonContainer.className = 'button-choices';
+
+                choices.forEach(choice => {
+                    const button = document.createElement('button');
+                    button.className = 'choice-button';
+                    button.textContent = choice.title || choice.text;
+                    button.onclick = () => {
+                        this.handleButtonClick(choice);
+                        // Remove buttons after selection
+                        messageDiv.remove();
+                    };
+                    buttonContainer.appendChild(button);
+                });
+
+                messageDiv.appendChild(buttonContainer);
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            addMultiChoice(choices, questionId = null) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message bot';
+
+                const multiContainer = document.createElement('div');
+                multiContainer.className = 'multi-choice-container';
+
+                this.selectedMultiChoices.clear();
+
+                choices.forEach(choice => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'multi-choice-item';
+                    itemDiv.dataset.value = choice.value;
+
+                    const checkbox = document.createElement('div');
+                    checkbox.className = 'multi-checkbox';
+
+                    const text = document.createElement('div');
+                    text.className = 'multi-choice-text';
+                    text.textContent = choice.title || choice.text;
+
+                    itemDiv.appendChild(checkbox);
+                    itemDiv.appendChild(text);
+
+                    itemDiv.onclick = () => {
+                        itemDiv.classList.toggle('selected');
+                        const value = choice.value;
+                        
+                        if (itemDiv.classList.contains('selected')) {
+                            this.selectedMultiChoices.add(value);
+                        } else {
+                            this.selectedMultiChoices.delete(value);
+                        }
+
+                        submitButton.disabled = this.selectedMultiChoices.size === 0;
+                    };
+
+                    multiContainer.appendChild(itemDiv);
+                });
+
+                const submitButton = document.createElement('button');
+                submitButton.className = 'multi-choice-submit';
+                submitButton.textContent = 'Xác nhận lựa chọn';
+                submitButton.disabled = true;
+                submitButton.onclick = () => {
+                    this.handleMultiChoiceSubmit(Array.from(this.selectedMultiChoices), questionId);
+                    messageDiv.remove();
+                };
+
+                multiContainer.appendChild(submitButton);
+                messageDiv.appendChild(multiContainer);
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            addImageMessage(src, alt) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message bot';
+
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = alt;
+                img.style.maxWidth = '100%';
+                img.style.borderRadius = '8px';
+
+                messageDiv.appendChild(img);
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            handleButtonClick(choice) {
+                // Add user message showing what was selected
+                this.addMessage(choice.title || choice.text, 'user');
+                
+                // Send to Rasa
+                if (choice.payload) {
+                    this.sendMessageToRasa(choice.payload);
+                } else {
+                    this.sendMessageToRasa(choice.title || choice.text);
+                }
+            }
+
+           handleMultiChoiceSubmit(selectedValues, questionId) {
+            questionId = questionId || 'question6'; // Default to question6 if not provided
+            const displayText = selectedValues.join(', ');
+            this.addMessage(`Đã chọn: ${displayText}`, 'user');
+
+            const questionNumber = questionId.replace("question", "");
+            const intentName = `choose_q${questionNumber}`;
+
+            const slotData = {};
+            slotData[questionId] = selectedValues;
+
+            const rasaPayload = `/${intentName}${JSON.stringify(slotData)}`;
+            this.addMessage(`Gửi intent: ${rasaPayload}`, 'user');
+
+            this.sendMessageToRasa(rasaPayload);
+        }
+
+
+
+
+            showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                typingDiv.id = 'typingIndicator';
+
+                const dotsDiv = document.createElement('div');
+                dotsDiv.className = 'typing-dots';
+
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'typing-dot';
+                    dotsDiv.appendChild(dot);
+                }
+
+                typingDiv.appendChild(dotsDiv);
+                this.chatMessages.appendChild(typingDiv);
+                this.scrollToBottom();
+            }
+
+            hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typingIndicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+
+            scrollToBottom() {
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
+        }
+
+        // Initialize chat widget when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new RasaChatWidget();
+        });
+
+        // Example of how to send custom message from external JavaScript
+        function sendCustomMessage(message) {
+            if (window.rasaChat) {
+                window.rasaChat.sendMessageToRasa(message);
+            }
+        }
+
+        // Store reference for external access
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                window.rasaChat = new RasaChatWidget();
+            }, 100);
+        });
+    </script>
+</body>
+</html>

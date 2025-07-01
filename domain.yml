@@ -244,10 +244,11 @@ slots:
       entity: question5
 
   question6:
-    type: text
+    type: list
+    influence_conversation: false
     mappings:
-    - type: from_entity
-      entity: question6
+      - type: custom 
+      
   question7:
     type: text
     mappings:
@@ -418,10 +419,10 @@ forms:
     # - budget
     # - ready
     - question1
-    - question3
-    - question4
-    - question5
-    - question5_1
+    # - question3
+    # - question4
+    # - question5
+    # - question5_1
     - question6
     - question7
     - question8
@@ -469,6 +470,10 @@ actions:
 - action_ask_question5
 - action_ask_question5_1
 - action_ask_question6
+- action_ask_question7
+# - action_ask_question8
+# - action_ask_question9
+# - action_ask_question10
 
 ############################################################### Responses ###########################################################
 
@@ -595,12 +600,15 @@ responses:
   - text: ""
     buttons:
       - title: "a. Tham gia vào các nhóm tư vấn (zalo, telegram,...)"
+        payload: '/choose_q6{"question6": "question6_1"}'
       - title: "b. Tham gia các khóa học để nâng cao kiến thức khi đầu tư"
+        payload: '/choose_q6{"question6": "question6_2"}'
       - title: "c. Tìm kiếm dịch vụ tư vấn chuyên sâu tại công ty chứng khoán"
-      - title: "d. d. Tiếp tục đầu tư, rút kinh nghiệm từ những vấn đề thua lỗ trước đây"
+        payload: '/choose_q6{"question6": "question6_3"}'
+      - title: "d. Tiếp tục đầu tư, rút kinh nghiệm từ những vấn đề thua lỗ trước đây"
+        payload: '/choose_q6{"question6": "question6_4"}'
   utter_ask_question7:
   - text: "Nếu gặp phải trường hợp khoản đầu tư sụt giảm hơn 20% giá trị trong tương lai, anh/chị sẽ làm gì?"
-  
   utter_res_question7:
   - text: ""
     buttons:

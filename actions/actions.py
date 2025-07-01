@@ -404,6 +404,92 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question5: {e}")
             return {"question5": None}
+    def validate_question6(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Hiển thị lại câu trả lời question6"""
+        try:
+            print(f"DEBUG: Running validate_question6 with slot_value: {slot_value}")
+            # Valid choices for question6
+            valid_choices = [
+                "question6_1",  # Tham gia vào các nhóm tư vấn
+                "question6_2",  # Tham gia các khóa học
+                "question6_3",  # Tìm kiếm dịch vụ tư vấn chuyên sâu
+                "question6_4"   # Tiếp tục đầu tư, rút kinh nghiệm
+            ]
+            
+            # Handle case where slot_value is None or empty
+            if not slot_value:
+                dispatcher.utter_message(text="Vui lòng chọn ít nhất một phương án.")
+                return {"question6": None}
+            
+            # Convert single value to list for consistent processing
+            if isinstance(slot_value, str):
+                selected_values = [slot_value]
+            elif isinstance(slot_value, list):
+                selected_values = slot_value
+            else:
+                # Handle unexpected data types
+                dispatcher.utter_message(text="Dữ liệu không hợp lệ. Vui lòng chọn lại.")
+                return {"question6": None}
+            
+            # Validate each selected value
+            validated_values = []
+            for value in selected_values:
+                if value in valid_choices:
+                    validated_values.append(value)
+                else:
+                    dispatcher.utter_message(text=f"Lựa chọn '{value}' không hợp lệ.")
+                    return {"question6": None}
+            
+            # Check if at least one option is selected
+            if not validated_values:
+                dispatcher.utter_message(text="Vui lòng chọn ít nhất một phương án.")
+                return {"question6": None}
+            
+            # Success case - return validated values
+            # Convert back to single value if only one item selected
+            if len(validated_values) == 1:
+                return {"question6": validated_values[0]}
+            else:
+                return {"question6": validated_values}
+                
+        except Exception as e:
+            # Log the error for debugging
+            print(f"Error in validate_question6: {str(e)}")
+            dispatcher.utter_message(text="Đã xảy ra lỗi. Vui lòng thử lại.")
+            return {"question6": None}
+    def validate_question7(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Hiển thị lại câu trả lời question7"""
+
+        try:
+            if slot_value and slot_value.startswith("question7_"):
+                option_number = slot_value.replace("question7_", "")  # Lấy số thứ tự từ slot_value
+
+                valid_options = ["1", "2", "3","4", "5"]
+                if option_number in valid_options:
+                    return {"question7": slot_value}
+                else:
+                    dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
+                    return {"question7": None}
+            else:
+                dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
+                return {"question7": None}
+        except Exception as e:
+            dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
+            print(f"[ERROR] validate_question7: {e}")
+            return {"question7": None}
+
 class ActionCustomFormSubmit(Action):
     def name(self) -> Text:
         return "action_submit_form_survey_typebot"
@@ -601,9 +687,40 @@ class ActionAskQuestion5_1(ActionAskQuestionBase):
     def name(self) -> Text:
         return "action_ask_question5_1"
     
-class ActionAskQuestion6(ActionAskQuestionBase):
-    def name(self) -> Text:
+class ActionShowQuestion6(Action):
+    def name(self) -> str:
         return "action_ask_question6"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[str, Any]) -> List[Dict[str, Any]]:
+        print(f"DEBUG: Running action action_ask_question6 for slot question6")
+        dispatcher.utter_message(
+            response=f"utter_ask_question6",
+            custom={
+                "multi_select": True,
+                "choices": [
+                    {
+                        "text": "Tham gia vào các nhóm tư vấn (zalo, telegram,...)",
+                        "value": "question6_1"
+                    },
+                    {
+                        "text": "Tham gia các khóa học để nâng cao kiến thức khi đầu tư", 
+                        "value": "question6_2"
+                    },
+                    {
+                        "text": "Tìm kiếm dịch vụ tư vấn chuyên sâu tại công ty chứng khoán",
+                        "value": "question6_3"
+                    },
+                    {
+                        "text": "Tiếp tục đầu tư, rút kinh nghiệm từ những vấn đề thua lỗ trước đây",
+                        "value": "question6_4"
+                    }
+                ]
+            }
+        )
+        return []
 class ActionAskQuestion7(ActionAskQuestionBase):
     def name(self) -> Text:
         return "action_ask_question7"
+
