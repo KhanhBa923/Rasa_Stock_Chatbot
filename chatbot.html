@@ -39,6 +39,7 @@
             padding: 20px;
             text-align: center;
             border-radius: 20px 20px 0 0;
+            position: relative;
         }
 
         .chat-header h1 {
@@ -116,6 +117,83 @@
 
         .choice-button:active {
             transform: translateX(1px);
+        }
+
+        /* Custom Input Form for "Other" option */
+        .custom-input-container {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9ff;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .custom-input-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .custom-input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+
+        .custom-input-field:focus {
+            border-color: #667eea;
+        }
+
+        .custom-input-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            justify-content: flex-end;
+        }
+
+        .custom-input-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .custom-input-btn.cancel {
+            background: #f1f3f4;
+            color: #333;
+        }
+
+        .custom-input-btn.cancel:hover {
+            background: #e1e8ed;
+        }
+
+        .custom-input-btn.submit {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .custom-input-btn.submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .custom-input-btn.submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         /* Multi Choice */
@@ -335,6 +413,14 @@
             .chat-input-form {
                 flex-direction: row;
             }
+
+            .custom-input-buttons {
+                justify-content: stretch;
+            }
+
+            .custom-input-btn {
+                flex: 1;
+            }
         }
     </style>
 </head>
@@ -537,6 +623,7 @@
             addButtonChoices(choices) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = 'message bot';
+                messageDiv.id = 'buttonChoiceMessage';
 
                 const buttonContainer = document.createElement('div');
                 buttonContainer.className = 'button-choices';
@@ -546,8 +633,7 @@
                     button.className = 'choice-button';
                     button.textContent = choice.title || choice.text;
                     button.onclick = () => {
-                        this.handleButtonClick(choice);
-                        messageDiv.remove();
+                        this.handleButtonClick(choice, messageDiv);
                     };
                     buttonContainer.appendChild(button);
                 });
@@ -635,7 +721,14 @@
                 this.scrollToBottom();
             }
 
-            handleButtonClick(choice) {
+            handleButtonClick(choice, messageDiv) {
+                // Check if this is "Other/Khác" option
+                if (this.isOtherOption(choice)) {
+                    this.showCustomInputForm(choice, messageDiv);
+                    return;
+                }
+
+                // Normal button click handling
                 this.addMessage(choice.title || choice.text, 'user');
                 
                 if (choice.payload) {
@@ -643,6 +736,122 @@
                 } else {
                     this.sendMessageToRasa(choice.title || choice.text);
                 }
+
+                // Remove the button message
+                messageDiv.remove();
+            }
+
+            isOtherOption(choice) {
+                const text = (choice.title || choice.text || '').toLowerCase();
+                const value = (choice.value || '').toLowerCase();
+                
+                return value === 'other' || value === 'khac' || 
+                       text.includes('khác') || text.includes('other') ||
+                       text.includes('d.');
+            }
+
+            showCustomInputForm(choice, messageDiv) {
+                // Remove any existing custom input form
+                const existingForm = document.getElementById('customInputContainer');
+                if (existingForm) {
+                    existingForm.remove();
+                }
+
+                // Create custom input container
+                const customInputDiv = document.createElement('div');
+                customInputDiv.className = 'custom-input-container';
+                customInputDiv.id = 'customInputContainer';
+
+                const label = document.createElement('label');
+                label.className = 'custom-input-label';
+                label.textContent = 'Vui lòng nhập lý do khác:';
+
+                const textarea = document.createElement('textarea');
+                textarea.className = 'custom-input-field';
+                textarea.id = 'customInputField';
+                textarea.placeholder = 'Nhập lý do của bạn...';
+                textarea.maxLength = 500;
+
+                const buttonsDiv = document.createElement('div');
+                buttonsDiv.className = 'custom-input-buttons';
+
+                const cancelBtn = document.createElement('button');
+                cancelBtn.className = 'custom-input-btn cancel';
+                cancelBtn.textContent = 'Hủy';
+                cancelBtn.onclick = () => {
+                    customInputDiv.remove();
+                };
+
+                const submitBtn = document.createElement('button');
+                submitBtn.className = 'custom-input-btn submit';
+                submitBtn.textContent = 'Gửi';
+                submitBtn.disabled = true;
+                submitBtn.onclick = () => {
+                    this.handleCustomInputSubmit(textarea.value.trim(), choice, messageDiv);
+                };
+
+                // Enable/disable submit button based on input
+                textarea.addEventListener('input', () => {
+                    submitBtn.disabled = !textarea.value.trim();
+                });
+
+                // Handle Enter key (Ctrl+Enter to send, Enter for new line)
+                textarea.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && e.ctrlKey && textarea.value.trim()) {
+                        e.preventDefault();
+                        this.handleCustomInputSubmit(textarea.value.trim(), choice, messageDiv);
+                    }
+                });
+
+                buttonsDiv.appendChild(cancelBtn);
+                buttonsDiv.appendChild(submitBtn);
+
+                customInputDiv.appendChild(label);
+                customInputDiv.appendChild(textarea);
+                customInputDiv.appendChild(buttonsDiv);
+
+                // Add to the message
+                messageDiv.appendChild(customInputDiv);
+                
+                // Focus on textarea
+                setTimeout(() => {
+                    textarea.focus();
+                    this.scrollToBottom();
+                }, 100);
+            }
+
+            handleCustomInputSubmit(customText, originalChoice, messageDiv) {
+                if (!customText) return;
+
+                // Show user message
+                this.addMessage(`Khác: ${customText}`, 'user');
+
+                // Extract question number from payload or current context
+                let questionNumber = "12_1"; // Default fallback
+                
+                // Try to extract from payload
+                if (originalChoice.payload) {
+                    const payloadMatch = originalChoice.payload.match(/choose_q(\d+(?:_\d+)?)/);
+                    if (payloadMatch) {
+                        questionNumber = payloadMatch[1];
+                    }
+                }
+
+                // Create the payload format: /choose_q12_1{"question12_1":"custom_text"}
+                const intentName = `choose_q${questionNumber}`;
+                const slotName = `question${questionNumber}`;
+                const slotData = {};
+                slotData[slotName] = customText;
+
+                const rasaPayload = `/${intentName}${JSON.stringify(slotData)}`;
+                
+                console.log('Sending custom input payload:', rasaPayload);
+
+                // Send to Rasa
+                this.sendMessageToRasa(rasaPayload);
+
+                // Remove the button message
+                messageDiv.remove();
             }
 
             handleMultiChoiceSubmit(selectedValues, questionId, choicesMap) {
@@ -660,30 +869,29 @@
                 // Show user message
                 this.addMessage(`Đã chọn: ${displayText}`, 'user');
 
-                // 👉 Trích số câu hỏi từ questionId, ví dụ "question6" hoặc "question6_1" → "6"
+                // Extract question number from questionId
                 const questionNumberMatch = questionId.match(/question(\d+)/);
                 const questionNumber = questionNumberMatch ? questionNumberMatch[1] : "X";
 
-                // Tạo intent name và slot name
-                const intentName = `choose_q${questionNumber}`;       // → "choose_q6"
-                const slotName = `question${questionNumber}`;         // → "question6"
+                // Create intent name and slot name
+                const intentName = `choose_q${questionNumber}`;
+                const slotName = `question${questionNumber}`;
 
-                // Tạo slot data gửi về RASA
+                // Create slot data for Rasa
                 const slotData = {};
                 slotData[slotName] = selectedValues;
 
-                // 👉 Tạo payload đúng định dạng
+                // Create payload in correct format
                 const rasaPayload = `/${intentName}${JSON.stringify(slotData)}`;
 
                 console.log('Sending Rasa payload:', rasaPayload);
 
-                // Gửi đến RASA
+                // Send to Rasa
                 this.sendMessageToRasa(rasaPayload);
 
                 // Reset
                 this.currentQuestionId = null;
             }
-
 
             showTypingIndicator() {
                 const typingDiv = document.createElement('div');

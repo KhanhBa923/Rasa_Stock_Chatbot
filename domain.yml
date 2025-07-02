@@ -420,15 +420,15 @@ forms:
     # - seniority
     # - budget
     # - ready
-    - question1
+    # - question1
     # - question3
     # - question4
     # - question5
     # - question5_1
-    - question6
-    - question7
-    - question8
-    - question9
+    # - question6
+    # - question7
+    # - question8
+    # - question9
     - question10
     - question11
     - question12
@@ -471,11 +471,19 @@ actions:
 - action_ask_question4
 - action_ask_question5
 - action_ask_question5_1
-- action_ask_question6
+- action_ask_question6  
 - action_ask_question7
 - action_ask_question8
 - action_ask_question9
 - action_ask_question10
+- action_ask_question11
+- action_ask_question12
+- action_ask_question12_1
+- action_ask_question13
+- action_ask_question14
+- action_ask_question15
+- action_ask_question15_1
+- action_ask_question15_2
 
 ############################################################### Responses ###########################################################
 
