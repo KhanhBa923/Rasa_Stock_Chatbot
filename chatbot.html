@@ -365,7 +365,7 @@
                 this.sessionId = this.generateSessionId();
                 this.isConnected = false;
                 this.selectedMultiChoices = new Set();
-                this.currentQuestionId = null; // Track current question ID
+                this.currentQuestionId = null;
                 
                 this.initializeElements();
                 this.setupEventListeners();
@@ -490,38 +490,21 @@
             }
 
             handleCustomResponse(custom) {
-                // Method 1: Get questionId from custom payload
+                console.log('Received custom payload:', custom);
+
+                // Extract question_id from custom payload
                 if (custom.question_id) {
                     this.currentQuestionId = custom.question_id;
-                    console.log('Question ID from custom payload:', this.currentQuestionId);
+                    console.log('Question ID from backend:', this.currentQuestionId);
                 }
 
-                // Method 2: Extract questionId from custom type or identifier
-                if (custom.type === 'multi_choice' && custom.id) {
-                    this.currentQuestionId = custom.id;
-                    console.log('Question ID from custom type:', this.currentQuestionId);
-                }
-
-                // Method 3: Auto-detect questionId from choices structure
+                // Handle multi-select choices
                 if (custom.multi_select && custom.choices) {
-                    // Try to extract from first choice if it has question_id
-                    if (custom.choices[0] && custom.choices[0].question_id) {
-                        this.currentQuestionId = custom.choices[0].question_id;
-                    }
-                    // Or use the explicit question_id from custom
-                    else if (custom.question_id) {
-                        this.currentQuestionId = custom.question_id;
-                    }
-                    // Or try to infer from context/pattern
-                    else {
-                        this.currentQuestionId = this.inferQuestionId(custom.choices);
-                    }
-                    
                     this.addMultiChoice(custom.choices, this.currentQuestionId);
                 }
                 
-                // Handle single choice buttons
-                if (custom.choices && !custom.multi_select) {
+                // Handle single choice buttons (if not multi_select)
+                else if (custom.choices && !custom.multi_select) {
                     this.addButtonChoices(custom.choices);
                 }
 
@@ -529,46 +512,6 @@
                 if (custom.type === 'image' && custom.src) {
                     this.addImageMessage(custom.src, custom.alt || 'Image');
                 }
-            }
-
-            // Method 4: Infer questionId from choices or context
-            inferQuestionId(choices) {
-                // Look for patterns in choice values or titles
-                if (choices && choices.length > 0) {
-                    const firstChoice = choices[0];
-                    
-                    // Check if choice has metadata with question info
-                    if (firstChoice.metadata && firstChoice.metadata.question_id) {
-                        return firstChoice.metadata.question_id;
-                    }
-                    
-                    // Try to extract from value patterns (e.g., "q1_option1", "question1_choice1")
-                    if (firstChoice.value) {
-                        const match = firstChoice.value.match(/q(\d+)_|question(\d+)_/);
-                        if (match) {
-                            const questionNum = match[1] || match[2];
-                            return `question${questionNum}`;
-                        }
-                    }
-                }
-                
-                // Default fallback - you might want to track this based on conversation flow
-                return this.getQuestionIdFromContext();
-            }
-
-            // Method 5: Track questionId based on conversation context
-            getQuestionIdFromContext() {
-                // You can implement logic to track which question you're currently on
-                // based on the conversation flow, previous responses, etc.
-                
-                // Simple counter-based approach
-                if (!this.questionCounter) {
-                    this.questionCounter = 1;
-                } else {
-                    this.questionCounter++;
-                }
-                
-                return `question${this.questionCounter}`;
             }
 
             addMessage(text, sender) {
@@ -614,23 +557,21 @@
                 this.scrollToBottom();
             }
 
-            addMultiChoice(choices, questionId = null) {
-                // Use the provided questionId or fall back to current/inferred one
-                const finalQuestionId = questionId || this.currentQuestionId || 'question1';
-                
-                console.log('Adding multi-choice with questionId:', finalQuestionId);
+            addMultiChoice(choices, questionId) {
+                console.log('Adding multi-choice with questionId:', questionId);
+                console.log('Choices:', choices);
 
                 const messageDiv = document.createElement('div');
                 messageDiv.className = 'message bot';
 
                 const multiContainer = document.createElement('div');
                 multiContainer.className = 'multi-choice-container';
-                multiContainer.dataset.questionId = finalQuestionId; // Store for reference
+                multiContainer.dataset.questionId = questionId;
 
                 this.selectedMultiChoices.clear();
                 this.choicesMap = new Map(); // Map to store value -> display text
 
-                choices.forEach(choice => {
+                choices.forEach((choice, index) => {
                     const itemDiv = document.createElement('div');
                     itemDiv.className = 'multi-choice-item';
                     itemDiv.dataset.value = choice.value;
@@ -640,10 +581,10 @@
 
                     const text = document.createElement('div');
                     text.className = 'multi-choice-text';
-                    text.textContent = choice.title || choice.text;
+                    text.textContent = choice.text;
 
                     // Store mapping from value to display text
-                    this.choicesMap.set(choice.value, choice.title || choice.text);
+                    this.choicesMap.set(choice.value, choice.text);
 
                     itemDiv.appendChild(checkbox);
                     itemDiv.appendChild(text);
@@ -669,7 +610,7 @@
                 submitButton.textContent = 'Xác nhận lựa chọn';
                 submitButton.disabled = true;
                 submitButton.onclick = () => {
-                    this.handleMultiChoiceSubmit(Array.from(this.selectedMultiChoices), finalQuestionId, this.choicesMap);
+                    this.handleMultiChoiceSubmit(Array.from(this.selectedMultiChoices), questionId, this.choicesMap);
                     messageDiv.remove();
                 };
 
@@ -705,13 +646,9 @@
             }
 
             handleMultiChoiceSubmit(selectedValues, questionId, choicesMap) {
-                // Ensure we have a valid questionId
-                questionId = questionId || this.currentQuestionId || 'question1';
-                
                 console.log('Submitting multi-choice:', {
                     selectedValues,
-                    questionId,
-                    currentQuestionId: this.currentQuestionId
+                    questionId
                 });
 
                 // Convert selected values to display text for user message
@@ -719,27 +656,34 @@
                     return choicesMap && choicesMap.get(value) ? choicesMap.get(value) : value;
                 });
                 const displayText = displayTexts.join(', ');
-                
+
+                // Show user message
                 this.addMessage(`Đã chọn: ${displayText}`, 'user');
 
-                // Extract question number from questionId (e.g., "question6" -> "6")
-                const questionNumber = questionId.replace(/\D/g, ''); // Remove non-digits
-                const intentName = `choose_q${questionNumber}`;
+                // 👉 Trích số câu hỏi từ questionId, ví dụ "question6" hoặc "question6_1" → "6"
+                const questionNumberMatch = questionId.match(/question(\d+)/);
+                const questionNumber = questionNumberMatch ? questionNumberMatch[1] : "X";
 
-                // Create slot data with original values (not display text)
+                // Tạo intent name và slot name
+                const intentName = `choose_q${questionNumber}`;       // → "choose_q6"
+                const slotName = `question${questionNumber}`;         // → "question6"
+
+                // Tạo slot data gửi về RASA
                 const slotData = {};
-                slotData[questionId] = selectedValues;
+                slotData[slotName] = selectedValues;
 
-                // Create Rasa payload
+                // 👉 Tạo payload đúng định dạng
                 const rasaPayload = `/${intentName}${JSON.stringify(slotData)}`;
-                
+
                 console.log('Sending Rasa payload:', rasaPayload);
 
+                // Gửi đến RASA
                 this.sendMessageToRasa(rasaPayload);
-                
-                // Reset current question ID after submission
+
+                // Reset
                 this.currentQuestionId = null;
             }
+
 
             showTypingIndicator() {
                 const typingDiv = document.createElement('div');

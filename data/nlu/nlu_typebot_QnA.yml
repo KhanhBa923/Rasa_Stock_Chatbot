@@ -68,6 +68,9 @@ nlu:
     - Tôi chọn câu số [question8_1](question8)
     - Tôi muốn chọn phương án [question8_2](question8)
     - Chọn đáp án [question8_3](question8)
+    - /choose_q8{"question8": ["question8_1", "question8_2", "question8_3"]}
+    - /choose_q8{"question8": ["question8_1"]}
+    - /choose_q8{"question8": ["question8_2", "question8_3"]}
 
 - intent: choose_q9
   examples: |
