@@ -361,10 +361,11 @@
     <script>
         class RasaChatWidget {
             constructor() {
-                this.rasaServerUrl = 'http://localhost:5005'; // Thay đổi URL này
+                this.rasaServerUrl = 'http://localhost:5005';
                 this.sessionId = this.generateSessionId();
                 this.isConnected = false;
                 this.selectedMultiChoices = new Set();
+                this.currentQuestionId = null; // Track current question ID
                 
                 this.initializeElements();
                 this.setupEventListeners();
@@ -420,17 +421,8 @@
             }
 
             sendInitialMessage() {
-                // Send initial message to start conversation only if needed
-                // Comment out or modify this based on your Rasa setup
                 setTimeout(() => {
-                    // Option 1: Don't send initial message - let user start
-                    // this.sendMessageToRasa('/start');
-                    
-                    // Option 2: Send a simple greeting intent
                     this.sendMessageToRasa('/greet');
-                    
-                    // Option 3: Completely disable auto-start
-                    // this.addMessage('Xin chào! Tôi có thể giúp gì cho bạn?', 'bot');
                 }, 500);
             }
 
@@ -498,9 +490,34 @@
             }
 
             handleCustomResponse(custom) {
-                // Handle multi-choice
+                // Method 1: Get questionId from custom payload
+                if (custom.question_id) {
+                    this.currentQuestionId = custom.question_id;
+                    console.log('Question ID from custom payload:', this.currentQuestionId);
+                }
+
+                // Method 2: Extract questionId from custom type or identifier
+                if (custom.type === 'multi_choice' && custom.id) {
+                    this.currentQuestionId = custom.id;
+                    console.log('Question ID from custom type:', this.currentQuestionId);
+                }
+
+                // Method 3: Auto-detect questionId from choices structure
                 if (custom.multi_select && custom.choices) {
-                    this.addMultiChoice(custom.choices, custom.question_id);
+                    // Try to extract from first choice if it has question_id
+                    if (custom.choices[0] && custom.choices[0].question_id) {
+                        this.currentQuestionId = custom.choices[0].question_id;
+                    }
+                    // Or use the explicit question_id from custom
+                    else if (custom.question_id) {
+                        this.currentQuestionId = custom.question_id;
+                    }
+                    // Or try to infer from context/pattern
+                    else {
+                        this.currentQuestionId = this.inferQuestionId(custom.choices);
+                    }
+                    
+                    this.addMultiChoice(custom.choices, this.currentQuestionId);
                 }
                 
                 // Handle single choice buttons
@@ -512,6 +529,46 @@
                 if (custom.type === 'image' && custom.src) {
                     this.addImageMessage(custom.src, custom.alt || 'Image');
                 }
+            }
+
+            // Method 4: Infer questionId from choices or context
+            inferQuestionId(choices) {
+                // Look for patterns in choice values or titles
+                if (choices && choices.length > 0) {
+                    const firstChoice = choices[0];
+                    
+                    // Check if choice has metadata with question info
+                    if (firstChoice.metadata && firstChoice.metadata.question_id) {
+                        return firstChoice.metadata.question_id;
+                    }
+                    
+                    // Try to extract from value patterns (e.g., "q1_option1", "question1_choice1")
+                    if (firstChoice.value) {
+                        const match = firstChoice.value.match(/q(\d+)_|question(\d+)_/);
+                        if (match) {
+                            const questionNum = match[1] || match[2];
+                            return `question${questionNum}`;
+                        }
+                    }
+                }
+                
+                // Default fallback - you might want to track this based on conversation flow
+                return this.getQuestionIdFromContext();
+            }
+
+            // Method 5: Track questionId based on conversation context
+            getQuestionIdFromContext() {
+                // You can implement logic to track which question you're currently on
+                // based on the conversation flow, previous responses, etc.
+                
+                // Simple counter-based approach
+                if (!this.questionCounter) {
+                    this.questionCounter = 1;
+                } else {
+                    this.questionCounter++;
+                }
+                
+                return `question${this.questionCounter}`;
             }
 
             addMessage(text, sender) {
@@ -547,7 +604,6 @@
                     button.textContent = choice.title || choice.text;
                     button.onclick = () => {
                         this.handleButtonClick(choice);
-                        // Remove buttons after selection
                         messageDiv.remove();
                     };
                     buttonContainer.appendChild(button);
@@ -559,13 +615,20 @@
             }
 
             addMultiChoice(choices, questionId = null) {
+                // Use the provided questionId or fall back to current/inferred one
+                const finalQuestionId = questionId || this.currentQuestionId || 'question1';
+                
+                console.log('Adding multi-choice with questionId:', finalQuestionId);
+
                 const messageDiv = document.createElement('div');
                 messageDiv.className = 'message bot';
 
                 const multiContainer = document.createElement('div');
                 multiContainer.className = 'multi-choice-container';
+                multiContainer.dataset.questionId = finalQuestionId; // Store for reference
 
                 this.selectedMultiChoices.clear();
+                this.choicesMap = new Map(); // Map to store value -> display text
 
                 choices.forEach(choice => {
                     const itemDiv = document.createElement('div');
@@ -578,6 +641,9 @@
                     const text = document.createElement('div');
                     text.className = 'multi-choice-text';
                     text.textContent = choice.title || choice.text;
+
+                    // Store mapping from value to display text
+                    this.choicesMap.set(choice.value, choice.title || choice.text);
 
                     itemDiv.appendChild(checkbox);
                     itemDiv.appendChild(text);
@@ -603,7 +669,7 @@
                 submitButton.textContent = 'Xác nhận lựa chọn';
                 submitButton.disabled = true;
                 submitButton.onclick = () => {
-                    this.handleMultiChoiceSubmit(Array.from(this.selectedMultiChoices), questionId);
+                    this.handleMultiChoiceSubmit(Array.from(this.selectedMultiChoices), finalQuestionId, this.choicesMap);
                     messageDiv.remove();
                 };
 
@@ -629,10 +695,8 @@
             }
 
             handleButtonClick(choice) {
-                // Add user message showing what was selected
                 this.addMessage(choice.title || choice.text, 'user');
                 
-                // Send to Rasa
                 if (choice.payload) {
                     this.sendMessageToRasa(choice.payload);
                 } else {
@@ -640,25 +704,42 @@
                 }
             }
 
-           handleMultiChoiceSubmit(selectedValues, questionId) {
-            questionId = questionId || 'question6'; // Default to question6 if not provided
-            const displayText = selectedValues.join(', ');
-            this.addMessage(`Đã chọn: ${displayText}`, 'user');
+            handleMultiChoiceSubmit(selectedValues, questionId, choicesMap) {
+                // Ensure we have a valid questionId
+                questionId = questionId || this.currentQuestionId || 'question1';
+                
+                console.log('Submitting multi-choice:', {
+                    selectedValues,
+                    questionId,
+                    currentQuestionId: this.currentQuestionId
+                });
 
-            const questionNumber = questionId.replace("question", "");
-            const intentName = `choose_q${questionNumber}`;
+                // Convert selected values to display text for user message
+                const displayTexts = selectedValues.map(value => {
+                    return choicesMap && choicesMap.get(value) ? choicesMap.get(value) : value;
+                });
+                const displayText = displayTexts.join(', ');
+                
+                this.addMessage(`Đã chọn: ${displayText}`, 'user');
 
-            const slotData = {};
-            slotData[questionId] = selectedValues;
+                // Extract question number from questionId (e.g., "question6" -> "6")
+                const questionNumber = questionId.replace(/\D/g, ''); // Remove non-digits
+                const intentName = `choose_q${questionNumber}`;
 
-            const rasaPayload = `/${intentName}${JSON.stringify(slotData)}`;
-            this.addMessage(`Gửi intent: ${rasaPayload}`, 'user');
+                // Create slot data with original values (not display text)
+                const slotData = {};
+                slotData[questionId] = selectedValues;
 
-            this.sendMessageToRasa(rasaPayload);
-        }
+                // Create Rasa payload
+                const rasaPayload = `/${intentName}${JSON.stringify(slotData)}`;
+                
+                console.log('Sending Rasa payload:', rasaPayload);
 
-
-
+                this.sendMessageToRasa(rasaPayload);
+                
+                // Reset current question ID after submission
+                this.currentQuestionId = null;
+            }
 
             showTypingIndicator() {
                 const typingDiv = document.createElement('div');

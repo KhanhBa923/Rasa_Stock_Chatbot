@@ -53,6 +53,9 @@ nlu:
     - Tôi chọn câu số [question6_1](question6) và [question6_2](question6) và [question6_3](question6)
     - Tôi muốn chọn phương án [question6_2](question6) và [question6_3](question6)
     - Chọn đáp án [question6_3](question6) 
+    - /choose_q6{"question6": ["question6_3", "question6_4"]}
+    - /choose_q6{"question6": ["question6_1"]}
+    - /choose_q6{"question6": ["question6_2", "question6_3", "question6_4"]}
 
 - intent: choose_q7
   examples: |

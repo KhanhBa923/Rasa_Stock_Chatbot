@@ -247,8 +247,9 @@ slots:
     type: list
     influence_conversation: false
     mappings:
-      - type: custom 
-      
+      - type: from_entity
+        entity: question6
+        
   question7:
     type: text
     mappings:
@@ -596,17 +597,17 @@ responses:
       - title: "a. Có"
   utter_ask_question6:
   - text: "Theo anh/chị, làm thế nào để tránh được việc bị thua lỗ?"
-  utter_res_question6:
-  - text: ""
-    buttons:
-      - title: "a. Tham gia vào các nhóm tư vấn (zalo, telegram,...)"
-        payload: '/choose_q6{"question6": "question6_1"}'
-      - title: "b. Tham gia các khóa học để nâng cao kiến thức khi đầu tư"
-        payload: '/choose_q6{"question6": "question6_2"}'
-      - title: "c. Tìm kiếm dịch vụ tư vấn chuyên sâu tại công ty chứng khoán"
-        payload: '/choose_q6{"question6": "question6_3"}'
-      - title: "d. Tiếp tục đầu tư, rút kinh nghiệm từ những vấn đề thua lỗ trước đây"
-        payload: '/choose_q6{"question6": "question6_4"}'
+  # utter_res_question6:
+  # - text: ""
+  #   buttons:
+  #     - title: "a. Tham gia vào các nhóm tư vấn (zalo, telegram,...)"
+  #       payload: '/choose_q6{"question6": "question6_1"}'
+  #     - title: "b. Tham gia các khóa học để nâng cao kiến thức khi đầu tư"
+  #       payload: '/choose_q6{"question6": "question6_2"}'
+  #     - title: "c. Tìm kiếm dịch vụ tư vấn chuyên sâu tại công ty chứng khoán"
+  #       payload: '/choose_q6{"question6": "question6_3"}'
+  #     - title: "d. Tiếp tục đầu tư, rút kinh nghiệm từ những vấn đề thua lỗ trước đây"
+  #       payload: '/choose_q6{"question6": "question6_4"}'
   utter_ask_question7:
   - text: "Nếu gặp phải trường hợp khoản đầu tư sụt giảm hơn 20% giá trị trong tương lai, anh/chị sẽ làm gì?"
   utter_res_question7:

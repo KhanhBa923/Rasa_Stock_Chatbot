@@ -413,7 +413,6 @@ class ValidateFormSurveyTypebot(FormValidationAction):
     ) -> Dict[Text, Any]:
         """Hiển thị lại câu trả lời question6"""
         try:
-            print(f"DEBUG: Running validate_question6 with slot_value: {slot_value}")
             # Valid choices for question6
             valid_choices = [
                 "question6_1",  # Tham gia vào các nhóm tư vấn
@@ -459,7 +458,6 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                 return {"question6": validated_values}
                 
         except Exception as e:
-            # Log the error for debugging
             print(f"Error in validate_question6: {str(e)}")
             dispatcher.utter_message(text="Đã xảy ra lỗi. Vui lòng thử lại.")
             return {"question6": None}
@@ -671,6 +669,16 @@ class ActionAskQuestionBase(Action, ABC):
         )
         return []
 
+def build_multi_select_response(question_id: str, choices: list) -> dict:
+    return {
+        "multi_select": True,
+        "question_id": question_id,
+        "choices": [
+            {"text": c["text"], "value": c["value"]}
+            for c in choices
+        ]
+    }
+
 class ActionAskQuestion1(ActionAskQuestionBase):
     def name(self) -> Text:
         return "action_ask_question1"
@@ -694,31 +702,27 @@ class ActionShowQuestion6(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[str, Any]) -> List[Dict[str, Any]]:
+
         print(f"DEBUG: Running action action_ask_question6 for slot question6")
+
+        choices = [
+            {"text": "Tham gia vào các nhóm tư vấn (zalo, telegram,...)", 
+             "value": "question6_1"},
+            {"text": "Tham gia các khóa học để nâng cao kiến thức khi đầu tư", 
+             "value": "question6_2"},
+            {"text": "Tìm kiếm dịch vụ tư vấn chuyên sâu tại công ty chứng khoán", 
+             "value": "question6_3"},
+            {"text": "Tiếp tục đầu tư, rút kinh nghiệm từ những vấn đề thua lỗ trước đây", 
+             "value": "question6_4"},
+        ]
+
+        custom_payload = build_multi_select_response("question6", choices)
+
         dispatcher.utter_message(
-            response=f"utter_ask_question6",
-            custom={
-                "multi_select": True,
-                "choices": [
-                    {
-                        "text": "Tham gia vào các nhóm tư vấn (zalo, telegram,...)",
-                        "value": "question6_1"
-                    },
-                    {
-                        "text": "Tham gia các khóa học để nâng cao kiến thức khi đầu tư", 
-                        "value": "question6_2"
-                    },
-                    {
-                        "text": "Tìm kiếm dịch vụ tư vấn chuyên sâu tại công ty chứng khoán",
-                        "value": "question6_3"
-                    },
-                    {
-                        "text": "Tiếp tục đầu tư, rút kinh nghiệm từ những vấn đề thua lỗ trước đây",
-                        "value": "question6_4"
-                    }
-                ]
-            }
+            response="utter_ask_question6",
+            custom=custom_payload
         )
+
         return []
 class ActionAskQuestion7(ActionAskQuestionBase):
     def name(self) -> Text:
