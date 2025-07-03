@@ -326,8 +326,9 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             required.remove("question15_1")
         if count_15_1 > 1 or (count_15_1 == 1 and question15 != "question15_5"):
             required.remove("question15_2")
-        if question19 != "question19_2":
+        if question19 != "question19_2" and question19 != None:
             required.remove("question19_1")
+        print(f"DEBUG: Final required slots = {required}")
         return required
     def validate_question1(
         self,
@@ -964,6 +965,142 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question19_1: {e}")
             return {"question19_1": None}
+    def validate_question20(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        try:
+            KLScore = get_ky_luat_score(tracker)
+            if slot_value and slot_value.startswith("question20_"):
+                option_number = slot_value.replace("question20_", "")
+                if option_number == "1":
+                    KLScore+=2
+                elif option_number == "2":
+                    KLScore+=1
+                elif option_number == "3":
+                    dispatcher.utter_message(response="utter_confirm_q20_1")
+                return {"question20": slot_value}   
+            dispatcher.utter_message(text="Lựa chọn không hợp lệ, Hãy chọn lại.")     
+            return {"question20": None}
+        except Exception as e:
+            dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
+            print(f"[ERROR] validate_question20: {e}")
+            return {"question20": None}
+    def validate_question21(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        try:
+            KLScore = get_ky_luat_score(tracker)
+            if slot_value and slot_value.startswith("question21_"):
+                option_number = slot_value.replace("question21_", "")
+                if option_number == "2":
+                    KLScore+=1
+                if KLScore<3:   
+                    dispatcher.utter_message(response="utter_GTongKet_1")
+                elif KLScore>5:
+                    dispatcher.utter_message(response="utter_GTongKet_2")
+                else:
+                    dispatcher.utter_message(response="utter_GTongKet_3")
+                return {"question21": slot_value}   
+            dispatcher.utter_message(text="Lựa chọn không hợp lệ, Hãy chọn lại.")     
+            return {"question21": None}
+        except Exception as e:
+            dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
+            print(f"[ERROR] validate_question20: {e}")
+            return {"question20": None}
+    def validate_question22(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        try:
+            return {"question22": slot_value}
+        except Exception as e:
+            dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
+            print(f"[ERROR] validate_question22: {e}")
+            return {"question22": None}
+    def validate_question23(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        try:
+            if slot_value and slot_value.startswith("question23_"):
+                return {"question23": slot_value}
+            return {"question23": None}
+        except Exception as e:
+            dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
+            print(f"[ERROR] validate_question23: {e}")
+            return {"question23": None}
+
+    def validate_question24(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        try:
+            if slot_value and slot_value.startswith("question24_"):
+                return {"question24": slot_value}
+            return {"question24": None}
+        except Exception as e:
+            dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
+            print(f"[ERROR] validate_question24: {e}")
+            return {"question24": None}
+    def validate_question25(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        try:
+            return {"question25": slot_value}
+        except Exception as e:
+            dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
+            print(f"[ERROR] validate_question25: {e}")
+            return {"question25": None}
+    
+    def validate_question26(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        try:
+            return {"question26": slot_value}
+        except Exception as e:
+            dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
+            print(f"[ERROR] validate_question26: {e}")
+            return {"question26": None}
+    def validate_TongKet(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        try:
+            if slot_value and slot_value.startswith("TongKet_"):
+                option_number = slot_value.replace("TongKet_", "")
+            return {"TongKet_": slot_value}
+        except Exception as e:
+            dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
+            print(f"[ERROR] validate_question25: {e}")
+            return {"TongKet_": None}
 class ActionCustomFormSubmit(Action):
     def name(self) -> Text:
         return "action_submit_form_survey_typebot"
@@ -1274,3 +1411,46 @@ class ActionShowQuestion19(ActionAskQuestionBase):
 class ActionShowQuestion19_1(ActionAskQuestionBase):
     def name(self) -> str:
         return "action_ask_question19_1"
+    
+class ActionShowQuestion20(ActionAskQuestionBase):
+    def name(self) -> str:
+        return "action_ask_question20"
+    
+class ActionShowQuestion21(ActionAskQuestionBase):
+    def name(self) -> str:
+        return "action_ask_question21"
+    
+class ActionShowQuestion22(ActionAskQuestionBase):
+    def name(self) -> str:
+        return "action_ask_question22"
+    
+class ActionShowQuestion23(ActionAskQuestionBase):
+    def name(self) -> str:
+        return "action_ask_question23"
+    
+class ActionShowQuestion24(ActionAskQuestionBase):
+    def name(self) -> str:
+        return "action_ask_question24"
+    
+class ActionShowQuestion25(ActionAskQuestionBase):
+    def name(self) -> str:
+        return "action_ask_question25"
+    
+class ActionShowQuestion26(ActionAskQuestionBase):
+    def name(self) -> str:
+        return "action_ask_question26"
+class ActionRestartSurvey(Action):
+    def name(self) -> Text:
+        return "action_restart_survey"
+
+    def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[Dict[Text, Any]]:
+        # Reset tất cả slot về None
+        events = [SlotSet(slot, None) for slot in tracker.slots.keys()]
+        
+        dispatcher.utter_message(text="Khảo sát đã được bắt đầu lại.")
+
+        # Gọi lại form
+        return events + [FollowupAction("form_survey_typebot")]
+

@@ -45,6 +45,7 @@ intents:
 - choose_q15_1
 - choose_q15_2
 - choose_q19_1
+- restart_survey
 
 ########################################################### Entities ###########################################################
 
@@ -506,13 +507,14 @@ actions:
 - action_ask_question18
 - action_ask_question19
 - action_ask_question19_1
-# - action_ask_question20
-# - action_ask_question21
-# - action_ask_question22
-# - action_ask_question23
-# - action_ask_question24
-# - action_ask_question25
-# - action_ask_question26
+- action_ask_question20
+- action_ask_question21
+- action_ask_question22
+- action_ask_question23
+- action_ask_question24
+- action_ask_question25
+- action_ask_question26
+- action_restart_survey
 
 ############################################################### Responses ###########################################################
 
@@ -896,7 +898,7 @@ responses:
   - text: 'Anh/chị ưa thích đầu tư vào ngành nghề nào?'
   utter_ask_question23:
   - text: 'Anh/chị ưa thích đầu tư vào loại doanh nghiệp nào?'
-  utter_res_question22:
+  utter_res_question23:
   - text: ""
     buttons:
       - title: "a. Hoạt động ổn định, chi trả cổ tức đều đặn"
@@ -919,11 +921,14 @@ responses:
   - text: 'Anh/chị vui lòng đưa ra những ngành nghề/loại cổ phiếu/cổ phiếu KHÔNG ưa thích:'
   utter_TongKet:
   - text: 'Cảm ơn anh/chị đã tham gia bài khảo sát.'
+    buttons:
+    - title: 'Bắt đầu lại'
+      payload: '/restart_survey'
   utter_restart_survey:
   - text: 'Bạn có muốn bắt đầu lại cuộc khảo sát không?'
     buttons:
     - title: 'Có'
-      payload: '/affirm'
+      payload: '/restart_survey'
     - title: 'Không'
       payload: '/deny'
 session_config:

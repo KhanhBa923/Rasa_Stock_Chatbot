@@ -207,4 +207,13 @@ nlu:
     - Tôi chọn câu số [question19_1_1](question19_1)
     - Tôi muốn chọn phương án [question19_1_3](question19_1)
     - Chọn đáp án [question19_1_2](question19_1)
+- intent: choose_TongKet
+  examples: |
+    - Tôi chọn câu số [TongKet_1](TongKet)
+    - Tôi muốn chôn phương án [TongKet_3](TongKet)
+    - Chọn đáp án [TongKet_2](TongKet)
+- intent: restart_survey
+  examples: |
+    - Restart survey
+    - I want to re do the survey
 
