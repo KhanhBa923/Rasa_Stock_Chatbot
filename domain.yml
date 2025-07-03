@@ -44,6 +44,7 @@ intents:
 - choose_q12_1
 - choose_q15_1
 - choose_q15_2
+- choose_q19_1
 
 ########################################################### Entities ###########################################################
 
@@ -81,7 +82,8 @@ entities:
 - question12_1
 - question15_1
 - question15_2
-
+- KyLuatScore
+- question19_1
 
 
 - stock_symbol
@@ -306,13 +308,15 @@ slots:
       entity: question15
 
   question16:
-    type: text
+    type: list
+    influence_conversation: false
     mappings:
     - type: from_entity
       entity: question16
 
   question17:
-    type: text
+    type: list
+    influence_conversation: false
     mappings:
     - type: from_entity
       entity: question17
@@ -384,16 +388,28 @@ slots:
       entity: question12_1
 
   question15_1:
-    type: text
+    type: list
+    influence_conversation: false
     mappings:
     - type: from_entity
       entity: question15_1
 
   question15_2:
-    type: text
+    type: list
+    influence_conversation: false
     mappings:
     - type: from_entity
       entity: question15_2
+  KyLuatScore:
+    type: float
+    mappings:
+    - type: from_entity
+      entity: KyLuatScore
+  question19_1:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question19_1
 
 
 ############################################################# Forms ###########################################################
@@ -429,19 +445,20 @@ forms:
     # - question7
     # - question8
     # - question9
-    - question10
-    - question11
-    - question12
-    - question12_1
-    - question13
-    - question14
-    - question15
-    - question15_1
-    - question15_2
-    - question16
-    - question17
+    # - question10
+    # - question11
+    # - question12
+    # - question12_1
+    # - question13
+    # - question14
+    # - question15
+    # - question15_1
+    # - question15_2
+    # - question16
+    # - question17
     - question18
     - question19
+    - question19_1
     - question20
     - question21
     - question22
@@ -484,6 +501,18 @@ actions:
 - action_ask_question15
 - action_ask_question15_1
 - action_ask_question15_2
+- action_ask_question16
+- action_ask_question17
+- action_ask_question18
+- action_ask_question19
+- action_ask_question19_1
+# - action_ask_question20
+# - action_ask_question21
+# - action_ask_question22
+# - action_ask_question23
+# - action_ask_question24
+# - action_ask_question25
+# - action_ask_question26
 
 ############################################################### Responses ###########################################################
 
@@ -838,7 +867,7 @@ responses:
       - title: "a. Tuân thủ tuyệt đối"
       - title: "b. Có điều chỉnh giá chốt lời"
       - title: "c. Không đặt mức giá chốt lời"  
-  utter_ask_question19_b:
+  utter_ask_question19_1:
   - text: 'Anh/chị điều chỉnh giá chốt lời dựa vào tiêu chí nào?'
   utter_ask_question20:
   - text: 'Khi tự giao dịch, anh/chị có đặt ra và tuân thủ theo giá cắt lỗ không?'

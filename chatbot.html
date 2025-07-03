@@ -10,6 +10,7 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -398,6 +399,16 @@
             background: #e74c3c;
             color: white;
         }
+         
+        .manual-input {
+            flex: 1;
+            margin-right: 10px;
+            padding: 10px 14px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -625,23 +636,69 @@
                 messageDiv.className = 'message bot';
                 messageDiv.id = 'buttonChoiceMessage';
 
-                const buttonContainer = document.createElement('div');
-                buttonContainer.className = 'button-choices';
+                if (!choices || choices.length === 0) {
+                    console.log('Adding manual input');
 
-                choices.forEach(choice => {
-                    const button = document.createElement('button');
-                    button.className = 'choice-button';
-                    button.textContent = choice.title || choice.text;
-                    button.onclick = () => {
-                        this.handleButtonClick(choice, messageDiv);
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.placeholder = 'Vui lòng nhập câu trả lời của bạn...';
+                    input.className = 'chat-input manual-input';
+
+                    const submitBtn = document.createElement('button');
+                    submitBtn.textContent = 'Gửi';
+                    submitBtn.className = 'send-button';
+
+                    submitBtn.onclick = () => {
+                        const userText = input.value.trim();
+                        if (userText !== '') {
+                            this.addMessage(userText, 'user');
+
+                            // 👉 Trích số câu hỏi từ currentQuestionId
+                            let questionId = this.currentQuestionId || "questionX";
+                            const match = questionId.match(/question(\d+(?:_\d+)?)/);
+                            const questionNumber = match ? match[1] : "X";
+
+                            // 👉 Tạo intent & slot name
+                            const intentName = `choose_q${questionNumber}`;
+                            const slotName = `question${questionNumber}`;
+
+                            const slotData = {};
+                            slotData[slotName] = userText;
+
+                            const rasaPayload = `/${intentName}${JSON.stringify(slotData)}`;
+
+                            console.log('Sending manual input payload:', rasaPayload);
+                            this.sendMessageToRasa(rasaPayload);
+
+                            input.disabled = true;
+                            submitBtn.disabled = true;
+                        }
                     };
-                    buttonContainer.appendChild(button);
-                });
 
-                messageDiv.appendChild(buttonContainer);
+                    messageDiv.appendChild(input);
+                    messageDiv.appendChild(submitBtn);
+                } else {
+                    console.log('Adding button choices:', choices);
+                    const buttonContainer = document.createElement('div');
+                    buttonContainer.className = 'button-choices';
+
+                    choices.forEach(choice => {
+                        const button = document.createElement('button');
+                        button.className = 'choice-button';
+                        button.textContent = choice.title || choice.text;
+                        button.onclick = () => {
+                            this.handleButtonClick(choice, messageDiv);
+                        };
+                        buttonContainer.appendChild(button);
+                    });
+
+                    messageDiv.appendChild(buttonContainer);
+                }
+
                 this.chatMessages.appendChild(messageDiv);
                 this.scrollToBottom();
             }
+
 
             addMultiChoice(choices, questionId) {
                 console.log('Adding multi-choice with questionId:', questionId);
@@ -746,8 +803,7 @@
                 const value = (choice.value || '').toLowerCase();
                 
                 return value === 'other' || value === 'khac' || 
-                       text.includes('khác') || text.includes('other') ||
-                       text.includes('d.');
+                       text.includes('khác') || text.includes('other');
             }
 
             showCustomInputForm(choice, messageDiv) {

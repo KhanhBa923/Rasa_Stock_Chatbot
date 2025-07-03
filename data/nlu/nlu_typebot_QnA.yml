@@ -202,4 +202,9 @@ nlu:
     - Tôi chọn câu số [question5_1_1](question5_1)
     - Tôi muốn chọn phương án [question5_1_3](question5_1)
     - Chọn đáp án [question5_1_2](question5_1)
+- intent: choose_q19_1
+  examples: |
+    - Tôi chọn câu số [question19_1_1](question19_1)
+    - Tôi muốn chọn phương án [question19_1_3](question19_1)
+    - Chọn đáp án [question19_1_2](question19_1)
 
