@@ -50,6 +50,12 @@ rasa run actions
 rasa shell
 ```
 
+### Run the Rasa FE
+```bash
+python -m http.server 8000
+```
+Open : http://localhost:8000/chatbot.html
+
 ## Project Structure
 - `data/`: Training data for Rasa NLU
 - `actions/`: Custom action implementations
