@@ -60,8 +60,18 @@ rules:
 - rule: activate survey form
   steps:
   - intent: start_survey
-  - action: form_survey_typebot
-  - active_loop: form_survey_typebot
+  - action: form_survey_basic
+  - active_loop: form_survey_basic
+
+- rule: submit basic form
+  condition:
+  - active_loop: form_survey_basic
+  steps:
+  - action: form_survey_basic
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_start_question
 
 - rule: submit form
   condition:

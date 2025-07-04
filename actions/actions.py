@@ -1473,4 +1473,25 @@ class ActionInitSurvey(Action):
         # Khởi tạo form mà không trigger validation
         return [ActiveLoop("form_survey_typebot")]
 
+class FormSurveyBasic(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_form_survey_basic"
 
+class ActionStartQuestion(Action):
+    def name(self) -> Text:
+        return "action_start_question"
+    def run(self, dispatcher, tracker, domain):
+        # Kiểm tra xem đã complete form 1 chưa
+        required_basic_slots = ["industry", "seniority", "budget", "ready"]
+        
+        for slot in required_basic_slots:
+            if tracker.get_slot(slot) is None:
+                dispatcher.utter_message(text="Vui lòng hoàn thành thông tin cơ bản trước!")
+                return [FollowupAction("form_survey_basic")]
+        
+        if not tracker.get_slot("ready"):
+            dispatcher.utter_message(text="Bạn cần sẵn sàng để tiếp tục khảo sát!")
+            return []
+        
+        dispatcher.utter_message(text="Bắt đầu phần khảo sát chi tiết!")
+        return [FollowupAction("form_survey_typebot")]

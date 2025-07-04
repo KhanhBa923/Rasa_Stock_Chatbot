@@ -431,12 +431,14 @@ forms:
     - product_target
     - product_feedback
     - product_location
+  form_survey_basic:
+    required_slots:
+    - industry
+    - seniority
+    - budget
+    - ready
   form_survey_typebot:
     required_slots:
-    # - industry
-    # - seniority
-    # - budget
-    # - ready
     - question1
     - question3
     - question4
@@ -482,6 +484,8 @@ actions:
 - action_ask_survey_type
 - action_thanks
 - validate_form_survey_typebot
+- validate_form_survey_basic
+- action_start_question
 - action_form_paused
 - action_ask_question1
 - action_ask_question3
