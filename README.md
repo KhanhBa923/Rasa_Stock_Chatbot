@@ -10,7 +10,7 @@ This is a conversational AI chatbot built using Rasa that provides stock market 
 - Interactive conversational interface
 
 ## Prerequisites
-- Python 3.7+
+- Python 3.10+
 - Rasa Open Source
 - pip (Python package manager)
 
