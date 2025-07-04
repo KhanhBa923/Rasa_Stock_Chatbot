@@ -206,10 +206,6 @@ class ValidateFBForm(FormValidationAction):
         service_rating = tracker.get_slot("service_rating")
         product_feedback = tracker.get_slot("product_feedback")
         
-        # Debug: In ra giá trị survey_type để kiểm tra
-        print(f"DEBUG: survey_type = '{survey_type}'")
-        print(f"DEBUG: domain_slots = {domain_slots}")
-        
         required = domain_slots.copy()
         
         if survey_type == "product":
