@@ -437,26 +437,26 @@ forms:
     # - seniority
     # - budget
     # - ready
-    # - question1
-    # - question3
-    # - question4
-    # - question5
-    # - question5_1
-    # - question6
-    # - question7
-    # - question8
-    # - question9
-    # - question10
-    # - question11
-    # - question12
-    # - question12_1
-    # - question13
-    # - question14
-    # - question15
-    # - question15_1
-    # - question15_2
-    # - question16
-    # - question17
+    - question1
+    - question3
+    - question4
+    - question5
+    - question5_1
+    - question6
+    - question7
+    - question8
+    - question9
+    - question10
+    - question11
+    - question12
+    - question12_1
+    - question13
+    - question14
+    - question15
+    - question15_1
+    - question15_2
+    - question16
+    - question17
     - question18
     - question19
     - question19_1
@@ -515,6 +515,7 @@ actions:
 - action_ask_question25
 - action_ask_question26
 - action_restart_survey
+- action_init_survey
 
 ############################################################### Responses ###########################################################
 

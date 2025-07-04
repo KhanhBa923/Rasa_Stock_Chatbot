@@ -545,6 +545,8 @@
                         requestBody.metadata = { payload };
                     }
 
+                    console.log('Sending to Rasa:', JSON.stringify(requestBody, null, 2));
+
                     const response = await fetch(`${this.rasaServerUrl}/webhooks/rest/webhook`, {
                         method: 'POST',
                         headers: {
@@ -667,7 +669,7 @@
 
                             const rasaPayload = `/${intentName}${JSON.stringify(slotData)}`;
 
-                            console.log('Sending manual input payload:', rasaPayload);
+                            //console.log('Sending manual input payload:', rasaPayload);
                             this.sendMessageToRasa(rasaPayload);
 
                             input.disabled = true;
@@ -901,7 +903,7 @@
 
                 const rasaPayload = `/${intentName}${JSON.stringify(slotData)}`;
                 
-                console.log('Sending custom input payload:', rasaPayload);
+                //console.log('Sending custom input payload:', rasaPayload);
 
                 // Send to Rasa
                 this.sendMessageToRasa(rasaPayload);
@@ -926,8 +928,8 @@
                 this.addMessage(`Đã chọn: ${displayText}`, 'user');
 
                 // Extract question number from questionId
-                const questionNumberMatch = questionId.match(/question(\d+)/);
-                const questionNumber = questionNumberMatch ? questionNumberMatch[1] : "X";
+                const questionNumberMatch = questionId.match(/question(\d+(?:_\d+)?)/);
+                const questionNumber = questionNumberMatch ? questionNumberMatch[1] : "X";  
 
                 // Create intent name and slot name
                 const intentName = `choose_q${questionNumber}`;
@@ -940,7 +942,7 @@
                 // Create payload in correct format
                 const rasaPayload = `/${intentName}${JSON.stringify(slotData)}`;
 
-                console.log('Sending Rasa payload:', rasaPayload);
+                //console.log('Sending Rasa payload:', rasaPayload);
 
                 // Send to Rasa
                 this.sendMessageToRasa(rasaPayload);

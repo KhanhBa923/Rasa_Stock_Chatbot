@@ -4,7 +4,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormValidationAction
 from rasa_sdk.types import DomainDict
 from rasa_sdk.events import EventType
-from rasa_sdk.events import SlotSet,FollowupAction
+from rasa_sdk.events import SlotSet,FollowupAction, ActiveLoop
 from abc import ABC, abstractmethod
 from typing import Optional
 
@@ -328,7 +328,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             required.remove("question15_2")
         if question19 != "question19_2" and question19 != None:
             required.remove("question19_1")
-        print(f"DEBUG: Final required slots = {required}")
+        #print(f"DEBUG: Final required slots = {required}")
         return required
     def validate_question1(
         self,
@@ -819,9 +819,6 @@ class ValidateFormSurveyTypebot(FormValidationAction):
     ) -> Dict[Text, Any]:
         """Hiển thị lại câu trả lời question15"""
         try:
-            if(slot_value == None):
-                dispatcher.utter_message(text="Dữ liệu không được sử dụng")
-                return {"question15":None}
             if slot_value and slot_value.startswith("question15_"):
                 option_number = slot_value.replace("question15_", "")  # Lấy số thứ tự từ slot_value
                 valid_options = ["1", "2","3","4","5","6"]
@@ -848,7 +845,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             count = len(numbers)
             if numbers is None or count == 0:
                 dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
-                return {"question15_1_": None}
+                return {"question15_1": None}
             if count == 1 and isinstance(slot_value, list):
                 selected = slot_value[0]
                 if selected.startswith("question15_1_"):
@@ -859,7 +856,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question15_1: {e}")
-            return {"question15_1_": None}
+            return {"question15_1": None}
     def validate_question15_2(
         self,
         slot_value: Any,
@@ -982,8 +979,10 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                     KLScore+=1
                 elif option_number == "3":
                     dispatcher.utter_message(response="utter_confirm_q20_1")
+                else:
+                    dispatcher.utter_message(text="Lựa chọn không hợp lệ, Hãy chọn lại.") 
+                    return {"question20": None}  
                 return {"question20": slot_value}   
-            dispatcher.utter_message(text="Lựa chọn không hợp lệ, Hãy chọn lại.")     
             return {"question20": None}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
@@ -1000,16 +999,19 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             KLScore = get_ky_luat_score(tracker)
             if slot_value and slot_value.startswith("question21_"):
                 option_number = slot_value.replace("question21_", "")
-                if option_number == "2":
-                    KLScore+=1
-                if KLScore<3:   
-                    dispatcher.utter_message(response="utter_GTongKet_1")
-                elif KLScore>5:
-                    dispatcher.utter_message(response="utter_GTongKet_2")
+                valid_options = ["1", "2", "3"]
+                if option_number in valid_options:
+                    if option_number == "2":
+                        KLScore+=1
+                    if KLScore<3:   
+                        dispatcher.utter_message(response="utter_GTongKet_1")
+                    elif KLScore>5:
+                        dispatcher.utter_message(response="utter_GTongKet_2")
+                    else:
+                        dispatcher.utter_message(response="utter_GTongKet_3")
+                    return {"question21": slot_value} 
                 else:
-                    dispatcher.utter_message(response="utter_GTongKet_3")
-                return {"question21": slot_value}   
-            dispatcher.utter_message(text="Lựa chọn không hợp lệ, Hãy chọn lại.")     
+                    dispatcher.utter_message(text="Lựa chọn không hợp lệ, Hãy chọn lại. 21")
             return {"question21": None}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
@@ -1094,6 +1096,8 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         try:
+            if slot_value is None:
+                dispatcher.utter_message(text="fail.")
             if slot_value and slot_value.startswith("TongKet_"):
                 option_number = slot_value.replace("TongKet_", "")
             return {"TongKet_": slot_value}
@@ -1442,15 +1446,31 @@ class ActionShowQuestion26(ActionAskQuestionBase):
 class ActionRestartSurvey(Action):
     def name(self) -> Text:
         return "action_restart_survey"
-
-    def run(
-        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
-    ) -> List[Dict[Text, Any]]:
-        # Reset tất cả slot về None
-        events = [SlotSet(slot, None) for slot in tracker.slots.keys()]
+    
+    def run(self, dispatcher, tracker, domain):
+        events = []
         
-        dispatcher.utter_message(text="Khảo sát đã được bắt đầu lại.")
+        # Reset all slots
+        for slot in tracker.slots.keys():
+            events.append(SlotSet(slot, None))
+        
+        # Dừng form cũ
+        events.append(ActiveLoop(None))
+        
+        # Thông báo restart
+        dispatcher.utter_message(text="Khảo sát đã được đặt lại. Bắt đầu lại ngay bây giờ!")
+        
+        # Gọi action khởi tạo thay vì gọi form trực tiếp
+        events.append(FollowupAction("action_init_survey"))
+        
+        return events
 
-        # Gọi lại form
-        return events + [FollowupAction("form_survey_typebot")]
+class ActionInitSurvey(Action):
+    def name(self) -> Text:
+        return "action_init_survey"
+    
+    def run(self, dispatcher, tracker, domain):
+        # Khởi tạo form mà không trigger validation
+        return [ActiveLoop("form_survey_typebot")]
+
 
