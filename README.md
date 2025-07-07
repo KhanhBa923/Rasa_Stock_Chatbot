@@ -49,6 +49,11 @@ rasa run actions
 ```bash
 rasa shell
 ```
+OR
+### Run the Rasa API
+```bash
+rasa run --enable-api --cors "*"
+```
 
 ### Run the Rasa FE
 ```bash
