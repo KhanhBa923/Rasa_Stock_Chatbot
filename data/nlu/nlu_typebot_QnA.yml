@@ -15,95 +15,60 @@ nlu:
     - tiếp tục
     - continue
 - intent: inform
-  examples: |
-    - [technology](industry)
-    - [healthcare](industry)
-    - [senior](seniority)
-    - [junior](seniority)
-    - Ngân sách tôi có là [10000](budget)
-    - Tôi chỉ có khoảng [5000](budget)
-    - [techonology](industry)
-    - [senior](seniority)
-    - Ngân sách tôi là [10000](budget)
-    - Ngân sách là [55000](budget)
+
 - intent: choose_q1
 
 - intent: choose_q2
 
 - intent: choose_q4
 
-
 - intent: choose_q5
-
 
 - intent: choose_q6
 
-
 - intent: choose_q7
-
 
 - intent: choose_q8
 
-
 - intent: choose_q9
-
 
 - intent: choose_q10
 
-
 - intent: choose_q11
-
 
 - intent: choose_q12
 
-
 - intent: choose_q12_1
-
 
 - intent: choose_q13
 
-
 - intent: choose_q14
-
 
 - intent: choose_q15
 
-
 - intent: choose_q15_1
-
 
 - intent: choose_q15_2
 
-
 - intent: choose_q16
-
 
 - intent: choose_q17
 
-
 - intent: choose_q18
-
 
 - intent: choose_q19
 
-
 - intent: choose_q20
-
 
 - intent: choose_q21
 
-
 - intent: choose_q22
-
 
 - intent: choose_q23
 
-
 - intent: choose_q24
 
-
 - intent: choose_q25
-
 
 - intent: choose_q26
 

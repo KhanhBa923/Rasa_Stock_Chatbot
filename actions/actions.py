@@ -60,7 +60,6 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             required.remove("question15_2")
         if question19 != "question19_2" and question19 != None:
             required.remove("question19_1")
-        #print(f"DEBUG: Final required slots = {required}")
         return required
     def validate_question1(
         self,
@@ -81,9 +80,12 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             else:
                 dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
                 return {"question1": None}
-        
-        dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
-        return {"question1": None}
+        else:
+            print("Invalid slot 1 value:", slot_value)
+            q1 = tracker.get_slot("industry")
+            print("industry:",q1)
+            #dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
+            return {}
     def validate_question3(
         self,
         slot_value: Any,
@@ -118,8 +120,11 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                     return {"question3": None}
                 return {"question3": slot_value}
             else:
-                dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
-                return {"question3": None}
+                print("Invalid slot 3 value:", slot_value)
+                q1 = tracker.get_slot("question1")
+                print("Q1:",q1)
+                #dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
+                return {}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question3: {e}")
@@ -918,6 +923,7 @@ class ActionAskQuestionBase(Action, ABC):
             buttons.append({
                 "title": button["title"],
                 "payload": f'/{intent_name}{{"{question_slot}": "{question_value}"}}'
+                
             })
          
         custom_payload = build_multi_select_response(question_slot, buttons,False)
@@ -1016,7 +1022,8 @@ class ActionAskquestion3(Action):
             question_value = f"question3_{idx + 1}"
             buttons.append({
                 "title": button["title"],
-                "payload": f'/choose_q2{{"question3": "{question_value}"}}'
+                # "payload": f'/choose_q2{{"question3": "{question_value}"}}'
+                "payload": f'{question_value}'
             })
 
         dispatcher.utter_message(
@@ -1133,6 +1140,19 @@ class ActionShowQuestion25(ActionAskQuestionBase):
 class ActionShowQuestion26(ActionAskQuestionBase):
     def name(self) -> str:
         return "action_ask_question26"
+    
+class ActionAskIndustry(ActionAskQuestionBase):
+    def name(self) -> str:
+        return "action_ask_industry"
+
+class ActionAskSeniority(ActionAskQuestionBase):
+    def name(self) -> str:
+        return "action_ask_seniority"
+    
+class ActionAskBudget(ActionAskQuestionBase):
+    def name(self) -> str:
+        return "action_ask_budget"
+    
 class ActionRestartSurvey(Action):
     def name(self) -> Text:
         return "action_restart_survey"

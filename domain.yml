@@ -95,37 +95,51 @@ slots:
     mappings:
     - type: from_entity
       entity: industry
+      condition:
+      - active_loop: form_survey_basic
   seniority:
     type: text
     influence_conversation: true
     mappings:
     - type: from_entity
       entity: seniority
+      condition:
+      - active_loop: form_survey_basic
   budget:
     type: float
     influence_conversation: true
     mappings:
     - type: from_entity
       entity: budget
+      condition:
+      - active_loop: form_survey_basic
   ready:
     type: bool
     mappings:
     - type: from_intent
       intent: affirm
       value: true
+      condition:
+      - active_loop: form_survey_basic
     - type: from_intent
       intent: deny
       value: false
+      condition:
+      - active_loop: form_survey_basic
   question1:
     type: text
     mappings:
     - type: from_entity
       entity: question1
+      condition:
+      - active_loop: form_survey_typebot
   question3:
     type: text
     mappings:
     - type: from_entity
       entity: question3
+      condition:
+      - active_loop: form_survey_typebot
   form_paused:
     type: bool
     initial_value: false
@@ -137,25 +151,33 @@ slots:
     mappings:
     - type: from_entity
       entity: question4
+      condition:
+      - active_loop: form_survey_typebot
 
   question5:
     type: text
     mappings:
     - type: from_entity
       entity: question5
+      condition:
+      - active_loop: form_survey_typebot
 
   question6:
     type: list
     influence_conversation: false
     mappings:
-      - type: from_entity
-        entity: question6
+    - type: from_entity
+      entity: question6
+      condition:
+      - active_loop: form_survey_typebot
         
   question7:
     type: text
     mappings:
     - type: from_entity
       entity: question7
+      condition:
+      - active_loop: form_survey_typebot
 
   question8:
     type: list
@@ -163,48 +185,64 @@ slots:
     mappings:
     - type: from_entity
       entity: question8
+      condition:
+      - active_loop: form_survey_typebot
 
   question9:
     type: text
     mappings:
     - type: from_entity
       entity: question9
+      condition:
+      - active_loop: form_survey_typebot
 
   question10:
     type: text
     mappings:
     - type: from_entity
       entity: question10
+      condition:
+      - active_loop: form_survey_typebot
 
   question11:
     type: text
     mappings:
     - type: from_entity
       entity: question11
+      condition:
+      - active_loop: form_survey_typebot
 
   question12:
     type: text
     mappings:
     - type: from_entity
       entity: question12
+      condition:
+      - active_loop: form_survey_typebot
 
   question13:
     type: text
     mappings:
     - type: from_entity
       entity: question13
+      condition:
+      - active_loop: form_survey_typebot
 
   question14:
     type: text
     mappings:
     - type: from_entity
       entity: question14
+      condition:
+      - active_loop: form_survey_typebot
 
   question15:
     type: text
     mappings:
     - type: from_entity
       entity: question15
+      condition:
+      - active_loop: form_survey_typebot
 
   question16:
     type: list
@@ -212,6 +250,8 @@ slots:
     mappings:
     - type: from_entity
       entity: question16
+      condition:
+      - active_loop: form_survey_typebot
 
   question17:
     type: list
@@ -219,72 +259,96 @@ slots:
     mappings:
     - type: from_entity
       entity: question17
+      condition:
+      - active_loop: form_survey_typebot
 
   question18:
     type: text
     mappings:
     - type: from_entity
       entity: question18
+      condition:
+      - active_loop: form_survey_typebot
 
   question19:
     type: text
     mappings:
     - type: from_entity
       entity: question19
+      condition:
+      - active_loop: form_survey_typebot
 
   question20:
     type: text
     mappings:
     - type: from_entity
       entity: question20
+      condition:
+      - active_loop: form_survey_typebot
 
   question21:
     type: text
     mappings:
     - type: from_entity
       entity: question21
+      condition:
+      - active_loop: form_survey_typebot
 
   question22:
     type: text
     mappings:
     - type: from_entity
       entity: question22
+      condition:
+      - active_loop: form_survey_typebot
 
   question23:
     type: text
     mappings:
     - type: from_entity
       entity: question23
+      condition:
+      - active_loop: form_survey_typebot
 
   question24:
     type: text
     mappings:
     - type: from_entity
       entity: question24
+      condition:
+      - active_loop: form_survey_typebot
 
   question25:
     type: text
     mappings:
     - type: from_entity
       entity: question25
+      condition:
+      - active_loop: form_survey_typebot
 
   question26:
     type: text
     mappings:
     - type: from_entity
       entity: question26
+      condition:
+      - active_loop: form_survey_typebot
 
   question5_1:
     type: text
     mappings:
     - type: from_entity
       entity: question5_1
+      condition:
+      - active_loop: form_survey_typebot
 
   question12_1:
     type: text
     mappings:
     - type: from_entity
       entity: question12_1
+      condition:
+      - active_loop: form_survey_typebot
 
   question15_1:
     type: list
@@ -292,6 +356,8 @@ slots:
     mappings:
     - type: from_entity
       entity: question15_1
+      condition:
+      - active_loop: form_survey_typebot
 
   question15_2:
     type: list
@@ -299,16 +365,22 @@ slots:
     mappings:
     - type: from_entity
       entity: question15_2
+      condition:
+      - active_loop: form_survey_typebot
   KyLuatScore:
     type: float
     mappings:
     - type: from_entity
       entity: KyLuatScore
+      condition:
+      - active_loop: form_survey_typebot
   question19_1:
     type: text
     mappings:
     - type: from_entity
       entity: question19_1
+      condition:
+      - active_loop: form_survey_typebot
 
 
 ############################################################# Forms ###########################################################
@@ -403,6 +475,9 @@ actions:
 - action_ask_question26
 - action_restart_survey
 - action_init_survey
+- action_ask_industry 
+- action_ask_seniority
+- action_ask_budget
 
 ############################################################### Responses ###########################################################
 
