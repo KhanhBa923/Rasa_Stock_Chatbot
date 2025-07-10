@@ -664,8 +664,11 @@
                                 const match = slotName.match(/question(\d+(?:_\d+)?)/);
                                 const questionNumber = match ? match[1] : "X";
                                 intentName = `choose_q${questionNumber}`;
-                            } else {
-                                // Trường hợp slot như "industry", "seniority"
+                            } else if (typeof slotName === "string" && (
+                                slotName.includes("industry") ||
+                                slotName.includes("seniority") ||
+                                slotName.includes("budget")))
+                                {                   
                                 intentName = "inform";
                             }
 
