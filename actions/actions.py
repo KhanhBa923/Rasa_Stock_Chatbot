@@ -646,16 +646,20 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             if slot_value and slot_value.startswith("question18_"):
                 option_number = slot_value.replace("question18_", "")
                 if option_number == "1":
-                    return {"question18": slot_value}
+                    return {"question18": slot_value,
+                    "KyLuatScore": KLScore}
                 elif option_number == "2":
                     KLScore+=1
-                    return {"question18": slot_value}
+                    return {"question18": slot_value,
+                    "KyLuatScore": KLScore}
                 elif option_number == "3":
                     KLScore+=2
-                    return {"question18": slot_value}
+                    return {"question18": slot_value,
+                    "KyLuatScore": KLScore}
                 else:
                     dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
-            return {"question18": None}
+            return {"question18": None,
+                    "KyLuatScore": KLScore}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question18: {e}")
@@ -673,12 +677,15 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                 option_number = slot_value.replace("question19_", "")
                 if option_number == "1":
                     KLScore+=2
-                    return {"question19": slot_value}
+                    return {"question19": slot_value,
+                "KyLuatScore": KLScore}
                 elif option_number == "3" or option_number == "2":
-                    return {"question19": slot_value}
+                    return {"question19": slot_value,
+                "KyLuatScore": KLScore}
                 else:
                     dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
-            return {"question19": None}
+            return {"question19": None,
+                "KyLuatScore": KLScore}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question19: {e}")
@@ -693,7 +700,8 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         try:
             KLScore = get_ky_luat_score(tracker)
             KLScore+=1
-            return {"question19_1": slot_value}
+            return {"question19_1": slot_value,
+                "KyLuatScore": KLScore}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question19_1: {e}")
@@ -718,7 +726,8 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                 else:
                     dispatcher.utter_message(text="Lựa chọn không hợp lệ, Hãy chọn lại.") 
                     return {"question20": None}  
-                return {"question20": slot_value}   
+                return {"question20": slot_value,
+                "KyLuatScore": KLScore}   
             return {"question20": None}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
@@ -745,7 +754,8 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                         dispatcher.utter_message(response="utter_GTongKet_2")
                     else:
                         dispatcher.utter_message(response="utter_GTongKet_3")
-                    return {"question21": slot_value} 
+                    return {"question21": slot_value,
+                "KyLuatScore": KLScore} 
                 else:
                     dispatcher.utter_message(text="Lựa chọn không hợp lệ, Hãy chọn lại. 21")
             return {"question21": None}
@@ -1001,7 +1011,9 @@ def contains_all_numbers(numbers, check_nums):
 
 def get_ky_luat_score(tracker: Tracker) -> int:
     ky_luat_score = tracker.get_slot("KyLuatScore")
-    return int(ky_luat_score) if ky_luat_score is not None else 0
+    ret = int(ky_luat_score) if ky_luat_score is not None else 0
+    print(f"ky_luat_score: {ret}")
+    return ret
 
 class ActionAskQuestion1(ActionAskQuestionBase):
     def name(self) -> Text:
