@@ -12,270 +12,6 @@ import re
 import pathlib 
 
 
-class ActionProcessStockOrder(Action):
-    def name(self) -> Text:
-        return "action_process_stock_order"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
-        action = tracker.get_slot("action")
-        stock_symbol = (tracker.get_slot("stock_symbol") or "").upper()
-        quantity = tracker.get_slot("quantity")
-        
-        if action and stock_symbol and quantity:
-            message = f"Đã xử lý lệnh {action} {quantity} cổ phiếu {stock_symbol.upper()}"
-            dispatcher.utter_message(text=message)
-        else:
-            dispatcher.utter_message(text="Thông tin lệnh không đầy đủ. Vui lòng cung cấp đầy đủ: hành động (mua/bán), mã chứng khoán và số lượng.")
-        
-        return []
-    
-class ValidateLoginForm(FormValidationAction):
-    def name(self) -> Text:
-        return "validate_stock_trading_form"
-    def validate_action(
-        self,
-        slot_value: Any,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: DomainDict
-    ) -> Dict[Text, Any]:
-        action = str(slot_value).lower().strip()
-
-        valid_actions = ["mua", "bán", "ban"]  # chấp nhận lỗi chính tả "ban" thay cho "bán"
-
-        if action in valid_actions:
-            # Chuẩn hóa lại về "mua" hoặc "bán"
-            normalized = "bán" if action == "ban" else action
-            return {"action": normalized}
-        else:
-            dispatcher.utter_message(text=f"⚠️ Bạn vừa nhập '{slot_value}' không rõ là mua hay bán. Vui lòng chọn lại.")
-            return {"action": None}
-    def validate_stock_symbol(
-        self,
-        slot_value: Any,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: DomainDict,
-    ) -> Dict[Text, Any]:
-        lookup_path = "data/lookup_table/stock_symbol.txt"
-        valid_symbols = pathlib.Path(lookup_path).read_text().split("\n")
-        if slot_value.upper() in valid_symbols:
-            return {"stock_symbol": slot_value}
-        else:
-            dispatcher.utter_message(text=f"Mã cổ phiếu '{slot_value}' không hợp lệ. Vui lòng nhập lại.")
-            return {"stock_symbol": None}
-    def validate_quantity(
-        self,
-        slot_value: Any,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: DomainDict,
-    ) -> Dict[Text, Any]:
-        try:
-            quantity = int(slot_value)
-            if quantity > 0:
-                return {"quantity": quantity}
-            else:
-                dispatcher.utter_message(text="Số lượng phải lớn hơn 0. Vui lòng nhập lại.")
-                return {"quantity": None}
-        except ValueError:
-            dispatcher.utter_message(text="Số lượng không hợp lệ. Vui lòng nhập lại bằng số.")
-            return {"quantity": None}
-    def validate_confirm_inf(
-        self,
-        slot_value: Any,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: DomainDict,
-    ) -> Dict[Text, Any]:
-        if tracker.get_intent_of_latest_message() == "affirm":
-            dispatcher.utter_message(text="Thông tin đã được xác nhận. Cảm ơn bạn!")
-            return {"confirm_inf": True}
-        if tracker.get_intent_of_latest_message() == "deny":
-            dispatcher.utter_message(text="Thông tin không chính xác. Vui lòng nhập lại thông tin.")
-            return {"confirm_inf": None, "stock_symbol": None, "action": None, "quantity": None}
-        dispatcher.utter_message(text="Xin lỗi, tôi không hiểu. Vui lòng xác nhận 'có' hoặc 'không'.")
-        return {"confirm_details": None}
-    
-        
-class AskConfirmInfAction(Action):
-    def name(self) -> Text:
-        return "action_ask_confirm_inf"
-
-    def run(
-        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
-    ) -> List[EventType]:
-        action = tracker.get_slot("action")
-        stock_symbol = (tracker.get_slot("stock_symbol") or "").upper()
-        quantity = tracker.get_slot("quantity")
-        dispatcher.utter_message(
-            text=f"Xác nhận lệnh: {action} {quantity} cổ phiếu {stock_symbol}. Bạn có muốn thực hiện không?",
-            buttons=[
-                {"title": "Đồng ý", "payload": "/affirm"},
-                {"title": "Từ chối", "payload": "/deny"},
-            ],
-        )
-        return []
-    
-class AskConfirmAction(Action):
-    def name(self) -> Text:
-        return "action_ask_action"
-
-    def run(
-        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
-    ) -> List[EventType]:
-        dispatcher.utter_message(
-            text=f"Bạn muốn mua hay bán cổ phiếu?",
-            buttons=[
-                {"title": "Mua", "payload": "mua"},
-                {"title": "Bán", "payload": "bán"},
-            ],
-        )
-        return []
-    
-class ActionAskSurveyType(Action):
-    def name(self) -> Text:
-        return "action_ask_survey_type"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        buttons = [
-            {"title": "Đánh giá dịch vụ", "payload": "service"},
-            {"title": "Phản hồi sản phẩm", "payload": "product"}
-        ]
-
-        dispatcher.utter_message(text="Bạn muốn làm khảo sát nào?", buttons=buttons)
-        return []
-
-class ActionHandleReadyToContinue(Action):
-    def name(self) -> Text:
-        return "action_handle_ready_to_continue"
-    
-    def run(
-        self, 
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any]
-    ) -> List[Dict[Text, Any]]:
-        """Xử lý khi người dùng sẵn sàng tiếp tục"""
-        
-        # Kiểm tra xem có phải form đang tạm dừng không
-        form_paused = tracker.get_slot("form_paused")
-        
-        if form_paused is True:
-            dispatcher.utter_message(response="utter_form_resumed")
-            return [
-                SlotSet("ready", True),
-                SlotSet("form_paused", False),
-                FollowupAction("form_survey_typebot")
-            ]
-        else:
-            dispatcher.utter_message(text="Bạn chưa bắt đầu khảo sát nào cả!")
-            return []
-    
-class ValidateFBForm(FormValidationAction):
-    def name(self) -> Text:
-        return "validate_feedback_form"
-    def validate_survey_type(
-        self,
-        slot_value: Any,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: DomainDict
-    ) -> Dict[Text, Any]:
-        valid_types = ["service", "product"]
-        if slot_value in valid_types:
-            return {"survey_type": slot_value}
-        else:
-            dispatcher.utter_message(text=f"⚠️ Bạn vừa nhập '{slot_value}' không hợp lệ. Vui lòng chọn lại.")
-            return {"survey_type": None}
-        
-    async def required_slots(
-        self,
-        domain_slots: List[Text],       # Danh sách slot mặc định trong domain.yml
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: DomainDict
-    ) -> List[Text]:
-        survey_type = tracker.get_slot("survey_type")
-        service_rating = tracker.get_slot("service_rating")
-        product_feedback = tracker.get_slot("product_feedback")
-        
-        required = domain_slots.copy()
-        
-        if survey_type == "product":
-            # Bỏ các slot không liên quan đến product
-            slots_to_remove = ["service_target", "service_rating","service_location"]
-            for s in slots_to_remove:
-                if s in required:
-                    required.remove(s)
-                    print(f"DEBUG: Removed {s} for product survey")
-        
-        elif survey_type == "service":
-            # Bỏ các slot không liên quan đến service
-            slots_to_remove = ["product_target", "product_feedback", "product_location"]
-            for s in slots_to_remove:
-                if s in required:
-                    required.remove(s)
-                    print(f"DEBUG: Removed {s} for service survey")
-        
-        else:
-            print(f"DEBUG: survey_type is not 'product' or 'service', it's: '{survey_type}'")
-
-        if service_rating is not None:
-            rating_value = float(service_rating)
-            if rating_value < 3:
-                required.remove("service_location")
-                print("DEBUG: Removed service_location due to low service_rating")
-        if product_feedback is not None:
-            if product_feedback !="good" and product_feedback !="excellent": #hardcode các giá trị tốt, có thế thêm lại ở phần nlu
-                required.remove("product_location")
-                print("DEBUG: Removed product_location due to bad product_feedback")
-        
-        print(f"DEBUG: Final required slots = {required}")
-        return required
-
-
-class ActionThanks(Action):
-    """Action để cảm ơn người dùng và reset tất cả slots về None"""
-
-    def name(self) -> Text:
-        return "action_thanks"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
-        dispatcher.utter_message(
-            text="Cảm ơn bạn đã phản hồi!"
-        )
-        
-        # Reset tất cả các slots về None
-        return [
-            SlotSet("survey_type", None),
-            SlotSet("service_target", None),
-            SlotSet("product_target", None),
-            SlotSet("service_rating", None),
-            SlotSet("product_feedback", None),
-            SlotSet("service_location", None),
-            SlotSet("product_location", None)
-        ]
-class ActionFormPaused(Action):
-    def name(self) -> Text:
-        return "action_form_paused"
-    
-    def run(self, 
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any]
-    ) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(response="utter_form_paused")
-        return []
     
 class ValidateFormSurveyTypebot(FormValidationAction):
     def name(self) -> Text:
@@ -324,7 +60,6 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             required.remove("question15_2")
         if question19 != "question19_2" and question19 != None:
             required.remove("question19_1")
-        #print(f"DEBUG: Final required slots = {required}")
         return required
     def validate_question1(
         self,
@@ -345,9 +80,12 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             else:
                 dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
                 return {"question1": None}
-        
-        dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
-        return {"question1": None}
+        else:
+            print("Invalid slot 1 value:", slot_value)
+            q1 = tracker.get_slot("industry")
+            print("industry:",q1)
+            #dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
+            return {}
     def validate_question3(
         self,
         slot_value: Any,
@@ -382,8 +120,11 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                     return {"question3": None}
                 return {"question3": slot_value}
             else:
-                dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
-                return {"question3": None}
+                print("Invalid slot 3 value:", slot_value)
+                q1 = tracker.get_slot("question1")
+                print("Q1:",q1)
+                #dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
+                return {}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question3: {e}")
@@ -905,17 +646,20 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             if slot_value and slot_value.startswith("question18_"):
                 option_number = slot_value.replace("question18_", "")
                 if option_number == "1":
-                    return {"question18": slot_value}
+                    return {"question18": slot_value,
+                    "KyLuatScore": KLScore}
                 elif option_number == "2":
                     KLScore+=1
-                    print(KLScore)
-                    return {"question18": slot_value}
+                    return {"question18": slot_value,
+                    "KyLuatScore": KLScore}
                 elif option_number == "3":
                     KLScore+=2
-                    return {"question18": slot_value}
+                    return {"question18": slot_value,
+                    "KyLuatScore": KLScore}
                 else:
                     dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
-            return {"question18": None}
+            return {"question18": None,
+                    "KyLuatScore": KLScore}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question18: {e}")
@@ -933,12 +677,15 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                 option_number = slot_value.replace("question19_", "")
                 if option_number == "1":
                     KLScore+=2
-                    return {"question19": slot_value}
+                    return {"question19": slot_value,
+                "KyLuatScore": KLScore}
                 elif option_number == "3" or option_number == "2":
-                    return {"question19": slot_value}
+                    return {"question19": slot_value,
+                "KyLuatScore": KLScore}
                 else:
                     dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
-            return {"question19": None}
+            return {"question19": None,
+                "KyLuatScore": KLScore}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question19: {e}")
@@ -953,7 +700,8 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         try:
             KLScore = get_ky_luat_score(tracker)
             KLScore+=1
-            return {"question19_1": slot_value}
+            return {"question19_1": slot_value,
+                "KyLuatScore": KLScore}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question19_1: {e}")
@@ -978,7 +726,8 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                 else:
                     dispatcher.utter_message(text="Lựa chọn không hợp lệ, Hãy chọn lại.") 
                     return {"question20": None}  
-                return {"question20": slot_value}   
+                return {"question20": slot_value,
+                "KyLuatScore": KLScore}   
             return {"question20": None}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
@@ -1005,7 +754,8 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                         dispatcher.utter_message(response="utter_GTongKet_2")
                     else:
                         dispatcher.utter_message(response="utter_GTongKet_3")
-                    return {"question21": slot_value} 
+                    return {"question21": slot_value,
+                "KyLuatScore": KLScore} 
                 else:
                     dispatcher.utter_message(text="Lựa chọn không hợp lệ, Hãy chọn lại. 21")
             return {"question21": None}
@@ -1101,47 +851,6 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question25: {e}")
             return {"TongKet_": None}
-class ActionCustomFormSubmit(Action):
-    def name(self) -> Text:
-        return "action_submit_form_survey_typebot"
-    
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any]
-    ) -> List[Dict[Text, Any]]:
-        """Xử lý khi form hoàn thành"""
-        
-        # Lấy tất cả thông tin đã thu thập
-        industry = tracker.get_slot("industry")
-        seniority = tracker.get_slot("seniority")
-        budget = tracker.get_slot("budget")
-        question1 = tracker.get_slot("question1")
-        question3 = tracker.get_slot("question3")
-        ready= tracker.get_slot("ready")
-
-        if(ready is None or ready is False):
-            return []
-        else:
-            dispatcher.utter_message(
-            text=f"Cảm ơn bạn đã hoàn thành khảo sát!\n"
-                f"Lĩnh vực: {industry}\n"
-                f"Vị trí: {seniority}\n"
-                f"Ngân sách: {budget}\n"
-                f"Câu trả lời 1: {question1}\n"
-                f"Câu trả lời 2: {question3}"
-            )
-            
-            return [
-                SlotSet("industry", None),
-                SlotSet("seniority", None),
-                SlotSet("budget", None),
-                SlotSet("ready", None),
-                SlotSet("question1", None),
-                SlotSet("question3", None),
-                SlotSet("form_paused", False),
-            ]
 
 
 def get_question_option_number_from_tracker(tracker: Tracker, slot_name: str) -> Optional[str]:
@@ -1224,6 +933,7 @@ class ActionAskQuestionBase(Action, ABC):
             buttons.append({
                 "title": button["title"],
                 "payload": f'/{intent_name}{{"{question_slot}": "{question_value}"}}'
+                
             })
          
         custom_payload = build_multi_select_response(question_slot, buttons,False)
@@ -1301,7 +1011,9 @@ def contains_all_numbers(numbers, check_nums):
 
 def get_ky_luat_score(tracker: Tracker) -> int:
     ky_luat_score = tracker.get_slot("KyLuatScore")
-    return int(ky_luat_score) if ky_luat_score is not None else 0
+    ret = int(ky_luat_score) if ky_luat_score is not None else 0
+    print(f"ky_luat_score: {ret}")
+    return ret
 
 class ActionAskQuestion1(ActionAskQuestionBase):
     def name(self) -> Text:
@@ -1322,7 +1034,8 @@ class ActionAskquestion3(Action):
             question_value = f"question3_{idx + 1}"
             buttons.append({
                 "title": button["title"],
-                "payload": f'/choose_q2{{"question3": "{question_value}"}}'
+                # "payload": f'/choose_q2{{"question3": "{question_value}"}}'
+                "payload": f'{question_value}'
             })
 
         dispatcher.utter_message(
@@ -1439,6 +1152,19 @@ class ActionShowQuestion25(ActionAskQuestionBase):
 class ActionShowQuestion26(ActionAskQuestionBase):
     def name(self) -> str:
         return "action_ask_question26"
+    
+class ActionAskIndustry(ActionAskQuestionBase):
+    def name(self) -> str:
+        return "action_ask_industry"
+
+class ActionAskSeniority(ActionAskQuestionBase):
+    def name(self) -> str:
+        return "action_ask_seniority"
+    
+class ActionAskBudget(ActionAskQuestionBase):
+    def name(self) -> str:
+        return "action_ask_budget"
+    
 class ActionRestartSurvey(Action):
     def name(self) -> Text:
         return "action_restart_survey"

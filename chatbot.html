@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -656,13 +656,21 @@
                             this.addMessage(userText, 'user');
 
                             // 👉 Trích số câu hỏi từ currentQuestionId
-                            let questionId = this.currentQuestionId || "questionX";
-                            const match = questionId.match(/question(\d+(?:_\d+)?)/);
-                            const questionNumber = match ? match[1] : "X";
+                            const slotName = this.currentQuestionId || "unknown_slot";
 
-                            // 👉 Tạo intent & slot name
-                            const intentName = `choose_q${questionNumber}`;
-                            const slotName = `question${questionNumber}`;
+                            // Nếu slotName bắt đầu bằng "question", thì dùng intent "choose_qXX"
+                            let intentName = "";
+                            if (slotName.startsWith("question")) {
+                                const match = slotName.match(/question(\d+(?:_\d+)?)/);
+                                const questionNumber = match ? match[1] : "X";
+                                intentName = `choose_q${questionNumber}`;
+                            } else if (typeof slotName === "string" && (
+                                slotName.includes("industry") ||
+                                slotName.includes("seniority") ||
+                                slotName.includes("budget")))
+                                {                   
+                                intentName = "inform";
+                            }
 
                             const slotData = {};
                             slotData[slotName] = userText;
@@ -676,6 +684,12 @@
                             submitBtn.disabled = true;
                         }
                     };
+                    input.addEventListener('keydown', (event) => {
+                        if (event.key === 'Enter') {
+                            event.preventDefault();         
+                            submitBtn.onclick();            
+                        }
+                    });
 
                     messageDiv.appendChild(input);
                     messageDiv.appendChild(submitBtn);
@@ -699,6 +713,7 @@
 
                 this.chatMessages.appendChild(messageDiv);
                 this.scrollToBottom();
+                
             }
 
 
