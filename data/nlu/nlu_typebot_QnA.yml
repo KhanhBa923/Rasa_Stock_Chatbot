@@ -82,4 +82,5 @@ nlu:
   examples: |
     - Restart survey
     - I want to re do the survey
+- intent: choose_confirm_answer
 

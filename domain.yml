@@ -46,6 +46,7 @@ intents:
 - choose_q15_2
 - choose_q19_1
 - restart_survey
+- choose_confirm_answer
 
 ########################################################### Entities ###########################################################
 
@@ -85,6 +86,8 @@ entities:
 - question15_2
 - KyLuatScore
 - question19_1
+- confirm_answer
+- temp_confirm_answer
 
 ########################################################### Slot ###########################################################
 
@@ -381,6 +384,21 @@ slots:
       entity: question19_1
       condition:
       - active_loop: form_survey_typebot
+  confirm_answer:
+    type: text
+    initial_value: "standby"
+    mappings:
+    - type: from_entity
+      entity: confirm_answer
+      condition:
+      - active_loop: form_survey_typebot
+  temp_confirm_answer:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: confirm_answer
+      condition:
+      - active_loop: form_survey_typebot
 
 
 ############################################################# Forms ###########################################################
@@ -394,6 +412,7 @@ forms:
     - ready
   form_survey_typebot:
     required_slots:
+    - confirm_answer
     - question1
     - question3
     - question4
@@ -478,6 +497,7 @@ actions:
 - action_ask_industry 
 - action_ask_seniority
 - action_ask_budget
+- action_reset_confirm_answer
 
 ############################################################### Responses ###########################################################
 
@@ -529,7 +549,7 @@ responses:
   utter_confirm_q1_4:
   - text: 'Bạn đã chọn: d. 0–<10%'
   utter_ask_question3:
-  - text: "Tỷ lệ nợ trên tổng tài sản của anh/chị đang ở mức thấp. Anh/chị có thể phù hợp với các danh mục dài hạn và có thể phân bổ danh mục vào các mã cổ phiếu có mức độ rủi ro cao hơn trung bình."
+  - text: "Giá trị ròng tài khoản chứng khoán chiếm bao nhiêu % tổng tài sản?"
   utter_res_question3:
   - text: ""
     buttons:
@@ -670,6 +690,8 @@ responses:
       - title: "b. Dựa vào các phương pháp phân bổ theo rủi ro"
       - title: "c. Theo tư vấn từ chuyên viên tư vấn đầu tư, báo cáo danh mục đầu tư"
       - title: "d. Khác"
+  utter_confirm_q12_1_1:
+  - text: "Phương pháp này dễ áp dụng, tuy nhiên không tối ưu được tỷ trọng lợi nhuận/rủi ro."
   utter_ask_question13:
   - text: 'Anh/chị kỳ vọng đạt lợi nhuận từ danh mục đầu tư cổ phiếu hàng năm bao nhiêu phần trăm?'
   utter_res_question13:
