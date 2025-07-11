@@ -16,7 +16,45 @@ import pathlib
 class ValidateFormSurveyTypebot(FormValidationAction):
     def name(self) -> Text:
         return "validate_form_survey_typebot"
-    
+    def validate_confirm_answer(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> list[EventType]:
+        try:
+            if slot_value is None:
+                dispatcher.utter_message(text="fail.")
+                return [SlotSet("confirm_answer", "standby")]
+            
+            if slot_value == "standby":
+                return [
+                    SlotSet("confirm_answer", slot_value),
+                    ActiveLoop("form_survey_typebot")
+                ]
+            
+            if slot_value.startswith("question"):
+                value = slot_value.replace("question", "")
+                if value == "4":
+                    print(f"confirm_answer: {slot_value}")
+                    return [
+                        SlotSet("question1", None),
+                        SlotSet("question4", None),
+                        SlotSet("confirm_answer", "standby"),
+                        ActiveLoop("form_survey_typebot")
+                    ]
+                else:
+                    # Handle other question numbers
+                    return [SlotSet("confirm_answer", slot_value)]
+            
+            # Default case - accept the slot value
+            return [SlotSet("confirm_answer", slot_value)]
+            
+        except Exception as e:
+            dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
+            print(f"[ERROR] validate_confirm_answer: {e}")
+            return [SlotSet("confirm_answer", "standby")]
     def validate_ready(
         self,
         slot_value: Any,
@@ -130,44 +168,57 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             print(f"[ERROR] validate_question3: {e}")
             return {"question3": None}
     def validate_question4(
-        self,
-        slot_value: Any,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
+    self,
+    slot_value: Any,
+    dispatcher: CollectingDispatcher,
+    tracker: Tracker,
+    domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        """Hiển thị lại câu trả lời question4"""
+        """Xác thực và phản hồi lại lựa chọn question4"""
         try:
-            if slot_value and slot_value.startswith("question4_"):
-                option_number = slot_value.replace("question4_", "") # Lấy số thứ tự từ slot_value
-                option_q1 = get_question_option_number_from_tracker(tracker, "question1")
-                if option_q1 is None:
-                    dispatcher.utter_message(text="Bạn chưa trả lời câu hỏi 1, vui lòng trả lời trước khi tiếp tục.")
-                    return {"question4": None}
-                if option_number == "1":
-                    if(option_q1 == "1"):
-                        dispatcher.utter_message(response="utter_confirm_q4_1")
-                    else:
-                        dispatcher.utter_message(response="utter_confirm_q4_2")
-                elif option_number == "2":
-                    if(option_q1 == "1"):
-                        dispatcher.utter_message(response="utter_confirm_q4_3")
-                    else:
-                        dispatcher.utter_message(response="utter_confirm_q4_4")
-                elif option_number == "3":
-                    dispatcher.utter_message(response="utter_confirm_q4_0")
-                    return {"question4": None}
-                else:
-                    dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
-                    return {"question4": None}
-                return {"question4": slot_value}
-            else:
+            if not slot_value or not slot_value.startswith("question4_"):
                 dispatcher.utter_message(text="Dữ liệu không hợp lệ.")
                 return {"question4": None}
+
+            option_number = slot_value.replace("question4_", "")
+            option_q1 = get_question_option_number_from_tracker(tracker, "question1")
+
+            if option_q1 is None:
+                dispatcher.utter_message(text="Bạn chưa trả lời câu hỏi 1, vui lòng trả lời trước khi tiếp tục.")
+                return {"question4": None}
+
+            # Xử lý các lựa chọn cụ thể
+            if option_number == "1":
+                if option_q1 == "1":
+                    dispatcher.utter_message(response="utter_confirm_q4_1")
+                    return {
+                        "question4": None,
+                        "temp_confirm_answer": "question4",
+                    }
+                else:
+                    dispatcher.utter_message(response="utter_confirm_q4_2")
+                    return {"question4": slot_value}
+
+            elif option_number == "2":
+                if option_q1 == "1":
+                    dispatcher.utter_message(response="utter_confirm_q4_3")
+                else:
+                    dispatcher.utter_message(response="utter_confirm_q4_4")
+                return {"question4": slot_value}
+
+            elif option_number == "3":
+                dispatcher.utter_message(response="utter_confirm_q4_0")
+                return {"question4": None}
+
+            else:
+                dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
+                return {"question4": None}
+
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question4: {e}")
             return {"question4": None}
+
     def validate_question5(
         self,
         slot_value: Any,
@@ -290,7 +341,6 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                 return {"question8": None}
             if count > 3:
                 dispatcher.utter_message(response="utter_confirm_q8_1")
-                dispatcher.utter_message(response="utter_confirm_q8_2")
                 return {"question8": slot_value}
             else:
                 if contains_all_numbers(numbers, [1, 6, 7]):
@@ -305,10 +355,9 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                 elif contains_all_numbers(numbers, [1, 4]):
                     dispatcher.utter_message(response="utter_confirm_q8_5")
                     return {"question8": slot_value}
-                elif contains_all_numbers(numbers, [1, 2]):
-                    dispatcher.utter_message(response="utter_confirm_q8_6")
-                    return {"question8": slot_value}
-                elif contains_all_numbers(numbers, [1, 3]):
+                elif (contains_all_numbers(numbers, [1, 2]) 
+                      or contains_all_numbers(numbers, [1, 3]) 
+                      or contains_all_numbers(numbers, [1,2, 3])):
                     dispatcher.utter_message(response="utter_confirm_q8_6")
                     return {"question8": slot_value}
                 else:
@@ -378,8 +427,8 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         try:
             if slot_value and slot_value.startswith("question11_"):
                 option_number = slot_value.replace("question11_", "")  # Lấy số thứ tự từ slot_value
-                option_q1 = get_question_option_number_from_tracker(tracker, "question10")
-                if option_q1 is None:
+                option_q10 = get_question_option_number_from_tracker(tracker, "question10")
+                if option_q10 is None:
                     dispatcher.utter_message(text="Bạn chưa trả lời câu hỏi 10, vui lòng trả lời trước khi tiếp tục.")
                     return {"question11": None}
                 valid_options = ["1", "2", "3"]
@@ -387,7 +436,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                     if option_number == "1":
                         dispatcher.utter_message(response="utter_confirm_q11_1")             
                     elif option_number == "3":
-                        if option_q1 == "1":
+                        if option_q10 == "1":
                             dispatcher.utter_message(response="utter_confirm_q11_2")
                         else:
                             dispatcher.utter_message(response="utter_confirm_q11_3")
@@ -444,6 +493,8 @@ class ValidateFormSurveyTypebot(FormValidationAction):
 
                 valid_options = ["1", "2","3"]
                 if option_number in valid_options:
+                    if option_number == "1":
+                        dispatcher.utter_message(response="utter_confirm_q12_1")
                     return {"question12_1": slot_value}
                 else:
                     dispatcher.utter_message(text="Lựa chọn không hợp lệ, vui lòng chọn lại.")
@@ -614,6 +665,9 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
+        """
+        Hiển thị lại câu trả lời question16
+        """
         try:
             return {"question16": slot_value}
         except Exception as e:
@@ -697,6 +751,19 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
+        """
+        Validate user's answer to question 19_1.
+
+        Parameters:
+        slot_value (Any): user's answer
+        dispatcher (CollectingDispatcher): used to send messages
+        tracker (Tracker): used to access conversation history
+        domain (Dict[Text, Any]): the domain of the conversation
+
+        Returns:
+        Dict[Text, Any]: a dictionary containing the validated answer
+        """
+        
         try:
             KLScore = get_ky_luat_score(tracker)
             KLScore+=1
@@ -1034,8 +1101,8 @@ class ActionAskquestion3(Action):
             question_value = f"question3_{idx + 1}"
             buttons.append({
                 "title": button["title"],
-                # "payload": f'/choose_q2{{"question3": "{question_value}"}}'
-                "payload": f'{question_value}'
+                "payload": f'/choose_q2{{"question3": "{question_value}"}}'
+                #"payload": f'{question_value}'
             })
 
         dispatcher.utter_message(
@@ -1217,3 +1284,27 @@ class ActionStartQuestion(Action):
         
         dispatcher.utter_message(text="Bắt đầu phần khảo sát chi tiết!")
         return [FollowupAction("form_survey_typebot")]
+class ActionResetConfirmAnswer(Action):
+    def name(self):
+        return "action_reset_confirm_answer"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: dict):
+        print("action_reset_confirm_answer")
+        # Reset slot confirm_answer
+        events = [SlotSet("confirm_answer", None)]
+
+        # Lấy giá trị từ slot question4
+        temp_confirm_answere = tracker.get_slot("temp_confirm_answer")
+
+        # Gửi tin nhắn kèm giá trị
+        dispatcher.utter_message(
+            text=f"Lựa chọn này có thể không hợp lý , Anh/Chị có muốn trả lời lại khong?",
+            buttons=[
+                {"title": "Có", "payload": f'/choose_confirm_answer{"confirm_answer": "{temp_confirm_answere}"}'},
+                {"title": "Không", "payload": '/choose_confirm_answer{"confirm_answer": "standby"}'}
+            ]
+        )
+
+        return events
