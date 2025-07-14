@@ -240,7 +240,7 @@ slots:
       - active_loop: form_survey_typebot
 
   question15:
-    type: text
+    type: list
     mappings:
     - type: from_entity
       entity: question15
@@ -413,21 +413,21 @@ forms:
   form_survey_typebot:
     required_slots:
     - confirm_answer
-    - question1
-    - question3
-    - question4
-    - question5
-    - question5_1
-    - question6
-    - question7
-    - question8
-    - question9
-    - question10
-    - question11
-    - question12
-    - question12_1
-    - question13
-    - question14
+    # - question1
+    # - question3
+    # - question4
+    # - question5
+    # - question5_1
+    # - question6
+    # - question7
+    # - question8
+    # - question9
+    # - question10
+    # - question11
+    # - question12
+    # - question12_1
+    # - question13
+    # - question14
     - question15
     - question15_1
     - question15_2
@@ -772,6 +772,8 @@ responses:
       - title: "e. Mức định giá của cổ phiếu"
       - title: "f. Mức độ chi trả cổ tức"
       - title: "g. Triển vọng ngắn hạn"
+      - title: "h. Triển vọng dài hạn"
+      - title: "i. Mức độ rủi ro"
   utter_confirm_q15_1_1:
   - text: 'Việc lựa chọn cổ phiếu và thời điểm mua/bán, thời gian nắm giữ có thể thiếu căn cứ xác đáng và thay đổi liên tục khi có sự thay đổi về các yếu tố trong nền kinh tế.'
   utter_confirm_q15_1_2:
@@ -786,6 +788,14 @@ responses:
   - text: 'Nếu KH có mức kỳ vọng lợi nhuận và rủi ro trên 15% thì sẽ hỏi lại để KH cân nhắc lựa chọn.Nếu KH có khẩu vị rủi ro cao hơn mức trung bình thì sẽ hỏi lại để KH cân nhắc lựa chọn.'
   utter_confirm_q15_1_7:
   - text: 'Triển vọng trong ngắn hạn có thể thay đổi nhanh. Việc chỉ quan tâm đến triển vọng ngắn hạn có thể khiến cho tần suất mua/bán cổ phiếu của anh/chị lớn hơn.'
+  utter_confirm_q15_1_8:
+  - text: "Hợp lý."
+  utter_confirm_q15_1_9:
+  - text: "Anh/chị cần cân nhắc thêm yếu tố định giá trước khi đưa ra quyết định đầu tư."
+  utter_confirm_q15_1_10:
+  - text: "Định giá không phải là yếu tố được ưu tiên trong trường phái đầu tư theo đà tăng trưởng."
+  utter_confirm_q15_1_11:
+  - text: "Anh/chị nên tìm ra trường phái đầu tư phù hợp với bản thân mình."
   utter_ask_question15_2:
   - text: 'Anh/chị quan tâm đến yếu tố nào khi lựa chọn cổ phiếu đầu tư? (cho phép chọn nhiều phương án) (nếu KH ưu tiên trường phái đầu tư theo phân tích kỹ thuật, kết hợp)'
   utter_res_question15_2:

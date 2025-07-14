@@ -6,7 +6,7 @@ from rasa_sdk.types import DomainDict
 from rasa_sdk.events import EventType
 from rasa_sdk.events import SlotSet,FollowupAction, ActiveLoop
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, Union
 
 import re
 import pathlib 
@@ -53,6 +53,12 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                         "confirm_answer": "standby",
                         "question1": None,
                         "question4": None
+                    }
+                elif value == "14":
+                    return {
+                        "confirm_answer": "standby",
+                        "question13": None,
+                        "question14": None
                     }
                 else:
                     return {"confirm_answer": slot_value}
@@ -575,6 +581,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                     elif option_number == "3":
                         if option_q13 == "1":
                             dispatcher.utter_message(response="utter_confirm_q14_7")
+                            return {"question14": None, "confirm_answer": True, "temp_confirm_answer": slot_value}
                         elif option_q13 == "2":
                             dispatcher.utter_message(response="utter_confirm_q14_8")
                         elif option_q13 == "3":
@@ -584,6 +591,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                     elif option_number == "4":
                         if option_q13 == "1":
                             dispatcher.utter_message(response="utter_confirm_q14_11")
+                            return {"question14": None, "confirm_answer": True, "temp_confirm_answer": slot_value}
                         elif option_q13 == "2" or option_q13 == "3":
                             dispatcher.utter_message(response="utter_confirm_q14_12")
                         elif option_q13 == "4":
@@ -593,6 +601,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                     elif option_number == "5":
                         if option_q13 == "1" or option_q13 == "2":
                             dispatcher.utter_message(response="utter_confirm_q14_15")
+                            return {"question14": None, "confirm_answer": True, "temp_confirm_answer": slot_value}
                         elif option_q13 == "3" or option_q13 == "4":
                             dispatcher.utter_message(response="utter_confirm_q14_16")
                         else:
@@ -617,15 +626,32 @@ class ValidateFormSurveyTypebot(FormValidationAction):
     ) -> Dict[Text, Any]:
         """Hiển thị lại câu trả lời question15"""
         try:
-            if slot_value and slot_value.startswith("question15_"):
-                option_number = slot_value.replace("question15_", "")  # Lấy số thứ tự từ slot_value
-                valid_options = ["1", "2","3","4","5","6"]
-                if option_number in valid_options:
+            # Chưa rõ 
+            return {"question15": slot_value}
+            numbers = [int(item.split('_')[1]) for item in slot_value] #3,4
+            count = len(numbers)
+            option_q7 = get_question_option_number_from_tracker(tracker, "question7")
+            if not numbers:
+                dispatcher.utter_message(text="Vui lòng chọn ít nhất một phương án.")
+                return {"question15": None}
+            else:
+                if contains_all_numbers(numbers, [4,5]) and option_q7 == "1":
+                    #dispatcher.utter_message(response="utter_confirm_q8_2")
+                    return {"question15": slot_value}
+                elif contains_all_numbers(numbers, [1, 2, 3]) and option_q7 == "1":
+                    dispatcher.utter_message(response="utter_confirm_q8_3")
+                    return {"question15": slot_value}
+                elif contains_all_numbers(numbers, [4]) and option_q7 == "2": 
+                    dispatcher.utter_message(response="utter_confirm_q8_4")
+                    return {"question15": slot_value}
+                elif contains_all_numbers(numbers, [1,2,3]) and option_q7 == "2":
+                    dispatcher.utter_message(response="utter_confirm_q8_5")
+                    return {"question15": slot_value}
+                elif (contains_all_numbers(numbers, [1, 2])):
+                    dispatcher.utter_message(response="utter_confirm_q8_6")
                     return {"question15": slot_value}
                 else:
-                    return {"question15": None}
-            else:
-                return {"question15": slot_value}
+                    return {"question15": slot_value}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question15: {e}")
@@ -679,6 +705,22 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         Hiển thị lại câu trả lời question16
         """
         try:
+            option_q15 = get_question_option_number_from_tracker(tracker, "question15")
+            #print(option_q15)
+
+            # Ánh xạ option_q15 -> allowed_values
+            validation_map = {
+                "1": ["1", "2", "5"],
+                "2": ["1"],
+                "3": ["2", "5"],
+                "4": ["4"],
+                "5": ["6"],
+            }
+
+            for key, allowed in validation_map.items():
+                if contains_value(key, option_q15) and not check_suffix_allowed(slot_value, allowed):
+                    return {"question16": None}
+
             return {"question16": slot_value}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
@@ -693,7 +735,20 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         try:
-            return {"question17": slot_value}
+            option_q15 = get_question_option_number_from_tracker(tracker, "question15")
+            validation_map = {
+                "1": ["1", "2"],
+                "2": ["1", "2"],
+                "3": ["1", "2"],
+                "4": ["4","5"],
+                "5": ["4","5"],
+            }
+
+            for key, allowed in validation_map.items():
+                if contains_value(key, option_q15) and not check_suffix_allowed(slot_value, allowed):
+                    return {"question16": None}
+
+            return {"question16": slot_value}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question17: {e}")
@@ -792,14 +847,16 @@ class ValidateFormSurveyTypebot(FormValidationAction):
     ) -> Dict[Text, Any]:
         try:
             KLScore = get_ky_luat_score(tracker)
+            option_q15 = get_question_option_number_from_tracker(tracker, "question15") #["1","5"]
             if slot_value and slot_value.startswith("question20_"):
                 option_number = slot_value.replace("question20_", "")
                 if option_number == "1":
                     KLScore+=2
                 elif option_number == "2":
                     KLScore+=1
-                elif option_number == "3":
-                    dispatcher.utter_message(response="utter_confirm_q20_1")
+                elif option_number == "3" :
+                    if isinstance(option_q15, list) and all(o in option_q15 for o in ["4", "5"]):
+                        dispatcher.utter_message(response="utter_confirm_q20_1")
                 else:
                     dispatcher.utter_message(text="Lựa chọn không hợp lệ, Hãy chọn lại.") 
                     return {"question20": None}  
@@ -930,17 +987,30 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             return {"TongKet_": None}
 
 
-def get_question_option_number_from_tracker(tracker: Tracker, slot_name: str) -> Optional[str]:
+def get_question_option_number_from_tracker(tracker: Tracker, slot_name: str) -> Optional[Union[str, List[str]]]:
     """
-    Trích số thứ tự từ giá trị của slot (ví dụ: slot 'question1' có giá trị 'question1_2' → trả về '2')
+    Trích số thứ tự từ giá trị của slot.
+    - Nếu slot là chuỗi: 'question16_2' -> '2'
+    - Nếu slot là list: ['question16_1', 'question16_2'] -> ['1', '2']
     """
     slot_value = tracker.get_slot(slot_name)
     if not slot_value:
         return None
 
-    match = re.match(fr"{slot_name}_(\d+)", slot_value)
-    if match:
-        return match.group(1)
+    pattern = re.compile(fr"{slot_name}_(\d+)")
+
+    if isinstance(slot_value, list):
+        result = []
+        for item in slot_value:
+            match = pattern.match(item)
+            if match:
+                result.append(match.group(1))
+        return result if result else None
+    elif isinstance(slot_value, str):
+        match = pattern.match(slot_value)
+        if match:
+            return match.group(1)
+
     return None
 class ActionAskReady(Action):
     def name(self) -> Text:
@@ -1171,7 +1241,7 @@ class ActionShowQuestion14(ActionAskQuestionBase):
     def name(self) -> str:
         return "action_ask_question14"
     
-class ActionShowQuestion15(ActionAskQuestionBase):
+class ActionShowQuestion15(ActionAskQuestionBaseMultiChoice):
     def name(self) -> str:
         return "action_ask_question15"
 
@@ -1302,7 +1372,7 @@ class ActionShowConfirmAnswerQuestion(Action):
             tracker: Tracker,
             domain: dict) -> List[Dict[Text, Any]]:
 
-        print("action_reset_confirm_answer")
+        #print("action_reset_confirm_answer")
         temp_confirm_answere = tracker.get_slot("temp_confirm_answer")
 
         payload_yes = f'/choose_confirm_answer{{"confirm_answer": "{temp_confirm_answere}"}}'
@@ -1317,3 +1387,36 @@ class ActionShowConfirmAnswerQuestion(Action):
         )
 
         return []
+def check_suffix_allowed(items, allowed_values):
+    """
+    Checks if all items in the list have a suffix that is allowed.
+
+    Args:
+        items (list): A list of strings where each string contains a suffix separated by an underscore.
+        allowed_values (list): A list of allowed suffix values.
+
+    Returns:
+        bool: True if all items have a suffix that is in the allowed_values list, False otherwise.
+    """
+
+    for item in items:
+        suffix = item.split('_')[-1]
+        if suffix not in allowed_values:
+            return False
+    return True
+
+def contains_value(value: str, target: str | list[str] | None) -> bool:
+    """
+    Checks if a given value is in a target value or list of values.
+
+    Args:
+        value (str): The value to check.
+        target (str | list[str] | None): The value or list of values to check against.
+
+    Returns:
+        bool: True if the value is in the target, False otherwise.
+    """
+    
+    if isinstance(target, list):
+        return value in target
+    return False
