@@ -396,7 +396,7 @@ slots:
     type: text
     mappings:
     - type: from_entity
-      entity: confirm_answer
+      entity: temp_confirm_answer
       condition:
       - active_loop: form_survey_typebot
 
@@ -497,7 +497,7 @@ actions:
 - action_ask_industry 
 - action_ask_seniority
 - action_ask_budget
-- action_reset_confirm_answer
+- action_ask_confirm_answer
 
 ############################################################### Responses ###########################################################
 

@@ -22,39 +22,48 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
-    ) -> list[EventType]:
+    ) -> Dict[Text, Any]:
         try:
+            temp_confirm_answer = tracker.get_slot("temp_confirm_answer")
+            #print(f"temp_confirm_answer: {temp_confirm_answer}")
+            #print(f"slot_value: {slot_value}")
             if slot_value is None:
                 dispatcher.utter_message(text="fail.")
-                return [SlotSet("confirm_answer", "standby")]
+                return {"confirm_answer": "standby"}
             
             if slot_value == "standby":
-                return [
-                    SlotSet("confirm_answer", slot_value),
-                    ActiveLoop("form_survey_typebot")
-                ]
+                #print("Running validate_confirm_answer with slot_value == 'standby'")
+                if temp_confirm_answer and "_" in temp_confirm_answer:
+                    parts = temp_confirm_answer.split("_")
+                    slot_name = "_".join(parts[:-1])
+                    #print(f"slot_name: {slot_name}")
+                    return {"confirm_answer": "standby", slot_name:temp_confirm_answer} 
             
             if slot_value.startswith("question"):
-                value = slot_value.replace("question", "")
-                if value == "4":
-                    print(f"confirm_answer: {slot_value}")
-                    return [
-                        SlotSet("question1", None),
-                        SlotSet("question4", None),
-                        SlotSet("confirm_answer", "standby"),
-                        ActiveLoop("form_survey_typebot")
-                    ]
+                raw_value = slot_value[len("question"):]  # "5_1_1" hoặc "4_1"
+                parts = raw_value.split("_")
+                if len(parts) > 1:
+                    value = "_".join(parts[:-1])  # "5_1" hoặc "4"
                 else:
-                    # Handle other question numbers
-                    return [SlotSet("confirm_answer", slot_value)]
+                    value = parts[0]
+                #print(f"value: {value}")
+                if value == "4":
+                    #print(f"confirm_answer: {slot_value}")
+                    return {
+                        "confirm_answer": "standby",
+                        "question1": None,
+                        "question4": None
+                    }
+                else:
+                    return {"confirm_answer": slot_value}
             
             # Default case - accept the slot value
-            return [SlotSet("confirm_answer", slot_value)]
+            return {"confirm_answer": slot_value}
             
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_confirm_answer: {e}")
-            return [SlotSet("confirm_answer", "standby")]
+            return {"confirm_answer": None}
     def validate_ready(
         self,
         slot_value: Any,
@@ -193,7 +202,8 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                     dispatcher.utter_message(response="utter_confirm_q4_1")
                     return {
                         "question4": None,
-                        "temp_confirm_answer": "question4",
+                        "temp_confirm_answer": slot_value,
+                        "confirm_answer": None,
                     }
                 else:
                     dispatcher.utter_message(response="utter_confirm_q4_2")
@@ -1284,27 +1294,26 @@ class ActionStartQuestion(Action):
         
         dispatcher.utter_message(text="Bắt đầu phần khảo sát chi tiết!")
         return [FollowupAction("form_survey_typebot")]
-class ActionResetConfirmAnswer(Action):
+class ActionShowConfirmAnswerQuestion(Action):
     def name(self):
-        return "action_reset_confirm_answer"
+        return "action_ask_confirm_answer"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
-            domain: dict):
-        print("action_reset_confirm_answer")
-        # Reset slot confirm_answer
-        events = [SlotSet("confirm_answer", None)]
+            domain: dict) -> List[Dict[Text, Any]]:
 
-        # Lấy giá trị từ slot question4
+        print("action_reset_confirm_answer")
         temp_confirm_answere = tracker.get_slot("temp_confirm_answer")
 
-        # Gửi tin nhắn kèm giá trị
+        payload_yes = f'/choose_confirm_answer{{"confirm_answer": "{temp_confirm_answere}"}}'
+        payload_no = '/choose_confirm_answer{"confirm_answer": "standby"}'
+
         dispatcher.utter_message(
-            text=f"Lựa chọn này có thể không hợp lý , Anh/Chị có muốn trả lời lại khong?",
+            text="Lựa chọn này có thể không hợp lý, Anh/Chị có muốn trả lời lại không?",
             buttons=[
-                {"title": "Có", "payload": f'/choose_confirm_answer{"confirm_answer": "{temp_confirm_answere}"}'},
-                {"title": "Không", "payload": '/choose_confirm_answer{"confirm_answer": "standby"}'}
+                {"title": "Có", "payload": payload_yes},
+                {"title": "Không", "payload": payload_no}
             ]
         )
 
-        return events
+        return []
