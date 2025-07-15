@@ -4,7 +4,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormValidationAction
 from rasa_sdk.types import DomainDict
 from rasa_sdk.events import EventType
-from rasa_sdk.events import SlotSet,FollowupAction, ActiveLoop
+from rasa_sdk.events import SlotSet,FollowupAction, ActiveLoop, ActionExecuted
 from abc import ABC, abstractmethod
 from typing import Optional, Union
 
@@ -28,7 +28,6 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             #print(f"temp_confirm_answer: {temp_confirm_answer}")
             #print(f"slot_value: {slot_value}")
             if slot_value is None:
-                dispatcher.utter_message(text="fail.")
                 return {"confirm_answer": "standby"}
             
             if slot_value == "standby":
@@ -710,7 +709,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
 
             # Ánh xạ option_q15 -> allowed_values
             validation_map = {
-                "1": ["1", "2", "5"],
+                "1": ["1", "2", "5"],#q15:q16
                 "2": ["1"],
                 "3": ["2", "5"],
                 "4": ["4"],
@@ -719,6 +718,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
 
             for key, allowed in validation_map.items():
                 if contains_value(key, option_q15) and not check_suffix_allowed(slot_value, allowed):
+                    dispatcher.utter_message(text="Dữ liệu không hợp lý.")
                     return {"question16": None}
 
             return {"question16": slot_value}
@@ -737,7 +737,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         try:
             option_q15 = get_question_option_number_from_tracker(tracker, "question15")
             validation_map = {
-                "1": ["1", "2"],
+                "1": ["1", "2"], #q15:q17
                 "2": ["1", "2"],
                 "3": ["1", "2"],
                 "4": ["4","5"],
@@ -746,9 +746,10 @@ class ValidateFormSurveyTypebot(FormValidationAction):
 
             for key, allowed in validation_map.items():
                 if contains_value(key, option_q15) and not check_suffix_allowed(slot_value, allowed):
-                    return {"question16": None}
+                    dispatcher.utter_message(text="Dữ liệu không hợp lý.")
+                    return {"question17": None}
 
-            return {"question16": slot_value}
+            return {"question17": slot_value}
         except Exception as e:
             dispatcher.utter_message(text="Đã xảy ra lỗi khi xử lý lựa chọn. Vui lòng thử lại.")
             print(f"[ERROR] validate_question17: {e}")
@@ -1360,7 +1361,7 @@ class ActionStartQuestion(Action):
         
         if not tracker.get_slot("ready"):
             dispatcher.utter_message(text="Bạn cần sẵn sàng để tiếp tục khảo sát!")
-            return []
+            return [SlotSet("ready", None)]
         
         dispatcher.utter_message(text="Bắt đầu phần khảo sát chi tiết!")
         return [FollowupAction("form_survey_typebot")]
@@ -1377,7 +1378,8 @@ class ActionShowConfirmAnswerQuestion(Action):
 
         payload_yes = f'/choose_confirm_answer{{"confirm_answer": "{temp_confirm_answere}"}}'
         payload_no = '/choose_confirm_answer{"confirm_answer": "standby"}'
-
+        if temp_confirm_answere is None:          
+            return [ActionExecuted("action_listen")] #skip neu khong co temp_confirm_answer
         dispatcher.utter_message(
             text="Lựa chọn này có thể không hợp lý, Anh/Chị có muốn trả lời lại không?",
             buttons=[

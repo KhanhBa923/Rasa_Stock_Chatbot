@@ -428,19 +428,19 @@ forms:
     # - question12_1
     # - question13
     # - question14
-    - question15
-    - question15_1
-    - question15_2
-    - question16
-    - question17
-    - question18
-    - question19
-    - question19_1
-    - question20
-    - question21
-    - question22
-    - question23
-    - question24
+    # - question15
+    # - question15_1
+    # - question15_2
+    # - question16
+    # - question17
+    # - question18
+    # - question19
+    # - question19_1
+    # - question20
+    # - question21
+    # - question22
+    # - question23
+    # - question24
     - question25
     - question26
 
