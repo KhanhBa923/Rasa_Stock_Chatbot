@@ -2,8 +2,8 @@ version: '3.1'
 intents:
 - affirm
 - bot_challenge
-- choose_q1
-- choose_q2
+# - choose_q1
+# - choose_q2
 - choose_survey
 - deny
 - give_feedback
@@ -16,37 +16,37 @@ intents:
 - start_survey
 - stock_trading
 - stop_form
-- choose_q3
-- choose_q4
-- choose_q5
-- choose_q6
-- choose_q7
-- choose_q8
-- choose_q9
-- choose_q10
-- choose_q11
-- choose_q12
-- choose_q13
-- choose_q14
-- choose_q15
-- choose_q16
-- choose_q17
-- choose_q18
-- choose_q19
-- choose_q20
-- choose_q21
-- choose_q22
-- choose_q23
-- choose_q24
-- choose_q25
-- choose_q26
-- choose_q5_1
-- choose_q12_1
-- choose_q15_1
-- choose_q15_2
-- choose_q19_1
+# - choose_q3
+# - choose_q4
+# - choose_q5
+# - choose_q6
+# - choose_q7
+# - choose_q8
+# - choose_q9
+# - choose_q10
+# - choose_q11
+# - choose_q12
+# - choose_q13
+# - choose_q14
+# - choose_q15
+# - choose_q16
+# - choose_q17
+# - choose_q18
+# - choose_q19
+# - choose_q20
+# - choose_q21
+# - choose_q22
+# - choose_q23
+# - choose_q24
+# - choose_q25
+# - choose_q26
+# - choose_q5_1
+# - choose_q12_1
+# - choose_q15_1
+# - choose_q15_2
+# - choose_q19_1
 - restart_survey
-- choose_confirm_answer
+# - choose_confirm_answer
 
 ########################################################### Entities ###########################################################
 
@@ -428,19 +428,19 @@ forms:
     # - question12_1
     # - question13
     # - question14
-    # - question15
-    # - question15_1
-    # - question15_2
-    # - question16
-    # - question17
-    # - question18
-    # - question19
-    # - question19_1
-    # - question20
-    # - question21
-    # - question22
-    # - question23
-    # - question24
+    - question15
+    - question15_1
+    - question15_2
+    - question16
+    - question17
+    - question18
+    - question19
+    - question19_1
+    - question20
+    - question21
+    - question22
+    - question23
+    - question24
     - question25
     - question26
 
