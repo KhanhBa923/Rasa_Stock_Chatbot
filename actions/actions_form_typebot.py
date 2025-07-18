@@ -7,6 +7,7 @@ from rasa_sdk.events import EventType
 from rasa_sdk.events import SlotSet,FollowupAction, ActiveLoop, ActionExecuted
 from abc import ABC, abstractmethod
 from typing import Optional, Union
+from actions import form_helper
 
 import re
 import pathlib 
@@ -149,7 +150,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         try:
             if slot_value and slot_value.startswith("question3_"):
                 option_number = slot_value.replace("question3_", "") # Lấy số thứ tự từ slot_value
-                option_q1 = get_question_option_number_from_tracker(tracker, "question1")
+                option_q1 = form_helper.get_question_option_number_from_tracker(tracker, "question1")
                 if option_q1 is None:
                     dispatcher.utter_message(text="Bạn chưa trả lời câu hỏi 1, vui lòng trả lời trước khi tiếp tục.")
                     return {"question3": None}
@@ -192,7 +193,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                 return {"question4": None}
 
             option_number = slot_value.replace("question4_", "")
-            option_q1 = get_question_option_number_from_tracker(tracker, "question1")
+            option_q1 = form_helper.get_question_option_number_from_tracker(tracker, "question1")
 
             if option_q1 is None:
                 dispatcher.utter_message(text="Bạn chưa trả lời câu hỏi 1, vui lòng trả lời trước khi tiếp tục.")
@@ -355,21 +356,21 @@ class ValidateFormSurveyTypebot(FormValidationAction):
                 dispatcher.utter_message(response="utter_confirm_q8_1")
                 return {"question8": slot_value}
             else:
-                if contains_all_numbers(numbers, [1, 6, 7]):
+                if form_helper.contains_all_numbers(numbers, [1, 6, 7]):
                     dispatcher.utter_message(response="utter_confirm_q8_2")
                     return {"question8": slot_value}
-                elif contains_all_numbers(numbers, [1, 7]):
+                elif form_helper.contains_all_numbers(numbers, [1, 7]):
                     dispatcher.utter_message(response="utter_confirm_q8_3")
                     return {"question8": slot_value}
-                elif contains_all_numbers(numbers, [1, 5]): 
+                elif form_helper.contains_all_numbers(numbers, [1, 5]): 
                     dispatcher.utter_message(response="utter_confirm_q8_4")
                     return {"question8": slot_value}
-                elif contains_all_numbers(numbers, [1, 4]):
+                elif form_helper.contains_all_numbers(numbers, [1, 4]):
                     dispatcher.utter_message(response="utter_confirm_q8_5")
                     return {"question8": slot_value}
-                elif (contains_all_numbers(numbers, [1, 2]) 
-                      or contains_all_numbers(numbers, [1, 3]) 
-                      or contains_all_numbers(numbers, [1,2, 3])):
+                elif (form_helper.contains_all_numbers(numbers, [1, 2]) 
+                      or form_helper.contains_all_numbers(numbers, [1, 3]) 
+                      or form_helper.contains_all_numbers(numbers, [1,2, 3])):
                     dispatcher.utter_message(response="utter_confirm_q8_6")
                     return {"question8": slot_value}
                 else:
@@ -439,7 +440,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         try:
             if slot_value and slot_value.startswith("question11_"):
                 option_number = slot_value.replace("question11_", "")  # Lấy số thứ tự từ slot_value
-                option_q10 = get_question_option_number_from_tracker(tracker, "question10")
+                option_q10 = form_helper.get_question_option_number_from_tracker(tracker, "question10")
                 if option_q10 is None:
                     dispatcher.utter_message(text="Bạn chưa trả lời câu hỏi 10, vui lòng trả lời trước khi tiếp tục.")
                     return {"question11": None}
@@ -557,7 +558,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         try:
             if slot_value and slot_value.startswith("question14_"):
                 option_number = slot_value.replace("question14_", "")  # Lấy số thứ tự từ slot_value
-                option_q13 = get_question_option_number_from_tracker(tracker, "question13")
+                option_q13 = form_helper.get_question_option_number_from_tracker(tracker, "question13")
                 valid_options = ["1", "2","3","4","5"]
                 if option_number in valid_options:
                     if option_number == "1":
@@ -701,7 +702,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         Hiển thị lại câu trả lời question16
         """
         try:
-            option_q15 = get_question_option_number_from_tracker(tracker, "question15")
+            option_q15 = form_helper.get_question_option_number_from_tracker(tracker, "question15")
             if option_q15 is None:
                 dispatcher.utter_message(text="Vui lòng trả lời câu hỏi 15 trước khi tiếp tục.")
                 return {"question16": None}
@@ -740,7 +741,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         try:
-            option_q15 = get_question_option_number_from_tracker(tracker, "question15")
+            option_q15 = form_helper.get_question_option_number_from_tracker(tracker, "question15")
             if option_q15 is None:
                 dispatcher.utter_message(text="Vui lòng trả lời câu hỏi 15 trước khi tiếp tục.")
                 return {"question16": None}
@@ -832,19 +833,6 @@ class ValidateFormSurveyTypebot(FormValidationAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        """
-        Validate user's answer to question 19_1.
-
-        Parameters:
-        slot_value (Any): user's answer
-        dispatcher (CollectingDispatcher): used to send messages
-        tracker (Tracker): used to access conversation history
-        domain (Dict[Text, Any]): the domain of the conversation
-
-        Returns:
-        Dict[Text, Any]: a dictionary containing the validated answer
-        """
-        
         try:
             KLScore = get_ky_luat_score(tracker)
             KLScore+=1
@@ -863,7 +851,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
     ) -> Dict[Text, Any]:
         try:
             KLScore = get_ky_luat_score(tracker)
-            option_q15 = get_question_option_number_from_tracker(tracker, "question15") #["1","5"]
+            option_q15 = form_helper.get_question_option_number_from_tracker(tracker, "question15") #["1","5"]
             if slot_value and slot_value.startswith("question20_"):
                 option_number = slot_value.replace("question20_", "")
                 if option_number == "1":
@@ -1003,31 +991,7 @@ class ValidateFormSurveyTypebot(FormValidationAction):
             return {"TongKet_": None}
 
 
-def get_question_option_number_from_tracker(tracker: Tracker, slot_name: str) -> Optional[Union[str, List[str]]]:
-    """
-    Trích số thứ tự từ giá trị của slot.
-    - Nếu slot là chuỗi: 'question16_2' -> '2'
-    - Nếu slot là list: ['question16_1', 'question16_2'] -> ['1', '2']
-    """
-    slot_value = tracker.get_slot(slot_name)
-    if not slot_value:
-        return None
 
-    pattern = re.compile(fr"{slot_name}_(\d+)")
-
-    if isinstance(slot_value, list):
-        result = []
-        for item in slot_value:
-            match = pattern.match(item)
-            if match:
-                result.append(match.group(1))
-        return result if result else None
-    elif isinstance(slot_value, str):
-        match = pattern.match(slot_value)
-        if match:
-            return match.group(1)
-
-    return None
 class ActionAskReady(Action):
     def name(self) -> Text:
         return "action_ask_ready"
@@ -1161,17 +1125,7 @@ def build_multi_select_response(question_id: str, choices: list,multi: bool) -> 
             "question_id": question_id,
             "choices": choices
         }
-def contains_all_numbers(numbers, check_nums):
-    """Check if a list of numbers contains all elements of another list.
 
-    Args:
-        numbers (list): The list of numbers to check in.
-        check_nums (list): The list of numbers to check for.
-
-    Returns:
-        bool: True if all elements of check_nums are in numbers, False otherwise.
-    """
-    return all(num in numbers for num in check_nums)
 
 def get_ky_luat_score(tracker: Tracker) -> int:
     ky_luat_score = tracker.get_slot("KyLuatScore")
@@ -1405,36 +1359,4 @@ class ActionShowConfirmAnswerQuestion(Action):
         )
 
         return []
-def check_suffix_allowed(items, allowed_values):
-    """
-    Checks if all items in the list have a suffix that is allowed.
 
-    Args:
-        items (list): A list of strings where each string contains a suffix separated by an underscore.
-        allowed_values (list): A list of allowed suffix values.
-
-    Returns:
-        bool: True if all items have a suffix that is in the allowed_values list, False otherwise.
-    """
-
-    for item in items:
-        suffix = item.split('_')[-1]
-        if suffix not in allowed_values:
-            return False
-    return True
-
-def contains_value(value: str, target: str | list[str] | None) -> bool:
-    """
-    Checks if a given value is in a target value or list of values.
-
-    Args:
-        value (str): The value to check.
-        target (str | list[str] | None): The value or list of values to check against.
-
-    Returns:
-        bool: True if the value is in the target, False otherwise.
-    """
-    
-    if isinstance(target, list):
-        return value in target
-    return False
