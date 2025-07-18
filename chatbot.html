@@ -1,5 +1,6 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -360,12 +361,27 @@
             animation: typing 1.4s infinite ease-in-out;
         }
 
-        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        .typing-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
 
         @keyframes typing {
-            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
-            40% { transform: scale(1); opacity: 1; }
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         @keyframes slideIn {
@@ -373,6 +389,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -399,7 +416,7 @@
             background: #e74c3c;
             color: white;
         }
-         
+
         .manual-input {
             flex: 1;
             margin-right: 10px;
@@ -416,11 +433,11 @@
                 width: 95%;
                 height: 95vh;
             }
-            
+
             .message {
                 max-width: 90%;
             }
-            
+
             .chat-input-form {
                 flex-direction: row;
             }
@@ -435,6 +452,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="chat-container">
         <div class="chat-header">
@@ -463,7 +481,7 @@
                 this.isConnected = false;
                 this.selectedMultiChoices = new Set();
                 this.currentQuestionId = null;
-                
+
                 this.initializeElements();
                 this.setupEventListeners();
                 this.checkConnection();
@@ -519,7 +537,7 @@
 
             sendInitialMessage() {
                 setTimeout(() => {
-                    this.sendMessageToRasa('/greet');
+                    this.sendMessageToRasa('/start_survey');
                 }, 500);
             }
 
@@ -601,7 +619,7 @@
                 if (custom.multi_select && custom.choices) {
                     this.addMultiChoice(custom.choices, this.currentQuestionId);
                 }
-                
+
                 // Handle single choice buttons (if not multi_select)
                 else if (custom.choices && !custom.multi_select) {
                     this.addButtonChoices(custom.choices);
@@ -616,16 +634,16 @@
             addMessage(text, sender) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${sender}`;
-                
+
                 const messageText = document.createElement('div');
                 messageText.textContent = text;
                 messageDiv.appendChild(messageText);
 
                 const messageTime = document.createElement('div');
                 messageTime.className = 'message-time';
-                messageTime.textContent = new Date().toLocaleTimeString('vi-VN', { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
+                messageTime.textContent = new Date().toLocaleTimeString('vi-VN', {
+                    hour: '2-digit',
+                    minute: '2-digit'
                 });
                 messageDiv.appendChild(messageTime);
 
@@ -643,7 +661,7 @@
 
                     const input = document.createElement('input');
                     input.type = 'text';
-                    input.placeholder = 'Vui lòng nhập câu trả lời của bạn...';
+                    input.placeholder = 'Vui lòng nhập câu trả lời ';
                     input.className = 'chat-input manual-input';
 
                     const submitBtn = document.createElement('button');
@@ -659,19 +677,7 @@
                             const slotName = this.currentQuestionId || "unknown_slot";
 
                             // Nếu slotName bắt đầu bằng "question", thì dùng intent "choose_qXX"
-                            let intentName = "";
-                            if (slotName.startsWith("question")) {
-                                const match = slotName.match(/question(\d+(?:_\d+)?)/);
-                                const questionNumber = match ? match[1] : "X";
-                                intentName = `choose_q${questionNumber}`;
-                            } else if (typeof slotName === "string" && (
-                                slotName.includes("industry") ||
-                                slotName.includes("seniority") ||
-                                slotName.includes("budget")))
-                                {                   
-                                intentName = "inform";
-                            }
-
+                            let intentName = "inform";
                             const slotData = {};
                             slotData[slotName] = userText;
 
@@ -686,8 +692,8 @@
                     };
                     input.addEventListener('keydown', (event) => {
                         if (event.key === 'Enter') {
-                            event.preventDefault();         
-                            submitBtn.onclick();            
+                            event.preventDefault();
+                            submitBtn.onclick();
                         }
                     });
 
@@ -713,7 +719,7 @@
 
                 this.chatMessages.appendChild(messageDiv);
                 this.scrollToBottom();
-                
+
             }
 
 
@@ -752,7 +758,7 @@
                     itemDiv.onclick = () => {
                         itemDiv.classList.toggle('selected');
                         const value = choice.value;
-                        
+
                         if (itemDiv.classList.contains('selected')) {
                             this.selectedMultiChoices.add(value);
                         } else {
@@ -804,7 +810,7 @@
 
                 // Normal button click handling
                 this.addMessage(choice.title || choice.text, 'user');
-                
+
                 if (choice.payload) {
                     this.sendMessageToRasa(choice.payload);
                 } else {
@@ -818,9 +824,9 @@
             isOtherOption(choice) {
                 const text = (choice.title || choice.text || '').toLowerCase();
                 const value = (choice.value || '').toLowerCase();
-                
-                return value === 'other' || value === 'khac' || 
-                       text.includes('khác') || text.includes('other');
+
+                return value === 'other' || value === 'khac' ||
+                    text.includes('khác') || text.includes('other');
             }
 
             showCustomInputForm(choice, messageDiv) {
@@ -885,7 +891,7 @@
 
                 // Add to the message
                 messageDiv.appendChild(customInputDiv);
-                
+
                 // Focus on textarea
                 setTimeout(() => {
                     textarea.focus();
@@ -901,7 +907,7 @@
 
                 // Extract question number from payload or current context
                 let questionNumber = "12_1"; // Default fallback
-                
+
                 // Try to extract from payload
                 if (originalChoice.payload) {
                     const payloadMatch = originalChoice.payload.match(/choose_q(\d+(?:_\d+)?)/);
@@ -911,13 +917,13 @@
                 }
 
                 // Create the payload format: /choose_q12_1{"question12_1":"custom_text"}
-                const intentName = `choose_q${questionNumber}`;
+                const intentName = "inform";
                 const slotName = `question${questionNumber}`;
                 const slotData = {};
                 slotData[slotName] = customText;
 
                 const rasaPayload = `/${intentName}${JSON.stringify(slotData)}`;
-                
+
                 //console.log('Sending custom input payload:', rasaPayload);
 
                 // Send to Rasa
@@ -944,10 +950,10 @@
 
                 // Extract question number from questionId
                 const questionNumberMatch = questionId.match(/question(\d+(?:_\d+)?)/);
-                const questionNumber = questionNumberMatch ? questionNumberMatch[1] : "X";  
+                const questionNumber = questionNumberMatch ? questionNumberMatch[1] : "X";
 
                 // Create intent name and slot name
-                const intentName = `choose_q${questionNumber}`;
+                const intentName = "inform";
                 const slotName = `question${questionNumber}`;
 
                 // Create slot data for Rasa
@@ -999,7 +1005,9 @@
 
         // Initialize chat widget when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            new RasaChatWidget();
+            if (!window.rasaChat) {
+                window.rasaChat = new RasaChatWidget();
+            }
         });
 
         // Example of how to send custom message from external JavaScript
@@ -1008,13 +1016,7 @@
                 window.rasaChat.sendMessageToRasa(message);
             }
         }
-
-        // Store reference for external access
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                window.rasaChat = new RasaChatWidget();
-            }, 100);
-        });
     </script>
 </body>
+
 </html>

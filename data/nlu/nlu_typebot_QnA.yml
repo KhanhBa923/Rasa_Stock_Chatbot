@@ -16,71 +16,71 @@ nlu:
     - continue
 - intent: inform
 
-- intent: choose_q1
+# - intent: choose_q1
 
-- intent: choose_q2
+# - intent: choose_q2
 
-- intent: choose_q4
+# - intent: choose_q4
 
-- intent: choose_q5
+# - intent: choose_q5
 
-- intent: choose_q6
+# - intent: choose_q6
 
-- intent: choose_q7
+# - intent: choose_q7
 
-- intent: choose_q8
+# - intent: choose_q8
 
-- intent: choose_q9
+# - intent: choose_q9
 
-- intent: choose_q10
+# - intent: choose_q10
 
-- intent: choose_q11
+# - intent: choose_q11
 
-- intent: choose_q12
+# - intent: choose_q12
 
-- intent: choose_q12_1
+# - intent: choose_q12_1
 
-- intent: choose_q13
+# - intent: choose_q13
 
-- intent: choose_q14
+# - intent: choose_q14
 
-- intent: choose_q15
+# - intent: choose_q15
 
-- intent: choose_q15_1
+# - intent: choose_q15_1
 
-- intent: choose_q15_2
+# - intent: choose_q15_2
 
-- intent: choose_q16
+# - intent: choose_q16
 
-- intent: choose_q17
+# - intent: choose_q17
 
-- intent: choose_q18
+# - intent: choose_q18
 
-- intent: choose_q19
+# - intent: choose_q19
 
-- intent: choose_q20
+# - intent: choose_q20
 
-- intent: choose_q21
+# - intent: choose_q21
 
-- intent: choose_q22
+# - intent: choose_q22
 
-- intent: choose_q23
+# - intent: choose_q23
 
-- intent: choose_q24
+# - intent: choose_q24
 
-- intent: choose_q25
+# - intent: choose_q25
 
-- intent: choose_q26
+# - intent: choose_q26
 
-- intent: choose_q5_1
+# - intent: choose_q5_1
 
-- intent: choose_q19_1
+# - intent: choose_q19_1
 
-- intent: choose_TongKet
+# - intent: choose_TongKet
 
 - intent: restart_survey
   examples: |
     - Restart survey
     - I want to re do the survey
-- intent: choose_confirm_answer
+# - intent: choose_confirm_answer
 
