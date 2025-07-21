@@ -1,0 +1,32 @@
+version: "3.1"
+nlu:
+- intent: intent_1
+  examples: |
+    - What is a stock?
+- intent: intent_2
+  examples: |
+    - How to buy stocks?
+- intent: intent_3
+  examples: |
+    - What is a dividend?
+- intent: intent_4
+  examples: |
+    - What does IPO mean?
+- intent: intent_5
+  examples: |
+    - How is stock price determined?
+- intent: intent_6
+  examples: |
+    - What is a stock market?
+- intent: intent_7
+  examples: |
+    - What is a bull market?
+- intent: intent_8
+  examples: |
+    - What is a bear market?
+- intent: intent_9
+  examples: |
+    - How do I sell stocks?
+- intent: intent_10
+  examples: |
+    - What is a stockbroker?
