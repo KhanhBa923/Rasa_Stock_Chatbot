@@ -554,6 +554,7 @@
 
             async sendMessageToRasa(message, payload = null) {
                 try {
+                    this.isLoading = true;
                     const requestBody = {
                         sender: this.sessionId,
                         message: message
@@ -576,6 +577,8 @@
                     if (response.ok) {
                         const data = await response.json();
                         this.hideTypingIndicator();
+                        this.isLoading = false;
+                        console.log('Stop loading:');
                         this.handleRasaResponse(data);
                     } else {
                         throw new Error('Network response was not ok');
@@ -585,8 +588,13 @@
                     this.hideTypingIndicator();
                     this.addMessage('Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau.', 'bot');
                     this.updateConnectionStatus(false);
+
+                    // ✅ Cho nhập lại khi lỗi
+                    this.isLoading = false;
                 }
             }
+
+
 
             handleRasaResponse(responses) {
                 responses.forEach(response => {
@@ -652,58 +660,54 @@
             }
 
             addButtonChoices(choices) {
+                // Xóa phần nhập cũ nếu có
+                const oldMessage = document.getElementById('buttonChoiceMessage');
+                if (oldMessage) oldMessage.remove();
+
                 const messageDiv = document.createElement('div');
                 messageDiv.className = 'message bot';
                 messageDiv.id = 'buttonChoiceMessage';
 
                 if (!choices || choices.length === 0) {
-                    console.log('Adding manual input');
+                    if (this.isLoading) {
+                        console.log('Đang load, không cho nhập');
+                    } else {
+                        console.log('Adding manual input');
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.placeholder = 'Vui lòng nhập câu trả lời';
+                        input.className = 'chat-input manual-input';
 
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.placeholder = 'Vui lòng nhập câu trả lời ';
-                    input.className = 'chat-input manual-input';
+                        const submitBtn = document.createElement('button');
+                        submitBtn.textContent = 'Gửi';
+                        submitBtn.className = 'send-button';
 
-                    const submitBtn = document.createElement('button');
-                    submitBtn.textContent = 'Gửi';
-                    submitBtn.className = 'send-button';
+                        submitBtn.onclick = () => {
+                            const userText = input.value.trim();
+                            if (userText !== '') {
+                                this.addMessage(userText, 'user');
+                                const slotName = this.currentQuestionId || "unknown_slot";
+                                const rasaPayload = `/inform${JSON.stringify({ [slotName]: userText })}`;
+                                this.sendMessageToRasa(rasaPayload);
+                                input.disabled = true;
+                                submitBtn.disabled = true;
+                            }
+                        };
 
-                    submitBtn.onclick = () => {
-                        const userText = input.value.trim();
-                        if (userText !== '') {
-                            this.addMessage(userText, 'user');
+                        input.addEventListener('keydown', (event) => {
+                            if (event.key === 'Enter') {
+                                event.preventDefault();
+                                submitBtn.onclick();
+                            }
+                        });
 
-                            // 👉 Trích số câu hỏi từ currentQuestionId
-                            const slotName = this.currentQuestionId || "unknown_slot";
-
-                            // Nếu slotName bắt đầu bằng "question", thì dùng intent "choose_qXX"
-                            let intentName = "inform";
-                            const slotData = {};
-                            slotData[slotName] = userText;
-
-                            const rasaPayload = `/${intentName}${JSON.stringify(slotData)}`;
-
-                            //console.log('Sending manual input payload:', rasaPayload);
-                            this.sendMessageToRasa(rasaPayload);
-
-                            input.disabled = true;
-                            submitBtn.disabled = true;
-                        }
-                    };
-                    input.addEventListener('keydown', (event) => {
-                        if (event.key === 'Enter') {
-                            event.preventDefault();
-                            submitBtn.onclick();
-                        }
-                    });
-
-                    messageDiv.appendChild(input);
-                    messageDiv.appendChild(submitBtn);
+                        messageDiv.appendChild(input);
+                        messageDiv.appendChild(submitBtn);
+                    }
                 } else {
-                    console.log('Adding button choices:', choices);
+                    // Render buttons
                     const buttonContainer = document.createElement('div');
                     buttonContainer.className = 'button-choices';
-
                     choices.forEach(choice => {
                         const button = document.createElement('button');
                         button.className = 'choice-button';
@@ -713,14 +717,13 @@
                         };
                         buttonContainer.appendChild(button);
                     });
-
                     messageDiv.appendChild(buttonContainer);
                 }
 
                 this.chatMessages.appendChild(messageDiv);
                 this.scrollToBottom();
-
             }
+
 
 
             addMultiChoice(choices, questionId) {
@@ -1003,6 +1006,7 @@
             }
         }
 
+
         // Initialize chat widget when page loads
         document.addEventListener('DOMContentLoaded', () => {
             if (!window.rasaChat) {
@@ -1016,6 +1020,7 @@
                 window.rasaChat.sendMessageToRasa(message);
             }
         }
+
     </script>
 </body>
 
