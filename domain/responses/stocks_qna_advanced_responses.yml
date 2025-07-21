@@ -1,0 +1,42 @@
+version: "3.1"
+responses:
+  utter_stocks_qna_advanced/intent_1:
+  - text: "A share is a single unit of ownership in a company."
+  utter_stocks_qna_advanced/intent_2:
+  - text: "A stock represents ownership in a company, while a bond is a loan made to a company or government."
+  utter_stocks_qna_advanced/intent_3:
+  - text: "Market capitalization is the total value of a company's outstanding shares."
+  utter_stocks_qna_advanced/intent_4:
+  - text: "A stock exchange is a regulated marketplace for buying and selling securities."
+  utter_stocks_qna_advanced/intent_5:
+  - text: "Blue-chip stocks are shares of large, well-established, and financially sound companies."
+  utter_stocks_qna_advanced/intent_6:
+  - text: "A stock split increases the number of shares while reducing the price per share, without changing the company’s value."
+  utter_stocks_qna_advanced/intent_7:
+  - text: "Insider trading is the illegal buying or selling of a stock by someone with non-public, material information about the company."
+  utter_stocks_qna_advanced/intent_8:
+  - text: "A stock portfolio is a collection of stocks owned by an investor."
+  utter_stocks_qna_advanced/intent_9:
+  - text: "Diversification is spreading investments across various assets to reduce risk."
+  utter_stocks_qna_advanced/intent_10:
+  - text: "A stock index measures the performance of a group of stocks."
+  utter_stocks_qna_advanced/intent_11:
+  - text: "The Dow Jones Industrial Average is an index of 30 major U.S. companies."
+  utter_stocks_qna_advanced/intent_12:
+  - text: "The S&P 500 is an index tracking the performance of 500 large U.S. companies."
+  utter_stocks_qna_advanced/intent_13:
+  - text: "Day trading is buying and selling stocks within the same trading day."
+  utter_stocks_qna_advanced/intent_14:
+  - text: "Long-term investing is holding stocks for years to benefit from growth and dividends."
+  utter_stocks_qna_advanced/intent_15:
+  - text: "Penny stocks are low-priced stocks of small companies, often considered risky."
+  utter_stocks_qna_advanced/intent_16:
+  - text: "A stock buyback is when a company purchases its own shares from the market."
+  utter_stocks_qna_advanced/intent_17:
+  - text: "Market volatility refers to how much and how quickly stock prices change."
+  utter_stocks_qna_advanced/intent_18:
+  - text: "Technical analysis uses charts and patterns to predict stock price movements."
+  utter_stocks_qna_advanced/intent_19:
+  - text: "Fundamental analysis evaluates a company's financial health and value."
+  utter_stocks_qna_advanced/intent_20:
+  - text: "A limit order is an order to buy or sell a stock at a specific price or better."

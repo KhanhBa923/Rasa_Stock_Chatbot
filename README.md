@@ -35,7 +35,7 @@ pip install -r requirements.txt
 
 ### 4. Train the Rasa Model
 ```bash
-rasa train
+rasa train domain domain/
 ```
 
 ## Running the Chatbot

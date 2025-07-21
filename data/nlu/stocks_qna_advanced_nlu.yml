@@ -1,0 +1,62 @@
+version: "3.1"
+nlu:
+- intent: stocks_qna_advanced/intent_1
+  examples: |
+    - What is a share?
+- intent: stocks_qna_advanced/intent_2
+  examples: |
+    - What is the difference between a stock and a bond?
+- intent: stocks_qna_advanced/intent_3
+  examples: |
+    - What is market capitalization?
+- intent: stocks_qna_advanced/intent_4
+  examples: |
+    - What is a stock exchange?
+- intent: stocks_qna_advanced/intent_5
+  examples: |
+    - What are blue-chip stocks?
+- intent: stocks_qna_advanced/intent_6
+  examples: |
+    - What is a stock split?
+- intent: stocks_qna_advanced/intent_7
+  examples: |
+    - What is insider trading?
+- intent: stocks_qna_advanced/intent_8
+  examples: |
+    - What is a stock portfolio?
+- intent: stocks_qna_advanced/intent_9
+  examples: |
+    - What is diversification?
+- intent: stocks_qna_advanced/intent_10
+  examples: |
+    - What is a stock index?
+- intent: stocks_qna_advanced/intent_11
+  examples: |
+    - What is the Dow Jones?
+- intent: stocks_qna_advanced/intent_12
+  examples: |
+    - What is the S&P 500?
+- intent: stocks_qna_advanced/intent_13
+  examples: |
+    - What is day trading?
+- intent: stocks_qna_advanced/intent_14
+  examples: |
+    - What is long-term investing?
+- intent: stocks_qna_advanced/intent_15
+  examples: |
+    - What is a penny stock?
+- intent: stocks_qna_advanced/intent_16
+  examples: |
+    - What is a stock buyback?
+- intent: stocks_qna_advanced/intent_17
+  examples: |
+    - What is market volatility?
+- intent: stocks_qna_advanced/intent_18
+  examples: |
+    - What is technical analysis?
+- intent: stocks_qna_advanced/intent_19
+  examples: |
+    - What is fundamental analysis?
+- intent: stocks_qna_advanced/intent_20
+  examples: |
+    - What is a limit order?

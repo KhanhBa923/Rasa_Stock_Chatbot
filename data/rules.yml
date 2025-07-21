@@ -1,23 +1,18 @@
-version: "3.1"
-
+version: '3.1'
 rules:
-
 - rule: Say goodbye anytime the user says goodbye
   steps:
   - intent: goodbye
   - action: utter_goodbye
-
 - rule: Say 'I am a bot' anytime the user challenges
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
-
 - rule: activate survey form
   steps:
   - intent: start_survey
   - action: form_survey_basic
   - active_loop: form_survey_basic
-
 - rule: submit basic form
   condition:
   - active_loop: form_survey_basic
@@ -27,7 +22,6 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: action_start_question
-
 - rule: submit form
   condition:
   - active_loop: form_survey_typebot
@@ -37,7 +31,6 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: utter_TongKet
-
 - rule: handle form interruption
   condition:
   - active_loop: form_survey_typebot
@@ -47,9 +40,20 @@ rules:
   - action: form_survey_typebot
   - active_loop: null
   - action: action_form_paused
-
 - rule: Restart survey
   steps:
-    - intent: restart_survey
-    - action: action_restart_survey
-    - active_loop: form_survey_typebot
+  - intent: restart_survey
+  - action: action_restart_survey
+  - active_loop: form_survey_typebot
+- rule: Trả lời Q&A từ stocks_qna
+  steps:
+  - intent: stocks_qna
+  - action: utter_stocks_qna
+- rule: Fallback rule
+  steps:
+  - intent: nlu_fallback
+  - action: utter_default
+- rule: Trả lời Q&A từ stocks_qna_advanced
+  steps:
+  - intent: stocks_qna_advanced
+  - action: utter_stocks_qna_advanced
