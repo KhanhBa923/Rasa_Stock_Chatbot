@@ -53,3 +53,8 @@ rules:
     - intent: restart_survey
     - action: action_restart_survey
     - active_loop: form_survey_typebot
+  
+- rule: Trả lời Q&A từ stocks_qna
+  steps:
+  - intent: stocks_qna
+  - action: utter_stocks_qna

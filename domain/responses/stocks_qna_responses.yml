@@ -1,0 +1,22 @@
+version: "3.1"
+responses:
+  utter_stocks_qna/intent_1:
+  - text: "A stock represents ownership in a company."
+  utter_stocks_qna/intent_2:
+  - text: "You can buy stocks through a stockbroker or online trading platforms."
+  utter_stocks_qna/intent_3:
+  - text: "Dividend is a payment made to shareholders from a company's profits."
+  utter_stocks_qna/intent_4:
+  - text: "IPO means Initial Public Offering, the first time a company sells its shares to the public."
+  utter_stocks_qna/intent_5:
+  - text: "Stock price is determined by supply and demand in the stock market."
+  utter_stocks_qna/intent_6:
+  - text: "A stock market is a marketplace where stocks are bought and sold."
+  utter_stocks_qna/intent_7:
+  - text: "A bull market is when stock prices are rising or expected to rise."
+  utter_stocks_qna/intent_8:
+  - text: "A bear market is when stock prices are falling or expected to fall."
+  utter_stocks_qna/intent_9:
+  - text: "You can sell stocks by placing a sell order through your broker or trading platform."
+  utter_stocks_qna/intent_10:
+  - text: "A stockbroker is a professional who buys and sells stocks on behalf of investors."
