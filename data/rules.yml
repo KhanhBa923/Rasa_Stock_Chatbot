@@ -52,7 +52,7 @@ rules:
 - rule: Fallback rule
   steps:
   - intent: nlu_fallback
-  - action: utter_default
+  - action: action_search_doc
 - rule: Trả lời Q&A từ stocks_qna_advanced
   steps:
   - intent: stocks_qna_advanced
