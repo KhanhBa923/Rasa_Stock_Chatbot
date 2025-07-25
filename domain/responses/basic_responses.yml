@@ -13,5 +13,3 @@ responses:
   - text: Bye
   utter_iamabot:
   - text: I am a bot, powered by Rasa.
-  utter_default:
-    - text: "Xin lỗi, tôi không hiểu bạn. Bạn có thể nói lại được không?"
