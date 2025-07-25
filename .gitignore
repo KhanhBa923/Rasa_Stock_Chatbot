@@ -5,9 +5,10 @@ __pycache__/
 
 # C extensions
 *.so
-
+# This Project
 models/
 .rasa/
+paraphrase-multilingual-mpnet-base-v2/
 
 # Distribution / packaging
 .Python

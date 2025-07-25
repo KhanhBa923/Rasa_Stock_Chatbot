@@ -1,0 +1,143 @@
+Q: What is Rasa?
+A: Rasa is a conversational AI platform.
+Vietnam Stock Market - Basic Knowledge
+
+The Vietnamese Stock Market comprises 3 main exchanges:
+
+HOSE (Ho Chi Minh Stock Exchange): Lists large-cap stocks in Ho Chi Minh City.
+
+HNX (Hanoi Stock Exchange): Lists medium and small-cap stocks in Hanoi.
+
+UPCoM (Unlisted Public Company Market): Market for unlisted public companies.
+
+Trading Hours:
+
+Morning Session: 9:00 - 11:30
+
+Afternoon Session: 13:00 - 15:00
+
+Closing Call: 15:00 - 15:15
+
+Types of Orders:
+
+ATO (At The Open): Executed at the opening price
+
+ATC (At The Close): Executed at the closing price
+
+LO (Limit Order): Conditional price order
+
+MP (Market Price): Market order
+
+PLO (Put-through Limit Order): Put-through (negotiated) order
+
+Price Fluctuation Range:
+
+HOSE: ±7% per trading day
+
+HNX: ±10% per trading day
+
+UPCoM: ±15% per trading day
+
+Top 10 Large-Cap VN-Index Stocks:
+
+VIC - Vingroup (General Corporation)
+
+VCB - Vietcombank (Commercial Bank)
+
+BID - BIDV (Bank for Investment and Development)
+
+VHM - Vinhomes (Real Estate)
+
+CTG - VietinBank (Industrial and Commercial Bank)
+
+TCB - Techcombank (Technology and Commercial Bank)
+
+VPB - VPBank (Prosperous Vietnam Bank)
+
+GAS - PV Gas (Petroleum and Gas)
+
+MSN - Masan Group (General Consumer)
+
+HPG - Hoa Phat Group (Steel)
+
+Key Market Indexes:
+
+VN-Index: Main index for HOSE
+
+HNX-Index: Main index for HNX
+
+VN30: Top 30 large-cap stocks
+
+VNXALL: Market-wide index
+
+Trading Fees:
+
+Brokerage fee: 0.15% - 0.25% of transaction value
+
+Custody fee: 0.03% - 0.05% of transaction value
+
+Security transfer tax: 0.1% for individual investors
+
+T+2 Settlement Rule:
+
+T+0: Trade execution day
+
+T+1: Trade confirmation
+
+T+2: Settlement and delivery of stocks
+
+Foreign Investor Limit:
+
+Foreign ownership typically varies by industry (49% - 100%)
+
+Restricted sectors:
+
+Banks (30%)
+
+Insurance (51%)
+
+Telecommunications (65%)
+
+Margin Trading:
+
+Margin allows borrowing to invest in stocks
+
+Initial margin: 50% - 70%
+
+Maintenance margin: 20% - 25%
+
+Margin interest: 10% -15% per year
+
+Fundamental Analysis:
+
+P/E (Price to Earnings)
+
+P/B (Price to Book)
+
+ROE (Return on Equity)
+
+ROA (Return on Assets)
+
+EPS (Earnings Per Share)
+
+Technical Analysis:
+
+RSI (Relative Strength Index) — momentum indicator
+
+MACD (Moving Average Convergence Divergence) — trend indicator
+
+Bollinger Bands — volatility indicator
+
+Moving Average — smoothing price data to identify trends
+
+Investment Risks:
+
+Market risk — overall market fluctuations
+
+Company-specific risk — financial health of each company
+
+Liquidity risk — difficulty in buying or selling
+
+Interest rate risk — impact of bank interest rate changes
+
+Inflation risk — erosion of purchasing power

@@ -50,3 +50,4 @@ actions:
 - action_ask_seniority
 - action_ask_budget
 - action_ask_confirm_answer
+- action_search_doc
